@@ -1,8 +1,11 @@
 package sjsu.tart.duba;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 
 /**
  * Created by RosieHyunahPark on 2018-07-14.
@@ -17,11 +20,31 @@ public class LoadingActivity extends Activity {
     }
     private void startLoading() {
         Handler handler = new Handler();
+
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
+                SharedPreferences pref = getSharedPreferences("isFirstRun", Activity.MODE_PRIVATE);
+                boolean first = pref.getBoolean("isFirstRun", false);
+                if(!first){
+                    Log.d("isFirstRun", "true");
+
+                    //앱 최초 실행시, term of use activity로 이동
+                    Intent termOfUsePage = new Intent(LoadingActivity.this, TermOfUseActivity.class);
+                    startActivity(termOfUsePage);
+
+                }else{
+                    Log.d("isFirstRun", "false");
+
+                    //앱 최초 실행이 아닐시, main activity로 이동
+                    Intent mainPage = new Intent(LoadingActivity.this, MainActivity.class);
+                    startActivity(mainPage);
+                }
+
                 finish();
             }
         }, 2000);
+
+
     }
 }
