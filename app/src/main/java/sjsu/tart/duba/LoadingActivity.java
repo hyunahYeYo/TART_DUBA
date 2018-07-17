@@ -13,7 +13,7 @@ import android.util.Log;
 
 public class LoadingActivity extends Activity {
     @Override
-      protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loading);
         startLoading();
@@ -28,17 +28,18 @@ public class LoadingActivity extends Activity {
                 boolean first = pref.getBoolean("isFirstRun", false);
                 if(!first){
                     Log.d("isFirstRun", "true");
-
-                    //앱 최초 실행시, term of use activity로 이동
                     Intent termOfUsePage = new Intent(LoadingActivity.this, TermOfUseActivity.class);
                     startActivity(termOfUsePage);
-
+                    SharedPreferences.Editor editor=pref.edit();
+                    editor.putBoolean("isFirstRun",true);
+                    editor.commit();
                 }else{
                     Log.d("isFirstRun", "false");
 
                     //앱 최초 실행이 아닐시, main activity로 이동
                     Intent mainPage = new Intent(LoadingActivity.this, MainActivity.class);
                     startActivity(mainPage);
+
                 }
 
                 finish();
