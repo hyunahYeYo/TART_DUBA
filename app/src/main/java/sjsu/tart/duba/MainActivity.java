@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Log.e("asdfsd","asdfs");
 
-//floatingButton으로 drawer 열기
+        //floatingButton으로 drawer 열기
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fabDrawer=(FloatingActionButton)findViewById(R.id.fabHam);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -92,7 +92,6 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_slideshow) {
 
         }
-
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
