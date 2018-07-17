@@ -25,17 +25,14 @@ public class LoadingActivity extends Activity {
             @Override
             public void run() {
                 SharedPreferences pref = getSharedPreferences("isFirstRun", Activity.MODE_PRIVATE);
-                boolean first = pref.getBoolean("isFirstRun", false);
-                if(!first){
+                boolean first = pref.getBoolean("isFirstRun", true);
+                if(first){
                     Log.d("isFirstRun", "true");
                     Intent termOfUsePage = new Intent(LoadingActivity.this, TermOfUseActivity.class);
                     startActivity(termOfUsePage);
-                    SharedPreferences.Editor editor=pref.edit();
-                    editor.putBoolean("isFirstRun",true);
-                    editor.commit();
+
                 }else{
                     Log.d("isFirstRun", "false");
-
                     //앱 최초 실행이 아닐시, main activity로 이동
                     Intent mainPage = new Intent(LoadingActivity.this, MainActivity.class);
                     startActivity(mainPage);

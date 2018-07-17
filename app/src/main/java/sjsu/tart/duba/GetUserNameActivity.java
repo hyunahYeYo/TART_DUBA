@@ -2,27 +2,56 @@ package sjsu.tart.duba;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
 public class GetUserNameActivity extends Activity {
+
+    private EditText inputUserName;
+    private Button cancelButton, confirmButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_getname);
 
-        final EditText userName = (EditText)findViewById(R.id.userName);
-        Button getName = (Button)findViewById(R.id.getName);
+        inputUserName = (EditText)findViewById(R.id.inputUserName);
+        cancelButton = (Button)findViewById(R.id.cancelButton);
+        confirmButton = (Button)findViewById(R.id.confirmButton);
 
-        getName.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent mainPage = new Intent(
-                                            getApplication(), //현재 화면의 제어권자
-                                            MainActivity.class); //넘어 갈 클래스 지정
-                //startActivity(mainPage);
+        cancelButton.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View view){
+                finish();
+            }
+        });
+
+        confirmButton.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View view){
+                String userName = inputUserName.getText().toString();
+
+                if(userName.equals("")){
+                    Intent intent = new Intent(GetUserNameActivity.this, PopupActivity.class);
+                    intent.putExtra("message", "Enter your name");
+                    startActivity(intent);
+                }
+                else{
+                    SharedPreferences userNamePref = getSharedPreferences("userName", MODE_PRIVATE);
+                    SharedPreferences.Editor userNameEditor = userNamePref.edit();
+                    userNameEditor.putString("userName", userName);
+                    userNameEditor.apply();
+
+                    SharedPreferences firstRunPref = getSharedPreferences("isFirstRun", MODE_PRIVATE);
+                    SharedPreferences.Editor firstRunEditor = firstRunPref.edit();
+                    firstRunEditor.putBoolean("isFirstRun", false);
+                    firstRunEditor.apply();
+
+                    Intent intent = new Intent(GetUserNameActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
             }
         });
     }

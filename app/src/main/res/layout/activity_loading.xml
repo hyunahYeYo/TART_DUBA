@@ -12,7 +12,7 @@
     <ImageView
         android:id="@+id/Logo"
         android:layout_width="150dp"
-        android:layout_height="205dp"
+        android:layout_height="215dp"
         android:layout_weight="0.18"
         android:background="@drawable/logo"
         android:contentDescription="@string/logo_image" />

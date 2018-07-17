@@ -9,4 +9,7 @@
     <string name="action_settings">Settings</string>
     <string name="term_of_use_title">Term of Use</string>
     <string name="service">1. Service</string>
+    <string name="i_agree">I agree</string>
+    <string name="_2_personal_information">2. Personal information</string>
+    <string name="next">NEXT</string>
 </resources>
