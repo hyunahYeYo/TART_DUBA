@@ -3,12 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:textSize="30dp"
-        android:textStyle="bold"
-        android:text="Output"
-        android:layout_width="match_parent"
+    <ImageView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@drawable/duba_splash"
         android:id="@+id/textview"/>
 
 </LinearLayout>
