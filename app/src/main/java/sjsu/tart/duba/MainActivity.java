@@ -12,10 +12,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ImageButton;
+
+import com.google.android.gms.maps.MapView;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnTouchListener {
-    FloatingActionButton fab,fabDrawer;
+    FloatingActionButton fab;
+    MapView mapView;
+    ImageButton fabDrawer;
     NavigationView navigationView;
     DrawerLayout drawerLayout;
     @Override
@@ -26,7 +31,7 @@ public class MainActivity extends AppCompatActivity
 
         //floatingButton으로 drawer 열기
         fab = (FloatingActionButton) findViewById(R.id.fab);
-        fabDrawer=(FloatingActionButton)findViewById(R.id.fabHam);
+        fabDrawer=(ImageButton)findViewById(R.id.fabHam);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.drawer);
         navigationView.setNavigationItemSelectedListener(this);
@@ -45,8 +50,6 @@ public class MainActivity extends AppCompatActivity
                         .setAction("Action", null).show();
             }
         });
-
-
 
     }
 
