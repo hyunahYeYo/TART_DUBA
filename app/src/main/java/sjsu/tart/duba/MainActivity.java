@@ -1,5 +1,7 @@
 package sjsu.tart.duba;
 
+import android.content.ClipData;
+import android.content.ClipDescription;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -8,20 +10,23 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.DragEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 
 import com.google.android.gms.maps.MapView;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, View.OnTouchListener {
+        implements NavigationView.OnNavigationItemSelectedListener{
 
     public static final String TAG = "DUBA_Project";
 
     FloatingActionButton fab;
+    FloatingActionButton sideBar;
     MapView mapView;
     ImageButton fabDrawer;
     NavigationView navigationView;
@@ -33,11 +38,11 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Log.e("asdfsd","asdfs");
+        Log.e("asdfsd", "asdfs");
 
         //floatingButton으로 drawer 열기
         fab = (FloatingActionButton) findViewById(R.id.fab);
-        fabDrawer=(ImageButton)findViewById(R.id.fabHam);
+        fabDrawer = (ImageButton) findViewById(R.id.fabHam);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.drawer);
         navigationView.setNavigationItemSelectedListener(this);
@@ -57,26 +62,31 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        sideBar = (FloatingActionButton) findViewById(R.id.sideBar);
+
     }
 
     //Detect DRAG Motion
+    /*
     public boolean onTouch(View view, MotionEvent motionEvent) {
         switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
             case MotionEvent.ACTION_DOWN :
-                Log.d(TAG, "****ACTION DOWN****");
-
                 downX = motionEvent.getX();
                 downY = motionEvent.getY();
+
+                Log.d(TAG, "****ACTION DOWN****"+downX+"/"+downY);
                 break;
             case MotionEvent.ACTION_MOVE :
                 Log.d(TAG, "****ACTION MOVE****");
 
                 break;
             case MotionEvent.ACTION_UP :
-                Log.d(TAG, "****ACTION UP****");
+
 
                 upX = motionEvent.getX();
                 upY = motionEvent.getY();
+
+                Log.d(TAG, "****ACTION UP****"+upX+"/"+upY);
                 calTouchPoints();
                 break;
             default :
@@ -84,10 +94,7 @@ public class MainActivity extends AppCompatActivity
         }
         return false;
     }
-
-    private void calTouchPoints() {
-        
-    }
+*/
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
