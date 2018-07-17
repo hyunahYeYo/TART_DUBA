@@ -1,5 +1,7 @@
 package sjsu.tart.duba;
 
+import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -13,8 +15,11 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.MapView;
+
+import org.w3c.dom.Text;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnTouchListener {
@@ -45,6 +50,21 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 drawerLayout.openDrawer(navigationView);
+
+                SharedPreferences userPref = getSharedPreferences("userName", Activity.MODE_PRIVATE);
+                SharedPreferences pointPref = getSharedPreferences("point", Activity.MODE_PRIVATE);
+                SharedPreferences stepPref = getSharedPreferences("step", Activity.MODE_PRIVATE);
+
+                String userName = userPref.getString("userName", "");
+                int point = pointPref.getInt("userName", 10000);
+                int step = stepPref.getInt("userName", 16384);
+                String pointAndStepStr = String.format("%,d", point)+" points    "+String.format("%,d", step)+" steps";
+
+                TextView userNameTextView = (TextView)findViewById(R.id.userName);
+                TextView pointAndStepTextView = (TextView)findViewById(R.id.pointAndStep);
+                userNameTextView.setText(userName);
+                pointAndStepTextView.setText(pointAndStepStr);
+
             }
         });
 
@@ -99,8 +119,10 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+
         return true;
     }
 
