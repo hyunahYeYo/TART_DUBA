@@ -23,8 +23,9 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         //Loading Page
-        Intent intent = new Intent(this, LoadingActivity.class);
-        startActivity(intent);
+        Intent loadingPage = new Intent(this, LoadingActivity.class);
+        startActivity(loadingPage);
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
