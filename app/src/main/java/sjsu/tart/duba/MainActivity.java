@@ -10,10 +10,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, View.OnTouchListener {
     FloatingActionButton fab,fabDrawer;
     NavigationView navigationView;
     DrawerLayout drawerLayout;
@@ -45,6 +46,26 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+
+
+    }
+
+    //Detect DRAG Motion
+    public boolean onTouch(View view, MotionEvent motionEvent) {
+        switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
+            case MotionEvent.ACTION_DOWN :
+
+                break;
+            case MotionEvent.ACTION_MOVE :
+
+                break;
+            case MotionEvent.ACTION_UP :
+
+                break;
+            default :
+                break;
+        }
+        return false;
     }
 
     @Override
