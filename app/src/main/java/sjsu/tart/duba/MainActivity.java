@@ -33,7 +33,6 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Log.e("asdfsd","asdfs");
 
         //floatingButton으로 drawer 열기
         fab = (FloatingActionButton) findViewById(R.id.fab);

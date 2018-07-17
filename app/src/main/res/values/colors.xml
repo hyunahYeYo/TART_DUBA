@@ -6,6 +6,8 @@
     <color name="background">#f1c40f</color>
     <color name="white">#ffffff</color>
     <color name="grey">#f0efef</color>
+    <color name="greyOdd">#e0e0e0</color>
+    <color name="greyEven">#f0f0f0</color>
     <color name="darker_grey">#d3d2d2</color>
     <color name="darker_orange">#f1b10f</color>
     <color name="lighter_orange">#feecbe</color>
