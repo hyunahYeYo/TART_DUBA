@@ -18,11 +18,17 @@ import com.google.android.gms.maps.MapView;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnTouchListener {
+
+    public static final String TAG = "DUBA_Project";
+
     FloatingActionButton fab;
     MapView mapView;
     ImageButton fabDrawer;
     NavigationView navigationView;
     DrawerLayout drawerLayout;
+
+    double downX=0, downY=0, upX=0, upY=0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,13 +63,21 @@ public class MainActivity extends AppCompatActivity
     public boolean onTouch(View view, MotionEvent motionEvent) {
         switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
             case MotionEvent.ACTION_DOWN :
+                Log.d(TAG, "****ACTION DOWN****");
 
+                downX = motionEvent.getX();
+                downY = motionEvent.getY();
                 break;
             case MotionEvent.ACTION_MOVE :
+                Log.d(TAG, "****ACTION MOVE****");
 
                 break;
             case MotionEvent.ACTION_UP :
+                Log.d(TAG, "****ACTION UP****");
 
+                upX = motionEvent.getX();
+                upY = motionEvent.getY();
+                calTouchPoints();
                 break;
             default :
                 break;
@@ -71,6 +85,9 @@ public class MainActivity extends AppCompatActivity
         return false;
     }
 
+    private void calTouchPoints() {
+        
+    }
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
