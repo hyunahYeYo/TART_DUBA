@@ -17,13 +17,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.MapView;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener{
+        implements NavigationView.OnNavigationItemSelectedListener, View.OnTouchListener{
 
     public static final String TAG = "DUBA_Project";
 
@@ -33,7 +36,12 @@ public class MainActivity extends AppCompatActivity
     NavigationView navigationView;
     DrawerLayout drawerLayout;
 
-    FloatingActionButton sideBar;
+    private FloatingActionButton slideBar;
+    private ViewGroup backLayout;
+
+    private int xDelta;
+    private int yDelta;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,22 +69,50 @@ public class MainActivity extends AppCompatActivity
                         .setAction("Action", null).show();
             }
         });
-        sideBar = (FloatingActionButton)findViewById(R.id.sideBar);
-        sideBar.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, Test.class);
-                startActivity(intent);
-            }
-        });
+        backLayout = (CoordinatorLayout)findViewById(R.id.bg);
+        slideBar = (FloatingActionButton)findViewById(R.id.sideBar);
+        slideBar.setOnTouchListener(this);
 
-/*
-        sideBar = (FloatingActionButton) findViewById(R.id.sideBar);
-        sideBar.setOnLongClickListener(this);
-
-        layout = (CoordinatorLayout)findViewById(R.id.layout);
-        layout.setOnDragListener(this);
-    */
     }
+    public boolean onTouch(View view, MotionEvent event) {
+        final int x = (int) event.getRawX();
+        final int y = (int) event.getRawY();
+
+        switch (event.getAction() & MotionEvent.ACTION_MASK) {
+            case MotionEvent.ACTION_DOWN:
+                CoordinatorLayout.LayoutParams lParams = (CoordinatorLayout.LayoutParams)view.getLayoutParams();
+
+                xDelta = x - lParams.leftMargin;
+                yDelta = y - lParams.topMargin;
+                Log.d("SlideBarTest", "DownPoints:"+x+"/"+y);
+                Log.d("SlideBarTest", "DownParams:"+lParams.leftMargin+"/"+lParams.topMargin);
+                break;
+            case MotionEvent.ACTION_MOVE:
+                CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams)view.getLayoutParams();
+                Log.d("SlideBarTest", "MoveParams1:"+layoutParams.leftMargin+"/"+layoutParams.topMargin);
+
+                layoutParams.leftMargin = x - xDelta;
+                layoutParams.topMargin = y - yDelta;
+                layoutParams.rightMargin = 0;
+                layoutParams.bottomMargin = 0;
+                Log.d("SlideBarTest", "MovePoints:"+x+"/"+y);
+                Log.d("SlideBarTest", "MoveParams2:"+layoutParams.leftMargin+"/"+layoutParams.topMargin);
+
+                view.setLayoutParams(layoutParams);
+
+                break;
+            case MotionEvent.ACTION_UP:
+
+                //Toast.makeText(MainActivity.this, "앗싸", Toast.LENGTH_SHORT).show();
+
+                break;
+            default:
+                break;
+        }
+        backLayout.invalidate();
+        return true;
+    }
+
 /*
     public boolean onTouch(View view, MotionEvent event) {
         final int x = (int)event.getRawX();
