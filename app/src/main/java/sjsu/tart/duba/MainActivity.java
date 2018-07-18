@@ -2,7 +2,9 @@ package sjsu.tart.duba;
 
 import android.content.ClipData;
 import android.content.ClipDescription;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -26,14 +28,12 @@ public class MainActivity extends AppCompatActivity
     public static final String TAG = "DUBA_Project";
 
     FloatingActionButton fab;
-    FloatingActionButton sideBar;
     MapView mapView;
     ImageButton fabDrawer;
     NavigationView navigationView;
     DrawerLayout drawerLayout;
 
-    double downX=0, downY=0, upX=0, upY=0;
-
+    FloatingActionButton sideBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,11 +61,72 @@ public class MainActivity extends AppCompatActivity
                         .setAction("Action", null).show();
             }
         });
+        sideBar = (FloatingActionButton)findViewById(R.id.sideBar);
+        sideBar.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, Test.class);
+                startActivity(intent);
+            }
+        });
 
+/*
         sideBar = (FloatingActionButton) findViewById(R.id.sideBar);
+        sideBar.setOnLongClickListener(this);
 
+        layout = (CoordinatorLayout)findViewById(R.id.layout);
+        layout.setOnDragListener(this);
+    */
     }
+/*
+    public boolean onTouch(View view, MotionEvent event) {
+        final int x = (int)event.getRawX();
+        final int y = (int)event.getRawY();
 
+        switch(event.getAction() & MotionEvent.ACTION_MASK) {
+            case MotionEvent.ACTION_DOWN :
+                LinearLayout.LayoutParams
+                break;
+            case MotionEvent.ACTION_MOVE :
+                break;
+            case MotionEvent.ACTION_UP :
+                break;
+            default :
+                break;
+        }
+        return false;
+    }
+    */
+/*
+    @Override
+    public boolean onLongClick(View v) {
+        Log.d(TAG, "***onLongClick***");
+        String[] descriptions = {
+                ClipDescription.MIMETYPE_TEXT_PLAIN
+        };
+        ClipData.Item item = new ClipData.Item(String.valueOf((int)v.getTag()));
+        ClipData clipData = new ClipData("drag and drop",descriptions, item);
+
+        View.DragShadowBuilder shadow = new View.DragShadowBuilder(sideBar);
+        v.startDrag(clipData, shadow, null, 0);
+
+        return true;
+    }
+    @Override
+    public boolean onDrag(View v, DragEvent event) {
+        final int action = event.getAction();
+        String label;
+        switch(action) {
+            case DragEvent.ACTION_DRAG_STARTED:
+                Log.d(TAG, "***ACTION_DRAG_STARTED***");
+                label = (String)event.getClipDescription().getLabel();
+                return label.equals("Data_from_fb");
+            case DragEvent.ACTION_DROP:
+                Log.d(TAG, "***ACTION_DROP***");
+                return true;
+        }
+        return false;
+    }
+    */
     //Detect DRAG Motion
     /*
     public boolean onTouch(View view, MotionEvent motionEvent) {
