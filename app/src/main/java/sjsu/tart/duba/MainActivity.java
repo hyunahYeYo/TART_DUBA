@@ -19,10 +19,9 @@ import android.widget.TextView;
 
 import com.google.android.gms.maps.MapView;
 
-import org.w3c.dom.Text;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, View.OnTouchListener {
+        implements NavigationView.OnNavigationItemSelectedListener{
 
     public static final String TAG = "DUBA_Project";
 
@@ -32,12 +31,19 @@ public class MainActivity extends AppCompatActivity
     NavigationView navigationView;
     DrawerLayout drawerLayout;
 
-    double downX=0, downY=0, upX=0, upY=0;
+    ImageButton rightDrawerBtn;
+    DrawerLayout rightDrawerLayout;
+    NavigationView rightNavView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        rightDrawerBtn = (ImageButton)findViewById(R.id.rightDrawerBtn);
+        rightDrawerLayout = (DrawerLayout)findViewById(R.id.right_drawer_layout);
+        rightNavView = (NavigationView)findViewById(R.id.rightDrawer);
+        //rightNavView.setNavigationItemSelectedListener(this);
 
         //floatingButton으로 drawer 열기
         fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -76,36 +82,14 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-    }
 
-    //Detect DRAG Motion
-    public boolean onTouch(View view, MotionEvent motionEvent) {
-        switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
-            case MotionEvent.ACTION_DOWN :
-                Log.d(TAG, "****ACTION DOWN****");
+        rightDrawerBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                rightDrawerLayout.openDrawer(rightNavView);
 
-                downX = motionEvent.getX();
-                downY = motionEvent.getY();
-                break;
-            case MotionEvent.ACTION_MOVE :
-                Log.d(TAG, "****ACTION MOVE****");
-
-                break;
-            case MotionEvent.ACTION_UP :
-                Log.d(TAG, "****ACTION UP****");
-
-                upX = motionEvent.getX();
-                upY = motionEvent.getY();
-                calTouchPoints();
-                break;
-            default :
-                break;
-        }
-        return false;
-    }
-
-    private void calTouchPoints() {
-        
+            }
+        });
     }
     @Override
     public void onBackPressed() {
