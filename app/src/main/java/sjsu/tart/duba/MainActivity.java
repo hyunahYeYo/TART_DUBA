@@ -109,6 +109,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        // bottom drawer 생성 및 세팅
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 

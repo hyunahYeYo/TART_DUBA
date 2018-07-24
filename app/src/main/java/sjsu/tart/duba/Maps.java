@@ -7,10 +7,13 @@ import android.support.v7.app.AppCompatActivity;
  * Created by Hak on 2018-07-18.
  */
 
-public class Maps extends AppCompatActivity {
+public class Maps{
 
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+    public Maps(){
 
-    }}
+    }
+
+    public void doJob(){
+
+    }
+}
