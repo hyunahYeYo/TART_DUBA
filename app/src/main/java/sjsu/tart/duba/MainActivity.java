@@ -6,34 +6,42 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.SlidingDrawer;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.MapView;
 
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener{
+        implements NavigationView.OnNavigationItemSelectedListener, View.OnTouchListener {
 
     public static final String TAG = "DUBA_Project";
 
-    FloatingActionButton fab;
-    MapView mapView;
-    ImageButton fabDrawer;
-    NavigationView navigationView;
-    DrawerLayout drawerLayout;
-
-    ImageButton rightDrawerBtn;
+    private FloatingActionButton camerafab, gpsfab;
+    private MapView mapView;
+    private ImageButton fabDrawer;
+    private NavigationView navigationView;
+    private DrawerLayout drawerLayout;
+    private static Button bottomDrawerButton;
+  
+  ImageButton rightDrawerBtn;
     DrawerLayout rightDrawerLayout;
     NavigationView rightNavView;
+
+    private static SlidingDrawer slidingDrawer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +59,9 @@ public class MainActivity extends AppCompatActivity
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.drawer);
         navigationView.setNavigationItemSelectedListener(this);
+        bottomDrawerButton = (Button) findViewById(R.id.bottomDrawer);
+
+        slidingDrawer = (SlidingDrawer) findViewById(R.id.SlidingDrawer);
 
         fabDrawer.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,15 +92,60 @@ public class MainActivity extends AppCompatActivity
                         .setAction("Action", null).show();
             }
         });
-
-
-        rightDrawerBtn.setOnClickListener(new View.OnClickListener() {
+        gpsfab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                rightDrawerLayout.openDrawer(rightNavView);
+                //rightDrawerLayout.openDrawer(rightNavView);
+            }
+        });
+
+        // Listeners for sliding drawer
+        slidingDrawer.setOnDrawerOpenListener(new SlidingDrawer.OnDrawerOpenListener() {
+            @Override
+            public void onDrawerOpened() {
 
             }
         });
+
+        slidingDrawer.setOnDrawerCloseListener(new SlidingDrawer.OnDrawerCloseListener() {
+            @Override
+            public void onDrawerClosed() {
+
+            }
+        });
+
+        // bottom drawer 생성 및 세팅
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        tabLayout.addTab(tabLayout.newTab().setText("THEME"));
+        tabLayout.addTab(tabLayout.newTab().setText("PLACE"));
+        tabLayout.addTab(tabLayout.newTab().setText("INFO"));
+        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+
+        final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
+        final PagerAdapter adapter = new PagerAdapter
+                (getSupportFragmentManager(), tabLayout.getTabCount());
+        viewPager.setAdapter(adapter);
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
+
     }
     @Override
     public void onBackPressed() {
