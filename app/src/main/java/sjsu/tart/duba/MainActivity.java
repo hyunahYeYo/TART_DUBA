@@ -3,6 +3,8 @@ package sjsu.tart.duba;
 import android.content.ClipData;
 import android.content.ClipDescription;
 import android.content.Intent;
+import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -22,15 +24,18 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+import android.widget.TextView;
 
 import com.google.android.gms.maps.MapView;
+
+import org.w3c.dom.Text;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, View.OnTouchListener{
 
     public static final String TAG = "DUBA_Project";
 
-    FloatingActionButton fab;
+    FloatingActionButton camerafab, gpsfab;
     MapView mapView;
     ImageButton fabDrawer;
     NavigationView navigationView;
@@ -48,11 +53,11 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Log.e("asdfsd", "asdfs");
 
         //floatingButton으로 drawer 열기
-        fab = (FloatingActionButton) findViewById(R.id.fab);
-        fabDrawer = (ImageButton) findViewById(R.id.fabHam);
+        camerafab = (FloatingActionButton) findViewById(R.id.cameraFab);
+        gpsfab = (FloatingActionButton) findViewById(R.id.gpsFab);
+        fabDrawer=(ImageButton)findViewById(R.id.fabHam);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.drawer);
         navigationView.setNavigationItemSelectedListener(this);
@@ -61,17 +66,40 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 drawerLayout.openDrawer(navigationView);
+
+                SharedPreferences userPref = getSharedPreferences("userName", Activity.MODE_PRIVATE);
+                SharedPreferences pointPref = getSharedPreferences("point", Activity.MODE_PRIVATE);
+                SharedPreferences stepPref = getSharedPreferences("step", Activity.MODE_PRIVATE);
+
+                String userName = userPref.getString("userName", "");
+                int point = pointPref.getInt("userName", 10000);
+                int step = stepPref.getInt("userName", 16384);
+                String pointAndStepStr = String.format("%,d", point)+" points    "+String.format("%,d", step)+" steps";
+
+                TextView userNameTextView = (TextView)findViewById(R.id.userName);
+                TextView pointAndStepTextView = (TextView)findViewById(R.id.pointAndStep);
+                userNameTextView.setText(userName);
+                pointAndStepTextView.setText(pointAndStepStr);
+
             }
         });
 
-        fab.setOnClickListener(new View.OnClickListener() {
+        camerafab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
+
         rightLayout = (DrawerLayout)findViewById(R.id.rightSideDrawer);
+        gpsfab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Afction", null).show();
+            }
+        });
 
         backLayout = (CoordinatorLayout)findViewById(R.id.bg);
         slideBar = (FloatingActionButton)findViewById(R.id.sideBar);
@@ -130,8 +158,10 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+
         return true;
     }
 
