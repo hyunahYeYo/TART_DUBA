@@ -43,6 +43,15 @@
             android:background="@null"
             />
 
+        <ImageButton
+            android:id="@+id/slideBtn"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="top|end"
+            android:src="@drawable/left_arrow"
+            android:background="@null"
+            />
+
     </android.support.v7.widget.CardView>
 
 
