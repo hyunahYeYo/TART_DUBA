@@ -34,7 +34,6 @@
             android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"
 
             />
-
         <ImageButton
 
             android:id="@+id/fabHam"

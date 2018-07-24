@@ -7,29 +7,14 @@
     android:layout_height="match_parent"
     tools:context="sjsu.tart.duba.MainActivity">
 
-    <include layout="@layout/content_main" />
-
-    <LinearLayout
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_gravity="bottom|end">
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        app:srcCompat="@android:drawable/ic_dialog_email" />
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/cameraFab"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginBottom="@dimen/fab_margin"
-            android:layout_marginRight="@dimen/fab_margin"
-            android:src="@drawable/camera" />
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/gpsFab"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginBottom="@dimen/fab_margin"
-            android:layout_marginRight="@dimen/fab_margin"
-            android:src="@drawable/gps"/>
-    </LinearLayout>
+    <include layout="@layout/content_main" />
 
 </android.support.design.widget.CoordinatorLayout>

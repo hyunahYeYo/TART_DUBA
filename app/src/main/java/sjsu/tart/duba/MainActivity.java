@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity
 
     public static final String TAG = "DUBA_Project";
 
-    FloatingActionButton camerafab, gpsfab;
+    FloatingActionButton fab;
     MapView mapView;
     ImageButton fabDrawer;
     NavigationView navigationView;
@@ -40,8 +40,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         //floatingButton으로 drawer 열기
-        camerafab = (FloatingActionButton) findViewById(R.id.cameraFab);
-        gpsfab = (FloatingActionButton) findViewById(R.id.gpsFab);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
         fabDrawer=(ImageButton)findViewById(R.id.fabHam);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.drawer);
@@ -69,18 +68,11 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        camerafab.setOnClickListener(new View.OnClickListener() {
+        fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
-            }
-        });
-        gpsfab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Afction", null).show();
             }
         });
 
