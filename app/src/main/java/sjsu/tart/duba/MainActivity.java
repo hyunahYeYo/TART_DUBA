@@ -42,6 +42,8 @@ public class MainActivity extends AppCompatActivity
     private int xDelta;
     private int yDelta;
 
+    private DrawerLayout rightLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,9 +71,12 @@ public class MainActivity extends AppCompatActivity
                         .setAction("Action", null).show();
             }
         });
+        rightLayout = (DrawerLayout)findViewById(R.id.rightSideDrawer);
+
         backLayout = (CoordinatorLayout)findViewById(R.id.bg);
         slideBar = (FloatingActionButton)findViewById(R.id.sideBar);
         slideBar.setOnTouchListener(this);
+
 
     }
     public boolean onTouch(View view, MotionEvent event) {
@@ -113,85 +118,6 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-/*
-    public boolean onTouch(View view, MotionEvent event) {
-        final int x = (int)event.getRawX();
-        final int y = (int)event.getRawY();
-
-        switch(event.getAction() & MotionEvent.ACTION_MASK) {
-            case MotionEvent.ACTION_DOWN :
-                LinearLayout.LayoutParams
-                break;
-            case MotionEvent.ACTION_MOVE :
-                break;
-            case MotionEvent.ACTION_UP :
-                break;
-            default :
-                break;
-        }
-        return false;
-    }
-    */
-/*
-    @Override
-    public boolean onLongClick(View v) {
-        Log.d(TAG, "***onLongClick***");
-        String[] descriptions = {
-                ClipDescription.MIMETYPE_TEXT_PLAIN
-        };
-        ClipData.Item item = new ClipData.Item(String.valueOf((int)v.getTag()));
-        ClipData clipData = new ClipData("drag and drop",descriptions, item);
-
-        View.DragShadowBuilder shadow = new View.DragShadowBuilder(sideBar);
-        v.startDrag(clipData, shadow, null, 0);
-
-        return true;
-    }
-    @Override
-    public boolean onDrag(View v, DragEvent event) {
-        final int action = event.getAction();
-        String label;
-        switch(action) {
-            case DragEvent.ACTION_DRAG_STARTED:
-                Log.d(TAG, "***ACTION_DRAG_STARTED***");
-                label = (String)event.getClipDescription().getLabel();
-                return label.equals("Data_from_fb");
-            case DragEvent.ACTION_DROP:
-                Log.d(TAG, "***ACTION_DROP***");
-                return true;
-        }
-        return false;
-    }
-    */
-    //Detect DRAG Motion
-    /*
-    public boolean onTouch(View view, MotionEvent motionEvent) {
-        switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
-            case MotionEvent.ACTION_DOWN :
-                downX = motionEvent.getX();
-                downY = motionEvent.getY();
-
-                Log.d(TAG, "****ACTION DOWN****"+downX+"/"+downY);
-                break;
-            case MotionEvent.ACTION_MOVE :
-                Log.d(TAG, "****ACTION MOVE****");
-
-                break;
-            case MotionEvent.ACTION_UP :
-
-
-                upX = motionEvent.getX();
-                upY = motionEvent.getY();
-
-                Log.d(TAG, "****ACTION UP****"+upX+"/"+upY);
-                calTouchPoints();
-                break;
-            default :
-                break;
-        }
-        return false;
-    }
-*/
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
