@@ -5,31 +5,86 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="sjsu.tart.duba.MainActivity">
 
     <include layout="@layout/content_main" />
 
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginTop="400dp"
+        android:orientation="vertical"
+        android:paddingBottom="15dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:orientation="vertical">
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/cameraFab"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginBottom="@dimen/fab_margin"
+                android:layout_marginRight="@dimen/fab_margin"
+                android:src="@drawable/camera" />
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/gpsFab"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginBottom="@dimen/fab_margin"
+                android:layout_marginRight="@dimen/fab_margin"
+                android:src="@drawable/gps" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_gravity="bottom|end">
+        android:layout_gravity="right"
+        android:layout_marginTop="500dp"
+        android:orientation="vertical">
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/cameraFab"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginBottom="@dimen/fab_margin"
-            android:layout_marginRight="@dimen/fab_margin"
-            android:src="@drawable/camera" />
+        <SlidingDrawer
+            android:id="@+id/SlidingDrawer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="0dp"
+            android:content="@+id/contentLayout"
+            android:handle="@+id/bottomDrawer"
+            android:orientation="vertical"
+            android:padding="0dp">
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/gpsFab"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginBottom="@dimen/fab_margin"
-            android:layout_marginRight="@dimen/fab_margin"
-            android:src="@drawable/gps"/>
+            <!-- handle Layout -->
+            <Button
+                android:id="@+id/bottomDrawer"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:background="@drawable/bottom_drawer"
+                android:padding="0dp" />
+
+            <!-- Content Layout -->
+            <LinearLayout
+                android:id="@+id/contentLayout"
+                android:layout_width="match_parent"
+                android:layout_height="130dp"
+                android:background="#f2f2f2"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="0dp">
+
+            </LinearLayout>
+
+        </SlidingDrawer>
+
     </LinearLayout>
+
 
 </android.support.design.widget.CoordinatorLayout>

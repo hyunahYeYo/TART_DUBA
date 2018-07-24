@@ -14,7 +14,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.SlidingDrawer;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.MapView;
@@ -26,12 +28,14 @@ public class MainActivity extends AppCompatActivity
 
     public static final String TAG = "DUBA_Project";
 
-    FloatingActionButton camerafab, gpsfab;
-    MapView mapView;
-    ImageButton fabDrawer;
-    NavigationView navigationView;
-    DrawerLayout drawerLayout;
+    private FloatingActionButton camerafab, gpsfab;
+    private MapView mapView;
+    private ImageButton fabDrawer;
+    private NavigationView navigationView;
+    private DrawerLayout drawerLayout;
+    private static Button bottomDrawerButton;
 
+    private static SlidingDrawer slidingDrawer;
     double downX=0, downY=0, upX=0, upY=0;
 
     @Override
@@ -46,6 +50,9 @@ public class MainActivity extends AppCompatActivity
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.drawer);
         navigationView.setNavigationItemSelectedListener(this);
+        bottomDrawerButton = (Button) findViewById(R.id.bottomDrawer);
+
+        slidingDrawer = (SlidingDrawer) findViewById(R.id.SlidingDrawer);
 
         fabDrawer.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,6 +91,20 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        // Listeners for sliding drawer
+        slidingDrawer.setOnDrawerOpenListener(new SlidingDrawer.OnDrawerOpenListener() {
+            @Override
+            public void onDrawerOpened() {
+
+            }
+        });
+
+        slidingDrawer.setOnDrawerCloseListener(new SlidingDrawer.OnDrawerCloseListener() {
+            @Override
+            public void onDrawerClosed() {
+
+            }
+        });
     }
 
     //Detect DRAG Motion
