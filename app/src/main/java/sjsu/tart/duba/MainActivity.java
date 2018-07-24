@@ -1,8 +1,12 @@
 package sjsu.tart.duba;
 
+import android.content.ClipData;
+import android.content.ClipDescription;
+import android.content.Intent;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -10,11 +14,16 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.DragEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.MapView;
@@ -22,7 +31,7 @@ import com.google.android.gms.maps.MapView;
 import org.w3c.dom.Text;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, View.OnTouchListener {
+        implements NavigationView.OnNavigationItemSelectedListener, View.OnTouchListener{
 
     public static final String TAG = "DUBA_Project";
 
@@ -32,7 +41,13 @@ public class MainActivity extends AppCompatActivity
     NavigationView navigationView;
     DrawerLayout drawerLayout;
 
-    double downX=0, downY=0, upX=0, upY=0;
+    private FloatingActionButton slideBar;
+    private ViewGroup backLayout;
+
+    private int xDelta;
+    private int yDelta;
+
+    private DrawerLayout rightLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,6 +91,8 @@ public class MainActivity extends AppCompatActivity
                         .setAction("Action", null).show();
             }
         });
+
+        rightLayout = (DrawerLayout)findViewById(R.id.rightSideDrawer);
         gpsfab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -84,37 +101,51 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        backLayout = (CoordinatorLayout)findViewById(R.id.bg);
+        slideBar = (FloatingActionButton)findViewById(R.id.sideBar);
+        slideBar.setOnTouchListener(this);
+
+
     }
+    public boolean onTouch(View view, MotionEvent event) {
+        final int x = (int) event.getRawX();
+        final int y = (int) event.getRawY();
 
-    //Detect DRAG Motion
-    public boolean onTouch(View view, MotionEvent motionEvent) {
-        switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
-            case MotionEvent.ACTION_DOWN :
-                Log.d(TAG, "****ACTION DOWN****");
+        switch (event.getAction() & MotionEvent.ACTION_MASK) {
+            case MotionEvent.ACTION_DOWN:
+                CoordinatorLayout.LayoutParams lParams = (CoordinatorLayout.LayoutParams)view.getLayoutParams();
 
-                downX = motionEvent.getX();
-                downY = motionEvent.getY();
+                xDelta = x - lParams.leftMargin;
+                yDelta = y - lParams.topMargin;
+                Log.d("SlideBarTest", "DownPoints:"+x+"/"+y);
+                Log.d("SlideBarTest", "DownParams:"+lParams.leftMargin+"/"+lParams.topMargin);
                 break;
-            case MotionEvent.ACTION_MOVE :
-                Log.d(TAG, "****ACTION MOVE****");
+            case MotionEvent.ACTION_MOVE:
+                CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams)view.getLayoutParams();
+                Log.d("SlideBarTest", "MoveParams1:"+layoutParams.leftMargin+"/"+layoutParams.topMargin);
+
+                layoutParams.leftMargin = x - xDelta;
+                layoutParams.topMargin = y - yDelta;
+                layoutParams.rightMargin = 0;
+                layoutParams.bottomMargin = 0;
+                Log.d("SlideBarTest", "MovePoints:"+x+"/"+y);
+                Log.d("SlideBarTest", "MoveParams2:"+layoutParams.leftMargin+"/"+layoutParams.topMargin);
+
+                view.setLayoutParams(layoutParams);
 
                 break;
-            case MotionEvent.ACTION_UP :
-                Log.d(TAG, "****ACTION UP****");
+            case MotionEvent.ACTION_UP:
 
-                upX = motionEvent.getX();
-                upY = motionEvent.getY();
-                calTouchPoints();
+                //Toast.makeText(MainActivity.this, "앗싸", Toast.LENGTH_SHORT).show();
+
                 break;
-            default :
+            default:
                 break;
         }
-        return false;
+        backLayout.invalidate();
+        return true;
     }
 
-    private void calTouchPoints() {
-        
-    }
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
