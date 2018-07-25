@@ -16,43 +16,44 @@
         android:name="com.google.android.gms.maps.MapFragment"
         />
 
+    <ImageButton
+        android:id="@+id/fabHam"
+        android:layout_marginTop="20dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_toStartOf="@+id/card_view"
+        android:src="@drawable/burger"
+        android:background="@null"
+        />
     <android.support.v7.widget.CardView
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
        android:layout_marginTop="20dp"
         android:id="@+id/card_view"
-        android:layout_width="300dp"
+        android:layout_width="220dp"
         android:layout_height="40dp"
         android:layout_centerHorizontal="true"
         android:background="#000000"
         >
 
         <fragment
-            android:layout_marginLeft="40dp"
             android:id="@+id/place_autocomplete_fragment"
             android:layout_width="260dp"
             android:layout_height="match_parent"
             android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"
             />
 
-        <ImageButton
-            android:id="@+id/fabHam"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_gravity="top"
-            android:src="@drawable/burger"
-            android:background="@null"
-            />
-
-        <ImageButton
-            android:id="@+id/rightSlideBtn"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_gravity="top|end"
-            android:src="@drawable/left_arrow"
-            android:background="@null"
-            />
-
     </android.support.v7.widget.CardView>
-
+    <ImageButton
+        android:id="@+id/rightSlideBtn"
+        android:layout_marginTop="20dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_toEndOf="@+id/card_view"
+        android:src="@drawable/left_arrow"
+        android:background="#ffffff"
+        />
+    <!--
+        android:layout_gravity="top|end"
+        -->
 
 </RelativeLayout>
