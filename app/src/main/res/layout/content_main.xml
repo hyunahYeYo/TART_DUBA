@@ -53,4 +53,13 @@
         android:background="#ffffff"
         />
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/gpsFab"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginBottom="30dp"
+        android:layout_marginRight="@dimen/fab_margin"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/gps" />
 </RelativeLayout>
