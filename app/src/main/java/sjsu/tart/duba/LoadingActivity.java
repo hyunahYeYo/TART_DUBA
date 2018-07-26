@@ -24,15 +24,13 @@ public class LoadingActivity extends Activity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                SharedPreferences pref = getSharedPreferences("isFirstRun", Activity.MODE_PRIVATE);
-                boolean first = pref.getBoolean("isFirstRun", true);
+                SharedPreferences pref = getSharedPreferences("ISFIRSTRUN", Activity.MODE_PRIVATE);
+                boolean first = pref.getBoolean("ISFIRSTRUN", true);
                 if(first){
-                    Log.d("isFirstRun", "true");
                     Intent termOfUsePage = new Intent(LoadingActivity.this, TermOfUseActivity.class);
                     startActivity(termOfUsePage);
 
                 }else{
-                    Log.d("isFirstRun", "false");
                     //앱 최초 실행이 아닐시, main activity로 이동
                     Intent mainPage = new Intent(LoadingActivity.this, MainActivity.class);
                     startActivity(mainPage);
