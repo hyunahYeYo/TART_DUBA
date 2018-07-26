@@ -8,6 +8,16 @@
     android:orientation="vertical"
     tools:context="sjsu.tart.duba.MainActivity">
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        app:srcCompat="@android:drawable/ic_dialog_email" />
+
+    <include layout="@layout/content_main" />
+
     <fragment
         android:id="@+id/fragment_place"
         android:name="sjsu.tart.duba.FragmentMap"
@@ -111,6 +121,7 @@
         </SlidingDrawer>
 
     </LinearLayout>
+
 
 
 </android.support.design.widget.CoordinatorLayout>

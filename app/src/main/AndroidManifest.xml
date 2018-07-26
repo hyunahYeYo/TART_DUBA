@@ -31,7 +31,6 @@
 
         <activity android:name=".TermOfUseActivity" />
         <activity android:name=".GetUserNameActivity" />
-
         <activity android:name=".PopupActivity" android:theme="@android:style/Theme.Dialog" />
 
     </application>
