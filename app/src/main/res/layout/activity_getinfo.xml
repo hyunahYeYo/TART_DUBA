@@ -22,27 +22,86 @@
             android:layout_margin="10dp"
             android:fontFamily="sans-serif-condensed"
             android:includeFontPadding="false"
-            android:text="Input Your Name"
+            android:text="Check Your Date of Birth"
             android:textAlignment="center"
             android:textColor="#000000"
             android:textSize="25sp"
             android:textStyle="bold" />
 
-        <EditText
-            android:id="@+id/inputUserName"
+        <LinearLayout
+            android:id="@+id/inputUserAgeGroup"
             android:layout_width="fill_parent"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:layout_marginBottom="20dp"
             android:layout_marginTop="20dp"
-            android:background="@color/white"
-            android:hint="NAME"
+            android:background="@drawable/rounded_border"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/inputUserDateOfBirth"
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:layout_margin="10dp"
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="20dp"
+                android:background="@color/white"
+                android:hint="MM-DD-YY"
+                android:textAlignment="center"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:fontFamily="sans-serif-condensed"
+            android:includeFontPadding="false"
+            android:text="Check Your Gender"
             android:textAlignment="center"
-            android:textSize="20sp" />
+            android:textColor="#000000"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:id="@+id/inputUserGenderGroup"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/rounded_border_white"
+            android:orientation="horizontal">
+
+            <RadioGroup
+                android:id="@+id/radioGenderGroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/radio4"
+                        android:layout_width="120dp"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:text="Female" />
+
+                    <RadioButton
+                        android:id="@+id/radio5"
+                        android:layout_width="120dp"
+                        android:layout_height="wrap_content"
+                        android:text="Male" />
+
+            </RadioGroup>
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:orientation="horizontal"
             android:weightSum="1">
 
@@ -74,7 +133,7 @@
                 android:layout_margin="10dp"
                 android:layout_marginLeft="20dp"
                 android:background="@color/blue"
-                android:text="NEXT"
+                android:text="CONFIRM"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="15sp"

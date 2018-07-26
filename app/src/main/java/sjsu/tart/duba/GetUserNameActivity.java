@@ -43,12 +43,7 @@ public class GetUserNameActivity extends Activity {
                     userNameEditor.putString("userName", userName);
                     userNameEditor.apply();
 
-                    SharedPreferences firstRunPref = getSharedPreferences("isFirstRun", MODE_PRIVATE);
-                    SharedPreferences.Editor firstRunEditor = firstRunPref.edit();
-                    firstRunEditor.putBoolean("isFirstRun", false);
-                    firstRunEditor.apply();
-
-                    Intent intent = new Intent(GetUserNameActivity.this, MainActivity.class);
+                    Intent intent = new Intent(GetUserNameActivity.this, GetUserInfoActivity.class);
                     startActivity(intent);
                     finish();
                 }
