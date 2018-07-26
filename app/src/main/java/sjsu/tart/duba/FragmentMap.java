@@ -5,8 +5,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Address;
-import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
@@ -14,6 +12,7 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -22,10 +21,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -43,7 +38,6 @@ import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
 import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -51,10 +45,6 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-
-import java.io.IOException;
-import java.util.List;
-import java.util.Locale;
 
 /**
  * Created by KJH on 2017-05-15.
@@ -102,11 +92,12 @@ public class FragmentMap extends Fragment
     private static final int UPDATE_INTERVAL_MS = 15000;
     private static final int FASTEST_UPDATE_INTERVAL_MS = 15000;
 
+    private int hasFineLocationPermission;
     private GoogleMap googleMap = null;
     private MapView mapView = null;
     private GoogleApiClient googleApiClient = null;
     private Marker currentMarker = null;
-
+    private FloatingActionButton gpsfab;
     private final static int MAXENTRIES = 5;
     private String[] LikelyPlaceNames = null;
     private String[] LikelyAddresses = null;
@@ -158,9 +149,12 @@ public class FragmentMap extends Fragment
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.content_main, container, false);
 
-        mapView = (MapView)layout.findViewById(R.id.map);
-        mapView.getMapAsync(this);
 
+        mapView = (MapView)layout.findViewById(R.id.map);
+
+        gpsfab=(FloatingActionButton)layout.findViewById(R.id.gpsFab);
+        mapView.getMapAsync(this);
+        Log.e("sync","sync");
         PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)
                 getActivity().getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
 
@@ -173,12 +167,12 @@ public class FragmentMap extends Fragment
 
                 setCurrentLocation(location, place.getName().toString(), place.getAddress().toString());
             }
-
             @Override
             public void onError(Status status) {
                 Log.i(TAG, "An error occurred: " + status);
             }
         });
+
 
         return layout;
     }
@@ -208,9 +202,10 @@ public class FragmentMap extends Fragment
     public void onResume() {
         super.onResume();
         mapView.onResume();
-
+        Log.e("resume","Resume");
         if ( googleApiClient != null)
             googleApiClient.connect();
+
 
     }
 
@@ -266,44 +261,44 @@ public class FragmentMap extends Fragment
 
         this.googleMap = googleMap;
 
+        Log.e("onMapReady","onMapReady");
         //런타임 퍼미션 요청 대화상자나 GPS 활성 요청 대화상자 보이기전에 지도의 초기위치를 서울로 이동
         setCurrentLocation(null, "위치정보 가져올 수 없음", "위치 퍼미션과 GPS 활성 여부 확인");
 
-        //나침반이 나타나도록 설정
-        googleMap.getUiSettings().setCompassEnabled(true);
-        // 매끄럽게 이동함
+
         googleMap.animateCamera(CameraUpdateFactory.zoomTo(15));
 
-        //  API 23 이상이면 런타임 퍼미션 처리 필요
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            // 사용권한체크
-            int hasFineLocationPermission = ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION);
+        gpsfab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.e("버튼 클릭","버튼클릭");
 
-            if ( hasFineLocationPermission == PackageManager.PERMISSION_DENIED) {
-                //사용권한이 없을경우
-                //권한 재요청
-                ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
-            } else {
-                //사용권한이 있는경우
-                if ( googleApiClient == null) {
-                    buildGoogleApiClient();
-                }
+                if(ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)==PackageManager.PERMISSION_GRANTED){
+                    Log.e("사용권한있음","사용권한있음");
+                    if(googleApiClient == null){
+                        buildGoogleApiClient();
+                    }
+                    getMyLocation();
 
-                if ( ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)
-                {
-                    googleMap.setMyLocationEnabled(true);
+                }else{
+                    Log.e("사용권한없음","사용권한없음");
+                    ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
                 }
             }
-        } else {
+        });
+        // 매끄럽게 이동함
 
-            if ( googleApiClient == null) {
-                buildGoogleApiClient();
-            }
-
-            googleMap.setMyLocationEnabled(true);
-        }
+        Log.e("사용권한체크","사용권한체크");
+        // 사용권한체크
 
 
+
+
+    }
+    @SuppressWarnings("MissingPermission")
+    private void getMyLocation(){
+        googleMap.setMyLocationEnabled(true);
+        googleMap.getUiSettings().setMyLocationButtonEnabled(false);
     }
 
     private void buildGoogleApiClient() {
@@ -327,8 +322,10 @@ public class FragmentMap extends Fragment
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
+        Log.e("Connected","Connected");
         if ( !checkLocationServicesStatus()) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            Log.e("Connected1","Connected1");
             builder.setTitle("위치 서비스 비활성화");
             builder.setMessage("앱을 사용하기 위해서는 위치 서비스가 필요합니다.\n" +
                     "위치 설정을 수정하십시오.");
@@ -358,14 +355,14 @@ public class FragmentMap extends Fragment
         if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if ( ActivityCompat.checkSelfPermission(getActivity(),
                     Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-
+                Log.e("Connected2","Connected2");
                 LocationServices.FusedLocationApi
                         .requestLocationUpdates(googleApiClient, locationRequest, this);
             }
         } else {
             LocationServices.FusedLocationApi
                     .requestLocationUpdates(googleApiClient, locationRequest, this);
-
+            Log.e("Connected3","Connected3");
             this.googleMap.getUiSettings().setCompassEnabled(true);
             this.googleMap.animateCamera(CameraUpdateFactory.zoomTo(15));
         }
@@ -436,4 +433,7 @@ public class FragmentMap extends Fragment
         });
 
     }
+
+
 }
+
