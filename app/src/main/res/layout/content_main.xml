@@ -52,8 +52,5 @@
         android:src="@drawable/left_arrow"
         android:background="#ffffff"
         />
-    <!--
-        android:layout_gravity="top|end"
-        -->
 
 </RelativeLayout>
