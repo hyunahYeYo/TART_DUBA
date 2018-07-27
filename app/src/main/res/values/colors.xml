@@ -12,4 +12,5 @@
     <color name="darker_orange">#f1b10f</color>
     <color name="lighter_orange">#feecbe</color>
     <color name="blue">#3498db</color>
+    <color name="v_color">#1e1e1e</color>
 </resources>

@@ -10,7 +10,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:alpha="0.6"
         android:orientation="horizontal"
         android:paddingBottom="0dp"
         android:paddingTop="5dp"
@@ -24,13 +23,18 @@
             android:orientation="vertical">
 
             <Button
-                android:id="@+id/themeButton0"
+                android:id="@+id/infoButton0"
                 android:layout_width="65dp"
                 android:layout_height="65dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginEnd="0dp"
-                android:alpha="0.5"
-                android:background="@drawable/icon_child" />
+                android:alpha="0.3"
+                android:background="@drawable/icon_child"
+                android:text=""
+                android:textAllCaps="false"
+                android:textColor="@color/v_color"
+                android:textSize="50sp"
+                android:textStyle="bold|italic" />
 
             <TextView
                 android:id="@+id/textView3"
@@ -53,13 +57,18 @@
             android:orientation="vertical">
 
             <Button
-                android:id="@+id/themeButton1"
+                android:id="@+id/infoButton1"
                 android:layout_width="65dp"
                 android:layout_height="65dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginEnd="0dp"
-                android:alpha="0.5"
-                android:background="@drawable/icon_adult" />
+                android:alpha="0.3"
+                android:background="@drawable/icon_adult"
+                android:text=""
+                android:textAllCaps="false"
+                android:textColor="@color/v_color"
+                android:textSize="50sp"
+                android:textStyle="bold|italic" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -79,13 +88,18 @@
             android:orientation="vertical">
 
             <Button
-                android:id="@+id/themeButton2"
+                android:id="@+id/infoButton2"
                 android:layout_width="65dp"
                 android:layout_height="65dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginEnd="0dp"
-                android:alpha="0.5"
-                android:background="@drawable/icon_elderly" />
+                android:alpha="0.3"
+                android:background="@drawable/icon_elderly"
+                android:text=""
+                android:textAllCaps="false"
+                android:textColor="@color/v_color"
+                android:textSize="50sp"
+                android:textStyle="bold|italic" />
 
             <TextView
                 android:layout_width="match_parent"

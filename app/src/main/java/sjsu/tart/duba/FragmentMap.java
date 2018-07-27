@@ -47,7 +47,6 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 /**
- * Created by KJH on 2017-05-15.
  * Fragment Life Style
  * 1. Fragment is added
  * 2. onAttach()                    Fragment가 Activty에 붙을때 호출

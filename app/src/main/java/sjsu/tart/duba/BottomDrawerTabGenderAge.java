@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 /**
  * Created by lion7 on 2018-07-24.
@@ -13,15 +14,56 @@ import android.view.ViewGroup;
 
 public class BottomDrawerTabGenderAge extends Fragment {
 
+    public Boolean[] buttonsValues = new Boolean[3];
+
+    private Button[] buttons = new Button[3];
+    private int[] buttonsId = {R.id.infoButton0, R.id.infoButton1, R.id.infoButton2};
+    private int buttonsNum = 3;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_tab_gender_age, container, false);
+
+        View view = inflater.inflate(R.layout.fragment_tab_gender_age, container, false);
+        findViewByButtons(view);
+        setOnClickListeners();
+        return view;
     }
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
+
+    private void findViewByButtons(View view){
+        for(int i = 0; i < buttonsNum; i++){
+            buttons[i] = view.findViewById(buttonsId[i]);
+        }
+    }
+
+    private void setOnClickListeners(){
+        for(int i = 0; i < buttonsNum; i++){
+            buttons[i].setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View view) {
+                    for(int j = 0; j < buttonsNum; j++){
+                        if(view.getId() == buttonsId[j]){
+                            if(view.getAlpha() == MainActivity.TRANSPARENT){
+                                buttons[j].setAlpha(MainActivity.NOT_TRANSPARENT);
+                                buttons[j].setText("V");
+                                buttonsValues[j] = true;
+                            }
+                            else{
+                                buttons[j].setAlpha(MainActivity.TRANSPARENT);
+                                buttons[j].setText("");
+                                buttonsValues[j] = false;
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    }
+
 
 }

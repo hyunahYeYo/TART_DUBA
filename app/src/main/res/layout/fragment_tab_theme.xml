@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -10,7 +11,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:alpha="0.6"
         android:orientation="horizontal"
         android:paddingBottom="0dp"
         android:paddingTop="5dp"
@@ -30,8 +30,14 @@
                 android:layout_height="65dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginEnd="0dp"
-                android:alpha="0.5"
-                android:background="@drawable/icon_single" />
+                android:alpha="0.3"
+                android:background="@drawable/icon_single"
+                android:src="@drawable/icon_single"
+                android:text=""
+                android:textAllCaps="false"
+                android:textColor="@color/v_color"
+                android:textSize="50sp"
+                android:textStyle="bold|italic" />
 
             <TextView
                 android:id="@+id/textView3"
@@ -60,8 +66,13 @@
                 android:layout_height="65dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginEnd="0dp"
-                android:alpha="0.5"
-                android:background="@drawable/icon_family" />
+                android:alpha="0.3"
+                android:background="@drawable/icon_family"
+                android:text=""
+                android:textAllCaps="false"
+                android:textColor="@color/v_color"
+                android:textSize="50sp"
+                android:textStyle="bold|italic" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -87,8 +98,13 @@
                 android:layout_height="65dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginEnd="0dp"
-                android:alpha="0.5"
-                android:background="@drawable/icon_couple" />
+                android:alpha="0.3"
+                android:background="@drawable/icon_couple"
+                android:text=""
+                android:textAllCaps="false"
+                android:textColor="@color/v_color"
+                android:textSize="50sp"
+                android:textStyle="bold|italic" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -115,8 +131,13 @@
                 android:layout_height="65dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginEnd="0dp"
-                android:alpha="0.5"
-                android:background="@drawable/icon_friend" />
+                android:alpha="0.3"
+                android:background="@drawable/icon_friend"
+                android:text=""
+                android:textAllCaps="false"
+                android:textColor="@color/v_color"
+                android:textSize="50sp"
+                android:textStyle="bold|italic" />
 
             <TextView
                 android:layout_width="match_parent"

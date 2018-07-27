@@ -23,6 +23,8 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
 
     public static final String TAG = "DUBA_Project";
+    public static final float TRANSPARENT = 0.3F;
+    public static final float NOT_TRANSPARENT = 1.0F;
 
     private ImageButton fabDrawer;
     private NavigationView navigationView;
@@ -81,8 +83,6 @@ public class MainActivity extends AppCompatActivity
 
             }
         });
-
-
 
         // Listeners for sliding drawer
         slidingDrawer.setOnDrawerOpenListener(new SlidingDrawer.OnDrawerOpenListener() {
