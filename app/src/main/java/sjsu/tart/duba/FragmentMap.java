@@ -1,6 +1,7 @@
 package sjsu.tart.duba;
 
 import android.Manifest;
+import android.app.DialogFragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -21,6 +22,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -41,7 +43,6 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -82,7 +83,8 @@ public class FragmentMap extends Fragment
         implements OnMapReadyCallback ,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
-        LocationListener
+        LocationListener,
+        GoogleMap.OnMarkerClickListener
 {
     private static final LatLng DEFAULT_LOCATION = new LatLng(37.56, 126.97);
     private static final String TAG = "googlemap_example";
@@ -117,22 +119,29 @@ public class FragmentMap extends Fragment
 
             MarkerOptions markerOptions = new MarkerOptions();
             markerOptions.position(currentLocation);
-            markerOptions.title(markerTitle);
+            /*markerOptions.title(markerTitle);
             markerOptions.snippet(markerSnippet);
             markerOptions.draggable(true);
             markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+            */
             currentMarker = this.googleMap.addMarker(markerOptions);
+            googleMap.getUiSettings().setMapToolbarEnabled(false);
 
             this.googleMap.moveCamera(CameraUpdateFactory.newLatLng(currentLocation));
+            this.googleMap.setOnMarkerClickListener(this);
+
             return;
         }
 
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(DEFAULT_LOCATION);
-        markerOptions.title(markerTitle);
+       /* markerOptions.title(markerTitle);
         markerOptions.snippet(markerSnippet);
         markerOptions.draggable(true);
         markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+        */
+        this.googleMap.setOnMarkerClickListener(this);
+       googleMap.getUiSettings().setMapToolbarEnabled(false);
         currentMarker = this.googleMap.addMarker(markerOptions);
 
         this.googleMap.moveCamera(CameraUpdateFactory.newLatLng(DEFAULT_LOCATION));
@@ -264,7 +273,6 @@ public class FragmentMap extends Fragment
         //런타임 퍼미션 요청 대화상자나 GPS 활성 요청 대화상자 보이기전에 지도의 초기위치를 서울로 이동
         setCurrentLocation(null, "위치정보 가져올 수 없음", "위치 퍼미션과 GPS 활성 여부 확인");
 
-
         googleMap.animateCamera(CameraUpdateFactory.zoomTo(15));
 
         gpsfab.setOnClickListener(new View.OnClickListener() {
@@ -285,13 +293,6 @@ public class FragmentMap extends Fragment
                 }
             }
         });
-        // 매끄럽게 이동함
-
-        Log.e("사용권한체크","사용권한체크");
-        // 사용권한체크
-
-
-
 
     }
     @SuppressWarnings("MissingPermission")
@@ -433,6 +434,15 @@ public class FragmentMap extends Fragment
 
     }
 
+    //마커 클릭 리스너
+    public boolean onMarkerClick(Marker marker){
+        Toast.makeText(getContext(),"asdf",Toast.LENGTH_LONG).show();
 
-}
+         DialogFragment dial=new MarkerDial();
+        dial.show(getActivity().getFragmentManager(),"As");
+        return true;
+    }
+
+    }
+
 

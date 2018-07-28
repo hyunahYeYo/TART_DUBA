@@ -25,15 +25,24 @@
         app:headerLayout="@layout/nav_header_main"
         app:menu="@menu/activity_main_drawer" />
 
-    <android.support.design.widget.NavigationView
+    <LinearLayout
+
+        android:orientation="vertical"
         android:id="@+id/rightDrawer"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="end"
         android:fitsSystemWindows="true"
-        android:background="#f7f7f7"
-        app:headerLayout="@layout/nav_header_main"
-        app:menu="@menu/activity_main_drawer" />
+        android:background="#f7f7f7">
+    <ListView
+        android:id="@+id/drawer1"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:choiceMode="singleChoice"
+        android:dividerHeight="0.5dp"
+        android:divider="#fff"
+
+        android:text="dddddd"/></LinearLayout>
 
 
 </android.support.v4.widget.DrawerLayout>

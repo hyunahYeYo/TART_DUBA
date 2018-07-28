@@ -3,6 +3,7 @@ package sjsu.tart.duba;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
@@ -14,8 +15,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.SlidingDrawer;
 import android.widget.TextView;
 
@@ -29,8 +33,11 @@ public class MainActivity extends AppCompatActivity
     private ImageButton fabDrawer;
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
+    private LinearLayout li;
+    private ListView list;
     private static Button bottomDrawerButton;
-
+    private String[] drawer_list=new String[]{"김연재","박현아","박수연","김연재","박현아","박수연","김연재","박현아","박수연","김연재","박현아","박수연"};
+    private ArrayAdapter<String> arrayAdapter;
     private static SlidingDrawer slidingDrawer;
 
     private ImageButton rightSlideBtn; //right slide button
@@ -42,23 +49,24 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         //floatingButton으로 drawer 열기
+        list=(ListView)findViewById(R.id.drawer1);
         fabDrawer=(ImageButton)findViewById(R.id.fabHam);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.drawer);
         navigationView.setNavigationItemSelectedListener(this);
         bottomDrawerButton = (Button) findViewById(R.id.bottomDrawer);
-
+         arrayAdapter=new ArrayAdapter(this,android.R.layout.simple_expandable_list_item_1,drawer_list);
+        list.setAdapter(this.arrayAdapter);
         slidingDrawer = (SlidingDrawer) findViewById(R.id.SlidingDrawer);
 
         rightSlideBtn = (ImageButton)findViewById(R.id.rightSlideBtn);
-        rightNavigationView = (NavigationView)findViewById(R.id.rightDrawer);
-        rightNavigationView.setNavigationItemSelectedListener(this);
+        li=(LinearLayout)findViewById(R.id.rightDrawer);
 
         rightSlideBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "Right Slide Button Clicked");
-                drawerLayout.openDrawer(rightNavigationView);
+                drawerLayout.openDrawer(li);
             }
         });
 
@@ -168,7 +176,7 @@ public class MainActivity extends AppCompatActivity
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem  item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
