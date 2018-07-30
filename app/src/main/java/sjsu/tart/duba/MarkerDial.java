@@ -2,6 +2,7 @@ package sjsu.tart.duba;
 
 import android.app.DialogFragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,7 @@ public class MarkerDial extends DialogFragment {
         View view=inflater.inflate(R.layout.marker_dial,null);
 
 
+        Log.e("dhodksehl","dhodksehl");
         return view;
 }
 }
