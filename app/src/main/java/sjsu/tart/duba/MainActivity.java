@@ -3,6 +3,7 @@ package sjsu.tart.duba;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
@@ -14,8 +15,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.SlidingDrawer;
 import android.widget.TextView;
 
@@ -23,17 +27,18 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
 
     public static final String TAG = "DUBA_Project";
+    public static final float TRANSPARENT = 0.3F;
+    public static final float NOT_TRANSPARENT = 1.0F;
 
     private ImageButton fabDrawer;
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
     private static Button bottomDrawerButton;
-
     private static SlidingDrawer slidingDrawer;
 
     private ImageButton rightSlideBtn; //right slide button
-    private NavigationView rightNavigationView;
-
+    //private NavigationView rightNavigationView;
+    private LinearLayout rightNavigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,12 +50,10 @@ public class MainActivity extends AppCompatActivity
         navigationView = (NavigationView) findViewById(R.id.drawer);
         navigationView.setNavigationItemSelectedListener(this);
         bottomDrawerButton = (Button) findViewById(R.id.bottomDrawer);
-
         slidingDrawer = (SlidingDrawer) findViewById(R.id.SlidingDrawer);
 
         rightSlideBtn = (ImageButton)findViewById(R.id.rightSlideBtn);
-        rightNavigationView = (NavigationView)findViewById(R.id.rightDrawer);
-        rightNavigationView.setNavigationItemSelectedListener(this);
+        rightNavigationView=(LinearLayout)findViewById(R.id.rightDrawer);
 
         rightSlideBtn.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -81,8 +84,6 @@ public class MainActivity extends AppCompatActivity
 
             }
         });
-
-
 
         // Listeners for sliding drawer
         slidingDrawer.setOnDrawerOpenListener(new SlidingDrawer.OnDrawerOpenListener() {
@@ -168,7 +169,7 @@ public class MainActivity extends AppCompatActivity
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem  item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 

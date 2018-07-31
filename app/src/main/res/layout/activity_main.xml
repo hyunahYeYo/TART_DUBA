@@ -24,41 +24,36 @@
         app:headerLayout="@layout/nav_header_main"
         app:menu="@menu/activity_main_drawer" />
 
-        <android.support.design.widget.NavigationView
-            android:id="@+id/rightDrawer"
-            android:layout_width="match_parent"
+    <LinearLayout
+        android:id="@+id/rightDrawer"
+        android:layout_gravity="end"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:background="#f7f7f7"
+        android:padding="10dp"
+        android:paddingBottom="0dp"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="50dp">
+        <ImageView
+            android:id="@+id/rightSlideHeader"
+            android:background="@drawable/right_drawer_logo"
+            android:layout_width="250dp"
+            android:layout_height="80dp"
+            android:paddingTop="16dp"
+            />
+        <ListView
+            android:id="@+id/rightBarList"
             android:layout_height="match_parent"
-            android:layout_gravity="end"
-            android:fitsSystemWindows="true"
-            android:background="#f7f7f7">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginTop="20dp"
-                    android:gravity="center"
-                    android:background="#f7f7f7"
-                    android:padding="10dp"
-                    android:paddingBottom="0dp"
-                    android:paddingLeft="@dimen/activity_horizontal_margin"
-                    android:paddingRight="@dimen/activity_horizontal_margin"
-                    android:paddingTop="50dp">
-                    <ImageView
-                        android:id="@+id/rightSlideHeader"
-                        android:background="@drawable/right_drawer_logo"
-                        android:layout_width="250dp"
-                        android:layout_height="80dp"
-                        android:paddingTop="16dp"
-                        />
-                    <ListView
-                        android:id="@+id/rightBarList"
-                        android:layout_height="match_parent"
-                        android:layout_width="match_parent"
-                        android:divider="#000000"
-                        android:dividerHeight="1.5dp"
-                        android:choiceMode="singleChoice">
-                    </ListView>
-                </LinearLayout>
-        </android.support.design.widget.NavigationView>
+            android:layout_width="match_parent"
+            android:divider="#000000"
+            android:dividerHeight="1.5dp"
+            android:choiceMode="singleChoice">
+        </ListView>
+    </LinearLayout>
+
 
 </android.support.v4.widget.DrawerLayout>
