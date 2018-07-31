@@ -55,14 +55,6 @@ public class MainActivity extends AppCompatActivity
         rightSlideBtn = (ImageButton)findViewById(R.id.rightSlideBtn);
         rightNavigationView=(LinearLayout)findViewById(R.id.rightDrawer);
 
-        rightSlideBtn.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                Log.d(TAG, "Right Slide Button Clicked");
-                drawerLayout.openDrawer(rightNavigationView);
-            }
-        });
-
         fabDrawer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -131,7 +123,13 @@ public class MainActivity extends AppCompatActivity
 
             }
         });
-
+        rightSlideBtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Log.d(TAG, "Right Slide Button Clicked");
+                drawerLayout.openDrawer(rightNavigationView);
+            }
+        });
     }
     @Override
     public void onBackPressed() {
