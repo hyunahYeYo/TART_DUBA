@@ -14,7 +14,7 @@ import android.widget.Button;
 
 public class BottomDrawerTabGenderAge extends Fragment {
 
-    public Boolean[] buttonsValues = new Boolean[3];
+    public Boolean[] buttonsValues = {false, false, false};
 
     private Button[] buttons = new Button[3];
     private int[] buttonsId = {R.id.infoButton0, R.id.infoButton1, R.id.infoButton2};
@@ -38,6 +38,10 @@ public class BottomDrawerTabGenderAge extends Fragment {
     private void findViewByButtons(View view){
         for(int i = 0; i < buttonsNum; i++){
             buttons[i] = view.findViewById(buttonsId[i]);
+            if(buttonsValues[i]){
+                buttons[i].setAlpha(MainActivity.NOT_TRANSPARENT);
+                buttons[i].setText("V");
+            }
         }
     }
 
