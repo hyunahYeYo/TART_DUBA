@@ -9,9 +9,7 @@ public class RouteList {
     private Route TailRoute;
     private int size = 0;
 
-    public void addList(String location) {
-        Route newRoute = new Route(location);
-
+    public void addList(Route newRoute) {
         if(size==0) { //List is empty
             //This code can be used to input new Route into head.
             newRoute.setNext(HeadRoute);

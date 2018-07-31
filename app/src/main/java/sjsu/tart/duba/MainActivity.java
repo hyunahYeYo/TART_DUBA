@@ -23,6 +23,8 @@ import android.widget.ListView;
 import android.widget.SlidingDrawer;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
 
@@ -37,8 +39,11 @@ public class MainActivity extends AppCompatActivity
     private static SlidingDrawer slidingDrawer;
 
     private ImageButton rightSlideBtn; //right slide button
-    //private NavigationView rightNavigationView;
     private LinearLayout rightNavigationView;
+    private ListView rightSlideListView;
+    private Button rightSlideEditBtn;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +59,27 @@ public class MainActivity extends AppCompatActivity
 
         rightSlideBtn = (ImageButton)findViewById(R.id.rightSlideBtn);
         rightNavigationView=(LinearLayout)findViewById(R.id.rightDrawer);
+        rightSlideListView = (ListView)findViewById(R.id.rightBarList);
+        rightSlideEditBtn = (Button)findViewById(R.id.editBtn);
+
+        ArrayList<String> list = new ArrayList<>();
+        list.add("a");
+        list.add("b");
+        list.add("c");
+        list.add("d");
+        list.add("e");
+        list.add("a");
+        list.add("b");
+        list.add("c");
+        list.add("d");
+        list.add("e");
+        list.add("a");
+        list.add("b");
+        list.add("c");
+        list.add("d");
+        list.add("e");
+        ArrayAdapter<String> ad = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, list);
+        rightSlideListView.setAdapter(ad);
 
         fabDrawer.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,6 +154,13 @@ public class MainActivity extends AppCompatActivity
             public void onClick(View view) {
                 Log.d(TAG, "Right Slide Button Clicked");
                 drawerLayout.openDrawer(rightNavigationView);
+
+            }
+        });
+        rightSlideEditBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
             }
         });
     }
