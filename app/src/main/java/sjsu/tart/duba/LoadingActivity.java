@@ -6,31 +6,57 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
+
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 /**
  * Created by RosieHyunahPark on 2018-07-14.
  */
 
 public class LoadingActivity extends Activity {
+
+    private TextView loadingText;
+    public static DbOpenHelper mDbOpenHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loading);
+
+        loadingText = (TextView) findViewById(R.id.loadingText);
+
         startLoading();
     }
     private void startLoading() {
         Handler handler = new Handler();
-        
+
+        mDbOpenHelper = new DbOpenHelper(this);
+        mDbOpenHelper.open();
+        mDbOpenHelper.create();
+        mDbOpenHelper.close();
+
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
                 SharedPreferences pref = getSharedPreferences("ISFIRSTRUN", Activity.MODE_PRIVATE);
                 boolean first = pref.getBoolean("ISFIRSTRUN", true);
                 if(first){
+
+                    loadingText.setText("...Downloading files...");
+                    setDataBase();
+
                     Intent termOfUsePage = new Intent(LoadingActivity.this, TermOfUseActivity.class);
                     startActivity(termOfUsePage);
 
                 }else{
+
+                    loadingText.setText("...Loading...");
                     //앱 최초 실행이 아닐시, main activity로 이동
                     Intent mainPage = new Intent(LoadingActivity.this, MainActivity.class);
                     startActivity(mainPage);
@@ -43,4 +69,21 @@ public class LoadingActivity extends Activity {
 
 
     }
+
+    private void setDataBase(){
+        DataReader dataReader = new DataReader("data.tsv", this);
+        dataReader.run();
+
+        mDbOpenHelper.open();
+        MarkerData[] markerDatas = dataReader.getMarkerData();
+        Log.d("dataReader.getMarkerNum", Integer.toString(dataReader.getMarkerNum()));
+
+        for(int i = 0; i < dataReader.getMarkerNum(); i++){
+            mDbOpenHelper.insertColumn(Integer.toString(i),
+                    markerDatas[i].title, markerDatas[i].tag, markerDatas[i].lan, markerDatas[i].lon, markerDatas[i].color);
+            Log.d("insultColumn", markerDatas[i].title);
+        }
+        mDbOpenHelper.close();
+    }
+
 }

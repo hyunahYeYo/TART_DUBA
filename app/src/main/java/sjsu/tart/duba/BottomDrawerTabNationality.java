@@ -14,7 +14,7 @@ import android.widget.Button;
 
 public class BottomDrawerTabNationality extends Fragment {
 
-    public Boolean[] buttonsValues = new Boolean[4];
+    public Boolean[] buttonsValues = {false, false, false, false};
 
     private Button[] buttons = new Button[4];
     private int[] buttonsId = {R.id.placeButton0, R.id.placeButton1, R.id.placeButton2, R.id.placeButton3};
@@ -38,6 +38,10 @@ public class BottomDrawerTabNationality extends Fragment {
     private void findViewByButtons(View view){
         for(int i = 0; i < buttonsNum; i++){
             buttons[i] = view.findViewById(buttonsId[i]);
+            if(buttonsValues[i]){
+                buttons[i].setAlpha(MainActivity.NOT_TRANSPARENT);
+                buttons[i].setText("V");
+            }
         }
     }
 
