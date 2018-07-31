@@ -16,7 +16,7 @@ import android.widget.Button;
 
 public class BottomDrawerTabTheme extends Fragment {
 
-    public Boolean[] buttonsValues = new Boolean[4];
+    public static Boolean[] buttonsValues = {false, false, false, false};
 
     private Button[] buttons = new Button[4];
     private int[] buttonsId = {R.id.themeButton0, R.id.themeButton1, R.id.themeButton2, R.id.themeButton3};
@@ -41,6 +41,10 @@ public class BottomDrawerTabTheme extends Fragment {
     private void findViewByButtons(View view){
         for(int i = 0; i < buttonsNum; i++){
             buttons[i] = view.findViewById(buttonsId[i]);
+            if(buttonsValues[i]){
+                buttons[i].setAlpha(MainActivity.NOT_TRANSPARENT);
+                buttons[i].setText("V");
+            }
         }
     }
 

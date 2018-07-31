@@ -88,7 +88,9 @@ public class MainActivity extends AppCompatActivity
         slidingDrawer.setOnDrawerCloseListener(new SlidingDrawer.OnDrawerCloseListener() {
             @Override
             public void onDrawerClosed() {
-
+                LoadingActivity.mDbOpenHelper.open();
+                LoadingActivity.mDbOpenHelper.showDatabaseByLog("markerid");
+                LoadingActivity.mDbOpenHelper.close();
             }
         });
 
