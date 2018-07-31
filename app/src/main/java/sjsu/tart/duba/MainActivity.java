@@ -23,6 +23,11 @@ import android.widget.ListView;
 import android.widget.SlidingDrawer;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
 
@@ -90,8 +95,35 @@ public class MainActivity extends AppCompatActivity
             public void onDrawerClosed() {
                 LoadingActivity.mDbOpenHelper.open();
                 LoadingActivity.mDbOpenHelper.showDatabaseByLog("markerid");
+                String[] tags = getSelectedOptions();
+                MarkerData[] markers = LoadingActivity.mDbOpenHelper.getMarkerData(tags);
+                addMarkerstoMap(markers);
                 LoadingActivity.mDbOpenHelper.close();
             }
+
+            public String[] getSelectedOptions(){
+                String options = "";
+                options += BottomDrawerTabTheme.getSelectedOptions();
+                options += BottomDrawerTabNationality.getSelectedOptions();
+                options += BottomDrawerTabGenderAge.getSelectedOptions();
+                Log.d("getSelectedOptions()", options);
+
+                String[] ret = options.split(",");
+                return ret;
+            }
+
+            public void addMarkerstoMap(MarkerData[] markers){
+                GoogleMap googleMap = FragmentMap.getGoogleMap();
+                for(int i = 0; i < 5; i++){
+                    LatLng currentMarker = new LatLng( Double.parseDouble(markers[i].lan), Double.parseDouble(markers[i].lon));
+                    MarkerOptions markerOptions = new MarkerOptions();
+                    markerOptions.position(currentMarker);
+                    googleMap.addMarker(markerOptions);
+                    googleMap.getUiSettings().setMapToolbarEnabled(false);
+                    googleMap.moveCamera(CameraUpdateFactory.newLatLng(currentMarker));
+                }
+            }
+
         });
 
         // bottom drawer 생성 및 세팅

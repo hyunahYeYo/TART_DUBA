@@ -97,7 +97,7 @@ public class FragmentMap extends Fragment
     private static final int FASTEST_UPDATE_INTERVAL_MS = 15000;
 
     private int hasFineLocationPermission;
-    private GoogleMap googleMap = null;
+    private static GoogleMap googleMap = null;
     private MapView mapView = null;
     private GoogleApiClient googleApiClient = null;
     private Marker currentMarker = null;
@@ -473,6 +473,8 @@ String markerTitle=marker.getTitle();
         return true;
     }
 
-    }
+    public static GoogleMap getGoogleMap(){ return googleMap; }
+
+}
 
 

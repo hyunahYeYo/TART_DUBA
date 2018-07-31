@@ -13,12 +13,12 @@ import android.widget.Button;
  */
 
 public class BottomDrawerTabGenderAge extends Fragment {
-
-    public Boolean[] buttonsValues = {false, false, false};
+    public static String[] buttonsKeys = {"Child", "Adult", "Elderly"};
+    public static Boolean[] buttonsValues = {false, false, false};
 
     private Button[] buttons = new Button[3];
     private int[] buttonsId = {R.id.infoButton0, R.id.infoButton1, R.id.infoButton2};
-    private int buttonsNum = 3;
+    private static int buttonsNum = 3;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -69,5 +69,14 @@ public class BottomDrawerTabGenderAge extends Fragment {
         }
     }
 
+    public static String getSelectedOptions(){
+        String ret = "";
+        for(int i = 0; i < buttonsNum; i++){
+            if(buttonsValues[i]){
+                ret += ( buttonsKeys[i] + "," );
+            }
+        }
+        return ret;
+    }
 
 }

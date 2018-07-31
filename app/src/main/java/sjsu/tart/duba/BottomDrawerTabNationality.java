@@ -13,12 +13,12 @@ import android.widget.Button;
  */
 
 public class BottomDrawerTabNationality extends Fragment {
-
-    public Boolean[] buttonsValues = {false, false, false, false};
+    public static String[] buttonsKeys = {"Landmark", "Food", "Shopping", "Art"};
+    public static Boolean[] buttonsValues = {false, false, false, false};
 
     private Button[] buttons = new Button[4];
     private int[] buttonsId = {R.id.placeButton0, R.id.placeButton1, R.id.placeButton2, R.id.placeButton3};
-    private int buttonsNum = 4;
+    private static int buttonsNum = 4;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -69,5 +69,14 @@ public class BottomDrawerTabNationality extends Fragment {
         }
     }
 
+    public static String getSelectedOptions(){
+        String ret = "";
+        for(int i = 0; i < buttonsNum; i++){
+            if(buttonsValues[i]){
+                ret += ( buttonsKeys[i] + "," );
+            }
+        }
+        return ret;
+    }
 
 }

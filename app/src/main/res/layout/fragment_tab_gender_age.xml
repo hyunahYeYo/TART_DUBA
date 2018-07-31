@@ -75,7 +75,7 @@
                 android:layout_height="20dp"
                 android:text="ADULT"
                 android:textAlignment="center"
-                android:textColor="#71ff9d"
+                android:textColor="#55c176"
                 android:textSize="17sp"
                 android:textStyle="bold" />
 
