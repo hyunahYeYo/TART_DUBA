@@ -2,14 +2,17 @@ package sjsu.tart.duba;
 
 import android.Manifest;
 import android.app.DialogFragment;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -98,7 +101,7 @@ public class FragmentMap extends Fragment
     private MapView mapView = null;
     private GoogleApiClient googleApiClient = null;
     private Marker currentMarker = null;
-    private FloatingActionButton gpsfab;
+    private FloatingActionButton gpsfab,arfab;
     private final static int MAXENTRIES = 5;
     private String[] LikelyPlaceNames = null;
     private String[] LikelyAddresses = null;
@@ -159,7 +162,7 @@ public class FragmentMap extends Fragment
 
 
         mapView = (MapView)layout.findViewById(R.id.map);
-
+        arfab=layout.findViewById(R.id.arFab);
         gpsfab=(FloatingActionButton)layout.findViewById(R.id.gpsFab);
         mapView.getMapAsync(this);
         Log.e("sync","sync");
@@ -293,6 +296,27 @@ public class FragmentMap extends Fragment
                 }
             }
         });
+
+        arfab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i=new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                try{
+                    PackageManager pm=getActivity().getPackageManager();
+                    final ResolveInfo mInfo=pm.resolveActivity(i,0);
+                    Intent intent = new Intent();
+                    intent.setComponent(new ComponentName(mInfo.activityInfo.packageName, mInfo.activityInfo.name));
+                    intent.setAction(Intent.ACTION_MAIN);
+                    intent.addCategory(Intent.CATEGORY_LAUNCHER);
+
+                    startActivity(intent);
+
+                }catch(Exception e){
+                    Log.i("TAG","uNABALE"+e);}
+
+            }
+        });
+
 
     }
     @SuppressWarnings("MissingPermission")
