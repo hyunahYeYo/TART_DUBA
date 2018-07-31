@@ -1,5 +1,7 @@
 package sjsu.tart.duba;
 
+import android.util.Log;
+
 /**
  * Created by RosieHyunahPark on 2018-07-31.
  */
@@ -14,6 +16,7 @@ public  class RouteList {
 
      //   Log.e("size",""+size);
         if(size==0) { //List is empty
+            Log.e("d","d");
             //This code can be used to input new Route into head.
             newRoute.setNext(HeadRoute);
             HeadRoute = newRoute;
