@@ -7,9 +7,9 @@ import android.util.Log;
  */
 
 public  class RouteList {
-    private static Route HeadRoute;
-    private static Route TailRoute;
-    private static int size = 0;
+    public static Route HeadRoute;
+    public static Route TailRoute;
+    public static int size = 0;
 
     public static void addList(String location) {
         Route newRoute = new Route(location);
@@ -28,6 +28,23 @@ public  class RouteList {
             TailRoute.setNext(newRoute);
             TailRoute = newRoute;
             size++;
+        }
+    }
+    public static void deleteItem(int id) {
+        Route cur = HeadRoute;
+        Route prev = HeadRoute;
+        for(int i=0;i<id+1;i++) {
+            prev = cur;
+            cur = cur.getNext();
+        }
+        prev.setNext(cur.getNext());
+    }
+    public static void printList() {
+        Route temp = HeadRoute;
+
+        while(temp!=TailRoute) {
+            Log.d("RouteTest", "print : "+temp.getLocation());
+            temp = temp.getNext();
         }
     }
 }

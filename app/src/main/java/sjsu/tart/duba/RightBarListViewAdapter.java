@@ -72,4 +72,10 @@ public class RightBarListViewAdapter extends BaseAdapter {
 
         listViewItemList.add(item);
     }
+    public void deleteItem(long ind) {
+        listViewItemList.remove(ind);
+    }
+    public void clearAllItems() {
+        listViewItemList.clear();
+    }
 }

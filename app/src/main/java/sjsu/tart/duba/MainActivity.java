@@ -15,18 +15,14 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SlidingDrawer;
 import android.widget.TextView;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
@@ -49,12 +45,20 @@ public class MainActivity extends AppCompatActivity
     private ListView rightSlideListView;
     private Button rightSlideEditBtn;
     private RightBarListViewAdapter rightBarAdapter;
-
+    private ImageButton upBtn;
+    private ImageButton downBtn;
+    private ImageButton delBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        RouteList.addList("a");
+        RouteList.addList("b");
+        RouteList.addList("c");
+        RouteList.addList("d");
+        RouteList.addList("e");
 
         //floatingButton으로 drawer 열기
         fabDrawer=(ImageButton)findViewById(R.id.fabHam);
@@ -64,6 +68,10 @@ public class MainActivity extends AppCompatActivity
         bottomDrawerButton = (Button) findViewById(R.id.bottomDrawer);
         slidingDrawer = (SlidingDrawer) findViewById(R.id.SlidingDrawer);
 
+        upBtn = (ImageButton)findViewById(R.id.upBtn);
+        downBtn = (ImageButton)findViewById(R.id.downBtn);
+        delBtn = (ImageButton)findViewById(R.id.delBtn);
+
         rightSlideBtn = (ImageButton)findViewById(R.id.rightSlideBtn);
         rightNavigationView=(LinearLayout)findViewById(R.id.rightDrawer);
         rightSlideListView = (ListView)findViewById(R.id.rightBarList);
@@ -72,19 +80,6 @@ public class MainActivity extends AppCompatActivity
         rightBarAdapter = new RightBarListViewAdapter();
         rightSlideListView.setAdapter(rightBarAdapter);
 
-        rightBarAdapter.addItem("a");
-        rightBarAdapter.addItem("a");
-        rightBarAdapter.addItem("a");
-        rightBarAdapter.addItem("a");
-        rightBarAdapter.addItem("a");
-        rightBarAdapter.addItem("a");
-
-        rightSlideEditBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
 
         fabDrawer.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -155,20 +150,103 @@ public class MainActivity extends AppCompatActivity
 
             }
         });
+
+        /*******************************************************/
+        Route mover = RouteList.HeadRoute;
+
+        while(mover!=RouteList.TailRoute) {
+            rightBarAdapter.addItem(mover.getLocation());
+            mover = mover.getNext();
+        }
+        rightBarAdapter.addItem(mover.getLocation());
+        /*******************************************************/
+
         rightSlideBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "Right Slide Button Clicked");
-                drawerLayout.openDrawer(rightNavigationView);
 
+                drawerLayout.openDrawer(rightNavigationView);
             }
         });
+
         rightSlideEditBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.d(TAG, "SEARCH BUTTON CLICKED");
 
+                upBtn.setVisibility(View.VISIBLE);
+                downBtn.setVisibility(View.VISIBLE);
+                delBtn.setVisibility(View.VISIBLE);
+
+                delBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Log.d("DELETE", "DELETE CLICKED");
+                        int count, checked ;
+                        count = rightBarAdapter.getCount() ;
+
+                        if (count > 0) {
+                            // 현재 선택된 아이템의 position 획득.
+                            checked = rightSlideListView.getCheckedItemPosition();
+                            Log.d("DELETE", "DELETE : " + count + "/" + checked);
+                            if (checked > -1 && checked < count) {
+                                RouteList.deleteItem(checked);
+                                Log.d("DELETE","");
+
+                                // 아이템 삭제
+                                rightBarAdapter.deleteItem(checked);
+
+                                rightBarAdapter.clearAllItems();
+
+                                Route mover = RouteList.HeadRoute;
+
+                                while(mover!=RouteList.TailRoute) {
+                                    rightBarAdapter.addItem(mover.getLocation());
+                                    mover = mover.getNext();
+                                }
+
+                                rightBarAdapter.addItem(mover.getLocation());
+
+                                // listview 선택 초기화.
+                                rightSlideListView.clearChoices();
+
+                                // listview 갱신.
+                                rightBarAdapter.notifyDataSetChanged();
+                            }
+                        }
+                    }
+                });
+
+                rightSlideListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        Log.d("ListVIew", "ITEM # " + id);
+
+
+                        upBtn.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+
+                            }
+                        });
+                        downBtn.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+
+                            }
+                        });
+                    }
+                });
+
+
+                /*
+                rightBarAdapter.addItem("b");
+
+                rightBarAdapter.notifyDataSetChanged();*/
             }
         });
+
     }
     @Override
     public void onBackPressed() {
