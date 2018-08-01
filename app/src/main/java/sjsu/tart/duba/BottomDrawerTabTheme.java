@@ -25,6 +25,7 @@ public class BottomDrawerTabTheme extends Fragment {
     public static Boolean[] buttonsValues = {false, false, false, false};
 
     private Button[] buttons = new Button[4];
+    private Button suggest1, suggest2;
     private int[] buttonsId = {R.id.themeButton0, R.id.themeButton1, R.id.themeButton2, R.id.themeButton3};
     private static int buttonsNum = 4;
 
@@ -52,6 +53,8 @@ public class BottomDrawerTabTheme extends Fragment {
                 buttons[i].setText("V");
             }
         }
+        suggest1 = (Button) view.findViewById(R.id.suggestOtherPlaceButton);
+        suggest2 = (Button) view.findViewById(R.id.suggestPathButton);
     }
 
     private void setOnClickListeners(){
@@ -73,7 +76,23 @@ public class BottomDrawerTabTheme extends Fragment {
                             }
                         }
                     }
+                    MainActivity.recommendedStartMarkerIdx = 0;
+                    LoadingActivity.mDbOpenHelper.open();
+                    LoadingActivity.mDbOpenHelper.showDatabaseByLog("markerid");
+                    String[] tags = getSelectedTotalOptions();
+                    MarkerData[] markers = LoadingActivity.mDbOpenHelper.getMarkerData(tags);
+                    addMarkerstoMap(markers);
+                    LoadingActivity.mDbOpenHelper.close();
+                }
+            });
 
+            suggest1.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View view) {
+                    MainActivity.recommendedStartMarkerIdx += MainActivity.RECOMMENDED_MARKER_NUM;
+                    if(MainActivity.recommendedStartMarkerIdx > 25){
+                        MainActivity.recommendedStartMarkerIdx = 0;
+                    }
                     LoadingActivity.mDbOpenHelper.open();
                     LoadingActivity.mDbOpenHelper.showDatabaseByLog("markerid");
                     String[] tags = getSelectedTotalOptions();
@@ -112,10 +131,11 @@ public class BottomDrawerTabTheme extends Fragment {
         MainActivity.removeRecommendedMarker();
 
         for(int i = 0; i < 5; i++){
-            LatLng currentLocation = new LatLng( Double.parseDouble(markers[i].lan), Double.parseDouble(markers[i].lon));
+            int index = i + MainActivity.recommendedStartMarkerIdx;
+            LatLng currentLocation = new LatLng( Double.parseDouble(markers[index].lan), Double.parseDouble(markers[index].lon));
             MarkerOptions markerOptions = new MarkerOptions();
             markerOptions.position(currentLocation);
-            markerOptions.title(markers[i].title);
+            markerOptions.title(markers[index].title);
 
             Marker currentMarker = googleMap.addMarker(markerOptions);
             googleMap.getUiSettings().setMapToolbarEnabled(false);

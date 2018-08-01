@@ -35,9 +35,10 @@ public class MainActivity extends AppCompatActivity
     public static final String TAG = "DUBA_Project";
     public static final float TRANSPARENT = 0.3F;
     public static final float NOT_TRANSPARENT = 1.0F;
-    private static final int RECOMMENDED_MARKER_NUM = 5;
+    public static final int RECOMMENDED_MARKER_NUM = 5;
 
-    public static Marker[] recommendedMarker = new Marker[5];
+    public static Marker[] recommendedMarker = new Marker[RECOMMENDED_MARKER_NUM];
+    public static int recommendedStartMarkerIdx = 0;
 
     private ImageButton fabDrawer;
     private NavigationView navigationView;
