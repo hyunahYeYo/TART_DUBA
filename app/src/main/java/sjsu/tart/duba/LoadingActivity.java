@@ -26,7 +26,7 @@ public class LoadingActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.d("conflict", "HEllo1");
+        Log.d("conflict", "HEllo2");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loading);
 
