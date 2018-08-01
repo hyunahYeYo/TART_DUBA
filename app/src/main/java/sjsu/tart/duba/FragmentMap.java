@@ -8,6 +8,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
@@ -49,6 +51,9 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.io.IOException;
+import java.util.List;
 
 /**
  * Fragment Life Style
@@ -467,10 +472,8 @@ public class FragmentMap extends Fragment
         args.putString("title",markerTitle);
 
         // marker의 주소 받아오기
-        LoadingActivity.mDbOpenHelper.open();
-        String[] ret = LoadingActivity.mDbOpenHelper.selectColumn("title", markerTitle);
-        String markerAddr = ret[1].split("\t")[5];
-        LoadingActivity.mDbOpenHelper.close();
+        LatLng latlng = marker.getPosition();
+        String markerAddr = findAddress(latlng, getContext());
         args.putString("addr",markerAddr);
 
         DialogFragment dial=new MarkerDial();
@@ -481,6 +484,21 @@ public class FragmentMap extends Fragment
 
     public static GoogleMap getGoogleMap(){ return googleMap; }
 
+    /* LatLng를 주소로 변환하는 함수 */
+    private static String findAddress(LatLng latlng, Context context) {
+        Geocoder geocoder = new Geocoder(context);
+        String addr = "";
+        LatLng location = null;
+        try {
+            List<Address> listAddress = geocoder.getFromLocation(latlng.latitude, latlng.longitude, 1);
+            if (listAddress.size() > 0) { // 주소값이 존재 하면
+                addr = listAddress.get(0).toString();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return addr;
+    }
 }
 
 
