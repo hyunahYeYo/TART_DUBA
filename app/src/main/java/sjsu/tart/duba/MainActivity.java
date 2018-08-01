@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity
     private LinearLayout rightNavigationView;
     private ListView rightSlideListView;
     private Button rightSlideEditBtn;
+    private RightBarListViewAdapter rightBarAdapter;
 
 
     @Override
@@ -62,24 +63,22 @@ public class MainActivity extends AppCompatActivity
         rightSlideListView = (ListView)findViewById(R.id.rightBarList);
         rightSlideEditBtn = (Button)findViewById(R.id.editBtn);
 
-        ArrayList<String> list = new ArrayList<>();
-        list.add("a");
-        list.add("b");
-        list.add("c");
-        list.add("d");
-        list.add("e");
-        list.add("a");
-        list.add("b");
-        list.add("c");
-        list.add("d");
-        list.add("e");
-        list.add("a");
-        list.add("b");
-        list.add("c");
-        list.add("d");
-        list.add("e");
-        ArrayAdapter<String> ad = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, list);
-        rightSlideListView.setAdapter(ad);
+        rightBarAdapter = new RightBarListViewAdapter();
+        rightSlideListView.setAdapter(rightBarAdapter);
+
+        rightBarAdapter.addItem("a");
+        rightBarAdapter.addItem("a");
+        rightBarAdapter.addItem("a");
+        rightBarAdapter.addItem("a");
+        rightBarAdapter.addItem("a");
+        rightBarAdapter.addItem("a");
+
+        rightSlideEditBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
 
         fabDrawer.setOnClickListener(new View.OnClickListener() {
             @Override
