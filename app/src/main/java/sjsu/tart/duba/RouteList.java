@@ -1,16 +1,21 @@
 package sjsu.tart.duba;
 
+import android.util.Log;
+
 /**
  * Created by RosieHyunahPark on 2018-07-31.
  */
 
-public class RouteList {
-    private Route HeadRoute;
-    private Route TailRoute;
-    private int size = 0;
+public  class RouteList {
+    private static Route HeadRoute;
+    private static Route TailRoute;
+    private static int size = 0;
 
-    public void addList(Route newRoute) {
+    public static void addList(String location) {
+        Route newRoute = new Route(location);
+
         if(size==0) { //List is empty
+            Log.e("d","d");
             //This code can be used to input new Route into head.
             newRoute.setNext(HeadRoute);
             HeadRoute = newRoute;

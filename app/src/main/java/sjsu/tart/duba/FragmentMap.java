@@ -97,7 +97,7 @@ public class FragmentMap extends Fragment
     private static final int FASTEST_UPDATE_INTERVAL_MS = 15000;
 
     private int hasFineLocationPermission;
-    private GoogleMap googleMap = null;
+    private static GoogleMap googleMap = null;
     private MapView mapView = null;
     private GoogleApiClient googleApiClient = null;
     private Marker currentMarker = null;
@@ -119,10 +119,11 @@ public class FragmentMap extends Fragment
         if ( location != null) {
             //현재위치의 위도 경도 가져옴
             LatLng currentLocation = new LatLng( location.getLatitude(), location.getLongitude());
-
+            Toast.makeText(getContext(),markerTitle,Toast.LENGTH_LONG).show();
             MarkerOptions markerOptions = new MarkerOptions();
             markerOptions.position(currentLocation);
-            /*markerOptions.title(markerTitle);
+            markerOptions.title(markerTitle);
+            /*
             markerOptions.snippet(markerSnippet);
             markerOptions.draggable(true);
             markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
@@ -138,11 +139,12 @@ public class FragmentMap extends Fragment
 
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(DEFAULT_LOCATION);
-       /* markerOptions.title(markerTitle);
+        markerOptions.title(markerTitle);
+       /*
         markerOptions.snippet(markerSnippet);
         markerOptions.draggable(true);
         markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
-        */
+        */Toast.makeText(getContext(),markerTitle,Toast.LENGTH_LONG).show();
         this.googleMap.setOnMarkerClickListener(this);
        googleMap.getUiSettings().setMapToolbarEnabled(false);
         currentMarker = this.googleMap.addMarker(markerOptions);
@@ -159,7 +161,6 @@ public class FragmentMap extends Fragment
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.content_main, container, false);
-
 
         mapView = (MapView)layout.findViewById(R.id.map);
         arfab=layout.findViewById(R.id.arFab);
@@ -460,13 +461,19 @@ public class FragmentMap extends Fragment
 
     //마커 클릭 리스너
     public boolean onMarkerClick(Marker marker){
-        Toast.makeText(getContext(),"asdf",Toast.LENGTH_LONG).show();
+        Bundle args=new Bundle();
+      //  Toast.makeText(getContext(),marker.getTitle(),Toast.LENGTH_LONG).show();
+        String markerTitle=marker.getTitle();
 
+        args.putString("title",markerTitle);
          DialogFragment dial=new MarkerDial();
+        dial.setArguments(args);
         dial.show(getActivity().getFragmentManager(),"As");
         return true;
     }
 
-    }
+    public static GoogleMap getGoogleMap(){ return googleMap; }
+
+}
 
 

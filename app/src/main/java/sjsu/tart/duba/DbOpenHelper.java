@@ -9,6 +9,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.util.Arrays;
+
 /**
  * Created by lion7 on 2018-07-28.
  */
@@ -120,6 +122,31 @@ public class DbOpenHelper {
         return ret;
     }
 
+    public MarkerData[] getMarkerData(String[] userSelectedTag){
+        MarkerData[] markers = new MarkerData[100];
+        Cursor iCursor = this.selectColumns();
+        int numOfResult = 0;
+
+        while(iCursor.moveToNext()){
+            String[] item = new String[6];
+            for(int i = 1; i <= colsNum; i++){
+                item[i-1] = iCursor.getString(iCursor.getColumnIndex(cols[i-1]));
+            }
+            markers[numOfResult] =
+                    new MarkerData(item[1], item[2], item[3], item[4], item[5]);
+            markers[numOfResult++].reviseTags(userSelectedTag);
+        }
+
+        MarkerData[] ret = Arrays.copyOf(markers, numOfResult);
+        Arrays.sort(ret);
+
+        for(int i = 0; i < numOfResult; i++){
+            ret[i].showInfoByLog("sort");
+        }
+
+        return ret;
+    }
+
     // sort by column
     public Cursor sortColumn(String sort){
         Cursor c = mDB.rawQuery( "SELECT * FROM usertable ORDER BY " + sort + ";", null);
@@ -156,4 +183,5 @@ public class DbOpenHelper {
         }
         return text;
     }
+
 }

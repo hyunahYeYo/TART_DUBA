@@ -22,8 +22,11 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SlidingDrawer;
 import android.widget.TextView;
-
-import java.util.ArrayList;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
@@ -31,6 +34,9 @@ public class MainActivity extends AppCompatActivity
     public static final String TAG = "DUBA_Project";
     public static final float TRANSPARENT = 0.3F;
     public static final float NOT_TRANSPARENT = 1.0F;
+    private static final int RECOMMENDED_MARKER_NUM = 5;
+
+    public static Marker[] recommendedMarker = new Marker[5];
 
     private ImageButton fabDrawer;
     private NavigationView navigationView;
@@ -113,10 +119,9 @@ public class MainActivity extends AppCompatActivity
         slidingDrawer.setOnDrawerCloseListener(new SlidingDrawer.OnDrawerCloseListener() {
             @Override
             public void onDrawerClosed() {
-                LoadingActivity.mDbOpenHelper.open();
-                LoadingActivity.mDbOpenHelper.showDatabaseByLog("markerid");
-                LoadingActivity.mDbOpenHelper.close();
+
             }
+
         });
 
         // bottom drawer 생성 및 세팅
@@ -216,5 +221,13 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public static void removeRecommendedMarker(){
+        for(int i = 0; i < RECOMMENDED_MARKER_NUM; i++){
+            if(recommendedMarker[i] != null){
+                recommendedMarker[i].remove();
+            }
+        }
     }
 }

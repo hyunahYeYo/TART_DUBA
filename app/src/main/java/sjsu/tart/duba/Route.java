@@ -12,11 +12,8 @@ public class Route {
 
     private Route pNext;
 
-    Route(String location, String address, String longitude, String latitude) {
+    Route(String location) {
         this.location = location;
-        this.address = address;
-        this.longitude = longitude;
-        this.latitude = latitude;
     }
     public void setLocation(String location) {
         this.location = location;
@@ -49,4 +46,5 @@ public class Route {
     public Route getNext() {
         return this.pNext;
     }
+
 }
