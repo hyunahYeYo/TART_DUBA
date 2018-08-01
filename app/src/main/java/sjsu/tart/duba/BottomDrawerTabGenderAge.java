@@ -99,6 +99,22 @@ public class BottomDrawerTabGenderAge extends Fragment {
                 LoadingActivity.mDbOpenHelper.close();
             }
         });
+
+        suggest2.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                String[] titles = RecommendDataReader.getRecommendPathTitle();
+                String[] address = RecommendDataReader.getRecommendPathAddress();
+
+                RouteList.setSizeZero();
+                for(int i = 0; i < titles.length; i++){
+                    RouteList.addList(titles[i], address[i], getContext());
+                }
+                RouteList.printList();
+                RouteList.reviseSelectedMarkerToMap(getContext());
+            }
+        });
+
     }
 
     public static String getSelectedOptions(){
@@ -137,7 +153,7 @@ public class BottomDrawerTabGenderAge extends Fragment {
             Marker currentMarker = googleMap.addMarker(markerOptions);
             googleMap.getUiSettings().setMapToolbarEnabled(false);
             googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 12.0f));
-            MainActivity.recommendedMarker[index] = currentMarker;
+            MainActivity.recommendedMarker[i] = currentMarker;
         }
     }
 }

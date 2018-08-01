@@ -23,6 +23,7 @@ public class LoadingActivity extends Activity {
 
     private TextView loadingText;
     public static DbOpenHelper mDbOpenHelper;
+    public static RecommendDataReader mRecommendDataReader;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +42,9 @@ public class LoadingActivity extends Activity {
         mDbOpenHelper.open();
         mDbOpenHelper.create();
         mDbOpenHelper.close();
+
+        mRecommendDataReader = new RecommendDataReader("recommend_sanfrancisco.tsv", this);
+        mRecommendDataReader.run();
 
         handler.postDelayed(new Runnable() {
             @Override

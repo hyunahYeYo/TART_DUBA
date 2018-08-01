@@ -1,5 +1,7 @@
 package sjsu.tart.duba;
 
+import android.location.Address;
+import android.location.Geocoder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -15,6 +17,9 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.io.IOException;
+import java.util.List;
 
 /**
  * Created by lion7 on 2018-07-24.
@@ -101,6 +106,22 @@ public class BottomDrawerTabTheme extends Fragment {
                     LoadingActivity.mDbOpenHelper.close();
                 }
             });
+
+            suggest2.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View view) {
+                    String[] titles = RecommendDataReader.getRecommendPathTitle();
+                    String[] address = RecommendDataReader.getRecommendPathAddress();
+
+                    RouteList.setSizeZero();
+                    for(int i = 0; i < titles.length; i++){
+                        RouteList.addList(titles[i], address[i], getContext());
+                    }
+                    RouteList.printList();
+                    RouteList.reviseSelectedMarkerToMap(getContext());
+                }
+            });
+
         }
     }
 
@@ -143,4 +164,5 @@ public class BottomDrawerTabTheme extends Fragment {
             MainActivity.recommendedMarker[i] = currentMarker;
         }
     }
+
 }

@@ -463,10 +463,17 @@ public class FragmentMap extends Fragment
     public boolean onMarkerClick(Marker marker){
         Bundle args=new Bundle();
       //  Toast.makeText(getContext(),marker.getTitle(),Toast.LENGTH_LONG).show();
-        String markerTitle=marker.getTitle();
-
+        String markerTitle = marker.getTitle();
         args.putString("title",markerTitle);
-         DialogFragment dial=new MarkerDial();
+
+        // marker의 주소 받아오기
+        LoadingActivity.mDbOpenHelper.open();
+        String[] ret = LoadingActivity.mDbOpenHelper.selectColumn("title", markerTitle);
+        String markerAddr = ret[1].split("\t")[5];
+        LoadingActivity.mDbOpenHelper.close();
+        args.putString("addr",markerAddr);
+
+        DialogFragment dial=new MarkerDial();
         dial.setArguments(args);
         dial.show(getActivity().getFragmentManager(),"As");
         return true;

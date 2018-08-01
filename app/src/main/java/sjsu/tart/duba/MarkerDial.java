@@ -16,17 +16,16 @@ import static sjsu.tart.duba.RouteList.addList;
 public class MarkerDial extends DialogFragment {
 
     private Button addBtn;
-    private String markerTitle;
+    private String markerTitle, markerAddr;
     public MarkerDial(){}
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
-
-
 
         View view=inflater.inflate(R.layout.marker_dial,null);
 
         Bundle mArgs=getArguments();
         markerTitle=mArgs.getString("title");
+        markerAddr=mArgs.getString("addr");
 
         addBtn=(Button)view.findViewById(R.id.addBtn);
 
@@ -34,7 +33,7 @@ public class MarkerDial extends DialogFragment {
             @Override
             public void onClick(View view) {
               //  Log.e("marker add click","click");
-               addList(markerTitle);
+               RouteList.addList(markerTitle, markerAddr, getContext());
              //   Toast.makeText(getContext(),markerTitle,Toast.LENGTH_LONG).show();
             }
         });

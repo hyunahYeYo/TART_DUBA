@@ -1,6 +1,19 @@
 package sjsu.tart.duba;
 
+import android.content.Context;
+import android.location.Address;
+import android.location.Geocoder;
 import android.util.Log;
+
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.io.IOException;
+import java.util.List;
 
 /**
  * Created by RosieHyunahPark on 2018-07-31.
@@ -9,10 +22,13 @@ import android.util.Log;
 public  class RouteList {
     private static Route HeadRoute;
     private static Route TailRoute;
-    private static int size = 0;
 
-    public static void addList(String location) {
-        Route newRoute = new Route(location);
+    private static int size = 0;
+    private static final int MAXSIZE = 10;
+    private static Marker[] selectedMarkers = new Marker[MAXSIZE];
+
+    public static void addList(String location, String address, Context context) {
+        Route newRoute = new Route(location, address);
 
      //   Log.e("size",""+size);
         if(size==0) { //List is empty
@@ -30,5 +46,79 @@ public  class RouteList {
             TailRoute = newRoute;
             size++;
         }
+        reviseSelectedMarkerToMap(context);
     }
+
+    /* List 항목 보기 */
+    public static void printList() {
+        Route temp = HeadRoute;
+
+        while(true) {
+            if(temp == null) break;
+            Log.d("RouteTest", "print : "+temp.getLocation());
+            temp = temp.getNext();
+        }
+
+    }
+
+    /* List 초기화 */
+    public static void setSizeZero(){
+        size = 0;
+        HeadRoute = null;
+        TailRoute = null;
+    }
+
+    /* Route List에 해당하는 마커를 지도에 띄우기 */
+    public static void reviseSelectedMarkerToMap(Context context){
+        GoogleMap googleMap = FragmentMap.getGoogleMap();
+        removeSelectedMarker();
+
+        Route temp = HeadRoute;
+        int i = 0;
+        while(true) {
+            if(temp == null) break;
+            String address = temp.getAddress();
+            LatLng currentLocation = findGeoPoint(address, context);
+            MarkerOptions markerOptions = new MarkerOptions();
+            markerOptions.position(currentLocation);
+            markerOptions.title(temp.getLocation());
+            markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+
+            Marker currentMarker = googleMap.addMarker(markerOptions);
+            googleMap.getUiSettings().setMapToolbarEnabled(false);
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 12.0f));
+            selectedMarkers[i++] = currentMarker;
+            temp = temp.getNext();
+        }
+    }
+
+    /* selected marker 없애기 */
+    private static void removeSelectedMarker(){
+        for(int i = 0; i < MAXSIZE; i++){
+            if(selectedMarkers[i] != null){
+                selectedMarkers[i].remove();
+            }
+        }
+    }
+
+    /* 주소를 LatLng로 변환하는 함수 */
+    private static LatLng findGeoPoint(String address, Context context) {
+        Geocoder geocoder = new Geocoder(context);
+        Address addr;
+        LatLng location = null;
+        try {
+            List<Address> listAddress = geocoder.getFromLocationName(address, 1);
+            if (listAddress.size() > 0) { // 주소값이 존재 하면
+                addr = listAddress.get(0); // Address형태로
+                double lat = (addr.getLatitude());
+                double lng = (addr.getLongitude());
+                location = new LatLng(lat, lng);
+                Log.d("LanLng", "주소로부터 취득한 위도 : " + lat + ", 경도 : " + lng);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return location;
+    }
+
 }
