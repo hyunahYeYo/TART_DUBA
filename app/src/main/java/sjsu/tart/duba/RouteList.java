@@ -46,6 +46,7 @@ public  class RouteList {
             TailRoute = newRoute;
             size++;
         }
+
         reviseSelectedMarkerToMap(context);
     }
 

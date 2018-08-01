@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.google.android.gms.maps.model.Marker;
+
 import static sjsu.tart.duba.RouteList.addList;
 
 /**
@@ -17,7 +19,11 @@ public class MarkerDial extends DialogFragment {
 
     private Button addBtn;
     private String markerTitle, markerAddr;
-    public MarkerDial(){}
+    private Marker marker;
+
+    public MarkerDial(Marker marker){
+        this.marker = marker;
+    }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
 
@@ -34,6 +40,7 @@ public class MarkerDial extends DialogFragment {
             public void onClick(View view) {
               //  Log.e("marker add click","click");
                RouteList.addList(markerTitle, markerAddr, getContext());
+                marker.remove();
              //   Toast.makeText(getContext(),markerTitle,Toast.LENGTH_LONG).show();
             }
         });

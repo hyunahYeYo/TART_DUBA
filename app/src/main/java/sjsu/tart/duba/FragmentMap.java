@@ -476,7 +476,7 @@ public class FragmentMap extends Fragment
         String markerAddr = findAddress(latlng, getContext());
         args.putString("addr",markerAddr);
 
-        DialogFragment dial=new MarkerDial();
+        DialogFragment dial=new MarkerDial(marker);
         dial.setArguments(args);
         dial.show(getActivity().getFragmentManager(),"As");
         return true;
