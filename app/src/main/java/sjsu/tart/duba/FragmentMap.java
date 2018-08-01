@@ -119,7 +119,7 @@ public class FragmentMap extends Fragment
         if ( location != null) {
             //현재위치의 위도 경도 가져옴
             LatLng currentLocation = new LatLng( location.getLatitude(), location.getLongitude());
-Toast.makeText(getContext(),markerTitle,Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(),markerTitle,Toast.LENGTH_LONG).show();
             MarkerOptions markerOptions = new MarkerOptions();
             markerOptions.position(currentLocation);
             markerOptions.title(markerTitle);

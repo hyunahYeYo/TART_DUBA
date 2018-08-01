@@ -120,7 +120,7 @@ public class MainActivity extends AppCompatActivity
                     markerOptions.position(currentMarker);
                     googleMap.addMarker(markerOptions);
                     googleMap.getUiSettings().setMapToolbarEnabled(false);
-                    googleMap.moveCamera(CameraUpdateFactory.newLatLng(currentMarker));
+                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentMarker, 12.0f));
                 }
             }
 
