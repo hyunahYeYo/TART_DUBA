@@ -26,6 +26,7 @@ import android.widget.TextView;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MainActivity extends AppCompatActivity
@@ -34,6 +35,9 @@ public class MainActivity extends AppCompatActivity
     public static final String TAG = "DUBA_Project";
     public static final float TRANSPARENT = 0.3F;
     public static final float NOT_TRANSPARENT = 1.0F;
+    private static final int RECOMMENDED_MARKER_NUM = 5;
+
+    public static Marker[] recommendedMarker = new Marker[5];
 
     private ImageButton fabDrawer;
     private NavigationView navigationView;
@@ -93,35 +97,7 @@ public class MainActivity extends AppCompatActivity
         slidingDrawer.setOnDrawerCloseListener(new SlidingDrawer.OnDrawerCloseListener() {
             @Override
             public void onDrawerClosed() {
-                LoadingActivity.mDbOpenHelper.open();
-                LoadingActivity.mDbOpenHelper.showDatabaseByLog("markerid");
-                String[] tags = getSelectedOptions();
-                MarkerData[] markers = LoadingActivity.mDbOpenHelper.getMarkerData(tags);
-                addMarkerstoMap(markers);
-                LoadingActivity.mDbOpenHelper.close();
-            }
 
-            public String[] getSelectedOptions(){
-                String options = "";
-                options += BottomDrawerTabTheme.getSelectedOptions();
-                options += BottomDrawerTabNationality.getSelectedOptions();
-                options += BottomDrawerTabGenderAge.getSelectedOptions();
-                Log.d("getSelectedOptions()", options);
-
-                String[] ret = options.split(",");
-                return ret;
-            }
-
-            public void addMarkerstoMap(MarkerData[] markers){
-                GoogleMap googleMap = FragmentMap.getGoogleMap();
-                for(int i = 0; i < 5; i++){
-                    LatLng currentMarker = new LatLng( Double.parseDouble(markers[i].lan), Double.parseDouble(markers[i].lon));
-                    MarkerOptions markerOptions = new MarkerOptions();
-                    markerOptions.position(currentMarker);
-                    googleMap.addMarker(markerOptions);
-                    googleMap.getUiSettings().setMapToolbarEnabled(false);
-                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentMarker, 12.0f));
-                }
             }
 
         });
@@ -216,5 +192,13 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public static void removeRecommendedMarker(){
+        for(int i = 0; i < RECOMMENDED_MARKER_NUM; i++){
+            if(recommendedMarker[i] != null){
+                recommendedMarker[i].remove();
+            }
+        }
     }
 }

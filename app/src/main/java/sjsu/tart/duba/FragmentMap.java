@@ -162,7 +162,6 @@ public class FragmentMap extends Fragment
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View layout = inflater.inflate(R.layout.content_main, container, false);
 
-
         mapView = (MapView)layout.findViewById(R.id.map);
         arfab=layout.findViewById(R.id.arFab);
         gpsfab=(FloatingActionButton)layout.findViewById(R.id.gpsFab);
@@ -464,7 +463,7 @@ public class FragmentMap extends Fragment
     public boolean onMarkerClick(Marker marker){
         Bundle args=new Bundle();
       //  Toast.makeText(getContext(),marker.getTitle(),Toast.LENGTH_LONG).show();
-String markerTitle=marker.getTitle();
+        String markerTitle=marker.getTitle();
 
         args.putString("title",markerTitle);
          DialogFragment dial=new MarkerDial();

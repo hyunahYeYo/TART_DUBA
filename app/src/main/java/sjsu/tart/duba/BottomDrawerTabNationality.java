@@ -3,10 +3,17 @@ package sjsu.tart.duba;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 /**
  * Created by lion7 on 2018-07-24.
@@ -64,6 +71,12 @@ public class BottomDrawerTabNationality extends Fragment {
                             }
                         }
                     }
+                    LoadingActivity.mDbOpenHelper.open();
+                    LoadingActivity.mDbOpenHelper.showDatabaseByLog("markerid");
+                    String[] tags = getSelectedTotalOptions();
+                    MarkerData[] markers = LoadingActivity.mDbOpenHelper.getMarkerData(tags);
+                    addMarkerstoMap(markers);
+                    LoadingActivity.mDbOpenHelper.close();
                 }
             });
         }
@@ -77,6 +90,35 @@ public class BottomDrawerTabNationality extends Fragment {
             }
         }
         return ret;
+    }
+
+    public String[] getSelectedTotalOptions(){
+        String options = "";
+        options += BottomDrawerTabTheme.getSelectedOptions();
+        options += BottomDrawerTabNationality.getSelectedOptions();
+        options += BottomDrawerTabGenderAge.getSelectedOptions();
+        Log.d("getSelectedOptions()", options);
+
+        String[] ret = options.split(",");
+        return ret;
+    }
+
+
+    public void addMarkerstoMap(MarkerData[] markers){
+        GoogleMap googleMap = FragmentMap.getGoogleMap();
+        MainActivity.removeRecommendedMarker();
+
+        for(int i = 0; i < 5; i++){
+            LatLng currentLocation = new LatLng( Double.parseDouble(markers[i].lan), Double.parseDouble(markers[i].lon));
+            MarkerOptions markerOptions = new MarkerOptions();
+            markerOptions.position(currentLocation);
+            markerOptions.title(markers[i].title);
+
+            Marker currentMarker = googleMap.addMarker(markerOptions);
+            googleMap.getUiSettings().setMapToolbarEnabled(false);
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 12.0f));
+            MainActivity.recommendedMarker[i] = currentMarker;
+        }
     }
 
 }
