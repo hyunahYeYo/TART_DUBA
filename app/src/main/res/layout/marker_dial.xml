@@ -32,14 +32,115 @@
                 android:id="@+id/closeBtn">
 
                 </Button>
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_gravity="bottom|left">
+    <TextView
+        android:textStyle="bold"
+        android:text="LandMark"
+        android:textSize="18dp"
+        android:id="@+id/locationTitleview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#e8e8de"
+        android:background="#00ff0000"
+       />
+
+    <TextView
+
+        android:id="@+id/locationThemeview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#00ff0000"
+        android:textColor="#dbdbd9"
+        android:textSize="13dp"
+        android:text="LandMark"/>
+</LinearLayout>
 
             </FrameLayout>
 
-        <TextView
-            android:id="@+id/titleText"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="150dp">
-           </TextView>
+            android:layout_height="150dp"
+            android:orientation="vertical">
+            <LinearLayout
+
+                android:background="@drawable/border_bottom"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal"
+                >
+                <LinearLayout
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                   >
+                    <ToggleButton
+                        android:layout_marginTop="5dp"
+                        android:textOff=""
+                        android:textOn=""
+                        android:background="@drawable/toggle_like"
+                        android:checked="false"
+                        android:layout_gravity="center"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"
+                        android:textSize="13dp"
+                        android:text="Like"
+                        android:gravity="center"/></LinearLayout>
+                <LinearLayout
+
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                   android:orientation="vertical"
+                    android:text="Rating">
+                    <ToggleButton
+
+                        android:layout_marginTop="5dp"
+                        android:textOff=""
+                        android:textOn=""
+                        android:background="@drawable/toggle_rating"
+                        android:checked="false"
+                        android:layout_gravity="center"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"
+                        android:textSize="13dp"
+                        android:text="Rating"
+                        android:gravity="center"/></LinearLayout>
+                <LinearLayout
+
+                    android:layout_width="100dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    >
+                    <ToggleButton
+                        android:textOff=""
+                        android:textOn=""
+                        android:background="@drawable/pencil"
+                        android:layout_marginTop="5dp"
+                        android:layout_gravity="center"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="20dp"
+                        android:textSize="13dp"
+                        android:text="Comment"
+                        android:gravity="center"/></LinearLayout>
+
+            </LinearLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:text="@string/ex"/>
+           </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -52,7 +153,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@drawable/button_01"
-                android:text="추가" />
+                android:text="ADD" />
 
 
         </LinearLayout>

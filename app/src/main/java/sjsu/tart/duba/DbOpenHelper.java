@@ -2,7 +2,6 @@ package sjsu.tart.duba;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
@@ -112,13 +111,16 @@ public class DbOpenHelper {
                 for(int i = 0; i < colsNum; i++){
                     item[i] = iCursor.getString(iCursor.getColumnIndex(cols[i]));
                     ret[numOfResult] += ( item[i] + "\t");
+                    Log.e("item"+i,item[i]);
                 }
                 numOfResult++;
 
             }
         }
+       // ret[0] = Integer.toString(numOfResult);
 
-        ret[0] = Integer.toString(numOfResult);
+        Log.e("ret0",ret[0]);
+        System.out.println(ret[1]);
         return ret;
     }
 
