@@ -50,7 +50,7 @@ public class LoadingActivity extends Activity {
             @Override
             public void run() {
                 SharedPreferences pref = getSharedPreferences("ISFIRSTRUN", Activity.MODE_PRIVATE);
-                boolean first = pref.getBoolean("ISFIRSTRUN", true);
+                boolean first = pref.getBoolean("ISFIRSTRUN", false);
                 if(first){
 
                     loadingText.setText("...Downloading files...");
