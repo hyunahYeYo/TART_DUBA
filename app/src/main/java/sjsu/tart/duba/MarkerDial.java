@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Marker;
 
 import static sjsu.tart.duba.RouteList.addList;
@@ -74,11 +75,10 @@ public class MarkerDial extends DialogFragment {
             @Override
             public void onClick(View view) {
               //  Log.e("marker add click","click");
-                RouteList.addList(markerTitle, markerAddr, getContext());
-
-                RouteList.reviseSelectedMarkerToMap(getContext());
-                marker.remove();
+                marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+                RouteList.addList(markerTitle, markerAddr, marker, getContext());
                 addBtn.setEnabled(false);
+                MainActivity.modifyRightlist();
             }
         });
 

@@ -63,25 +63,13 @@
         android:layout_alignParentRight="true"
         android:src="@drawable/gps" />
 
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/findirBtn"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginBottom="30dp"
-        android:layout_marginRight="@dimen/fab_margin"
-        android:layout_above="@+id/gpsFab"
-        android:layout_alignLeft="@+id/gpsFab"
-        android:src="@drawable/ic_help" />
-
-
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/arFab"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginBottom="30dp"
         android:layout_marginRight="@dimen/fab_margin"
-        android:layout_above="@+id/findirBtn"
+        android:layout_above="@+id/gpsFab"
         android:layout_alignLeft="@+id/gpsFab"
-        android:src="@drawable/ic_menu_camera" />
+        android:src="@drawable/camera" />
 </RelativeLayout>
