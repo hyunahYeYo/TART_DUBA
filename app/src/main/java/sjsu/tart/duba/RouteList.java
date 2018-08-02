@@ -25,22 +25,23 @@ public  class RouteList {
     public static int size = 0;
 
     public static void addList(String location, String address, Marker marker, Context context) {
-        Route newRoute = new Route(location, address, marker);
+        if (!checkList(location)) {
+            Route newRoute = new Route(location, address, marker);
 
-        if(size==0) { //List is empty
-            Log.e("d","d");
-            //This code can be used to input new Route into head.
-            newRoute.setNext(HeadRoute);
-            HeadRoute = newRoute;
-            size++;
-            if (HeadRoute.getNext() == null) {
-                TailRoute = HeadRoute;
+            if (size == 0) { //List is empty
+                Log.e("d", "d");
+                //This code can be used to input new Route into head.
+                newRoute.setNext(HeadRoute);
+                HeadRoute = newRoute;
+                size++;
+                if (HeadRoute.getNext() == null) {
+                    TailRoute = HeadRoute;
+                }
+            } else {
+                TailRoute.setNext(newRoute);
+                TailRoute = newRoute;
+                size++;
             }
-        }
-        else {
-            TailRoute.setNext(newRoute);
-            TailRoute = newRoute;
-            size++;
         }
     }
 
@@ -143,6 +144,21 @@ public  class RouteList {
             prev.setNext(cur.getNext());
         }
         size--;
+    }
+
+    public static void deleteAll(){
+        Route temp = HeadRoute;
+
+        while(true) {
+            if(temp == null) break;
+            temp.getMarker().remove();
+            Log.d("DELETE", "print : "+temp.getLocation());
+            temp = temp.getNext();
+        }
+
+        size = 0;
+        HeadRoute = null;
+        TailRoute = null;
     }
 
     public static void mixList() {

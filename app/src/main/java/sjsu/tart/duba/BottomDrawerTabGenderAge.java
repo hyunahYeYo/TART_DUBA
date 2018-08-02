@@ -40,6 +40,7 @@ public class BottomDrawerTabGenderAge extends Fragment {
     }
 
 
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,6 +82,7 @@ public class BottomDrawerTabGenderAge extends Fragment {
                             }
                         }
                     }
+
                     MainActivity.recommendedStartMarkerIdx = 0;
                     LoadingActivity.mDbOpenHelper.open();
                     LoadingActivity.mDbOpenHelper.showDatabaseByLog("markerid");
@@ -113,20 +115,35 @@ public class BottomDrawerTabGenderAge extends Fragment {
             suggest2.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View view) {
-                    MainActivity.recommendedStartMarkerIdx = 0;
-                    LoadingActivity.mDbOpenHelper.open();
-                    LoadingActivity.mDbOpenHelper.showDatabaseByLog("markerid");
-                    String[] tags = getSelectedTotalOptions();
-                    MarkerData[] markersData = LoadingActivity.mDbOpenHelper.getMarkerData(tags);
-                    Marker[] markers = addMarkerstoMap(markersData, BitmapDescriptorFactory.HUE_BLUE, 2);
-                    LoadingActivity.mDbOpenHelper.close();
+                    String[] titles = RecommendDataReader.getRecommendPathTitle();
+                    String[] address = RecommendDataReader.getPathAddrField();
+                    String[] lan = RecommendDataReader.getPathLanField();
+                    String[] lon = RecommendDataReader.getPathLonField();
+                    GoogleMap googleMap = FragmentMap.getGoogleMap();
+                    Marker marker;
 
-                    for(int i = 0; i < 5; i++){
-                        RouteList.addList(markersData[i].title, markersData[i].color, markers[i], getContext());
+                    RouteList.deleteAll();
+                    for(int i = 0; i < titles.length; i++){
+                        if(!RouteList.checkList(titles[i])) {
+                            LatLng currentLocation = new LatLng(Double.parseDouble(lan[i]), Double.parseDouble(lon[i]));
+                            MarkerOptions markerOptions = new MarkerOptions();
+                            markerOptions.position(currentLocation);
+                            markerOptions.title(titles[i]);
+                            markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+
+                            marker = googleMap.addMarker(markerOptions);
+                            googleMap.getUiSettings().setMapToolbarEnabled(false);
+                            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 12.0f));
+                        }
+                        else{
+                            continue;
+                        }
+                        RouteList.addList(titles[i], address[i], marker, getContext());
                     }
 
                     RouteList.printList();
                     MainActivity.modifyRightlist();
+
                 }
             });
 
