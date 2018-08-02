@@ -15,9 +15,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.SlidingDrawer;
 import android.widget.TextView;
 
@@ -41,8 +43,14 @@ public class MainActivity extends AppCompatActivity
     private static SlidingDrawer slidingDrawer;
 
     private ImageButton rightSlideBtn; //right slide button
-    //private NavigationView rightNavigationView;
     private LinearLayout rightNavigationView;
+    private ListView rightSlideListView;
+    private Button rightSlideEditBtn;
+    private static RightBarListViewAdapter rightBarAdapter;
+    private ImageButton upBtn;
+    private ImageButton downBtn;
+    private ImageButton delBtn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,8 +64,18 @@ public class MainActivity extends AppCompatActivity
         bottomDrawerButton = (Button) findViewById(R.id.bottomDrawer);
         slidingDrawer = (SlidingDrawer) findViewById(R.id.SlidingDrawer);
 
+        upBtn = (ImageButton)findViewById(R.id.upBtn);
+        downBtn = (ImageButton)findViewById(R.id.downBtn);
+        delBtn = (ImageButton)findViewById(R.id.delBtn);
+
         rightSlideBtn = (ImageButton)findViewById(R.id.rightSlideBtn);
         rightNavigationView=(LinearLayout)findViewById(R.id.rightDrawer);
+        rightSlideListView = (ListView)findViewById(R.id.rightBarList);
+        rightSlideEditBtn = (Button)findViewById(R.id.editBtn);
+
+        rightBarAdapter = new RightBarListViewAdapter();
+        rightSlideListView.setAdapter(rightBarAdapter);
+
 
         fabDrawer.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,13 +146,114 @@ public class MainActivity extends AppCompatActivity
 
             }
         });
+
+        /*******************************************************/
+        Route mover = RouteList.HeadRoute;
+
+        if(mover!=null) {
+            while(mover!=RouteList.TailRoute) {
+                rightBarAdapter.addItem(mover.getLocation());
+                mover = mover.getNext();
+            }
+            rightBarAdapter.addItem(mover.getLocation());
+        }
+        rightBarAdapter.notifyDataSetChanged();
+        /*******************************************************/
+
         rightSlideBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "Right Slide Button Clicked");
+
                 drawerLayout.openDrawer(rightNavigationView);
             }
         });
+
+        rightSlideEditBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d(TAG, "SEARCH BUTTON CLICKED");
+
+
+                upBtn.setVisibility(View.VISIBLE);
+                downBtn.setVisibility(View.VISIBLE);
+                delBtn.setVisibility(View.VISIBLE);
+
+                delBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Log.d("DELETE", "DELETE CLICKED");
+                        int count, checked ;
+                        count = rightBarAdapter.getCount() ;
+
+                        if (count > 0) {
+                            // 현재 선택된 아이템의 position 획득.
+                            checked = rightSlideListView.getCheckedItemPosition();
+                            Log.d("DELETE", "DELETE : " + count + "/" + checked);
+                            if (checked > -1 && checked < count) {
+                                RouteList.deleteItem(checked);
+                                RouteList.printList();
+
+                                // 아이템 삭제
+                                //rightBarAdapter.deleteItem(checked);
+
+                                rightBarAdapter.clearAllItems();
+
+                                Route mover = RouteList.HeadRoute;
+                                while(mover!=RouteList.TailRoute) {
+                                    Log.d("DELETE","while : " + mover.getLocation());
+                                    rightBarAdapter.addItem(mover.getLocation());
+                                    mover = mover.getNext();
+                                }
+                                rightBarAdapter.addItem(mover.getLocation());
+                                // listview 선택 초기화.
+                                rightSlideListView.clearChoices();
+                                // listview 갱신.
+                                rightBarAdapter.notifyDataSetChanged();
+                            }
+                        }
+                    }
+                });
+
+                rightSlideListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                        upBtn.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+
+                            }
+                        });
+                        downBtn.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+
+                            }
+                        });
+                    }
+                });
+
+
+                /*
+                rightBarAdapter.addItem("b");
+
+                rightBarAdapter.notifyDataSetChanged();*/
+            }
+        });
+
+    }
+    public static void modifyRightlist() {
+        Route mover = RouteList.HeadRoute;
+
+        if(mover!=null) {
+            while(mover!=RouteList.TailRoute) {
+                rightBarAdapter.addItem(mover.getLocation());
+                mover = mover.getNext();
+            }
+            rightBarAdapter.addItem(mover.getLocation());
+        }
+        rightBarAdapter.notifyDataSetChanged();
     }
     @Override
     public void onBackPressed() {

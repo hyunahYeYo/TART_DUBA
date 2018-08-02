@@ -20,17 +20,15 @@ import java.util.List;
  */
 
 public  class RouteList {
-    private static Route HeadRoute;
-    private static Route TailRoute;
-
-    private static int size = 0;
+    public static Route HeadRoute;
+    public static Route TailRoute;
+    public static int size = 0;
     private static final int MAXSIZE = 10;
     private static Marker[] selectedMarkers = new Marker[MAXSIZE];
 
     public static void addList(String location, String address, Context context) {
         Route newRoute = new Route(location, address);
 
-     //   Log.e("size",""+size);
         if(size==0) { //List is empty
             Log.e("d","d");
             //This code can be used to input new Route into head.
@@ -48,15 +46,35 @@ public  class RouteList {
         }
 
         reviseSelectedMarkerToMap(context);
+
     }
 
+    public static void deleteItem(int id) {
+        Route cur = HeadRoute;
+        Route prev = HeadRoute;
+        for(int i=0;i<id;i++) {
+            prev = cur;
+            cur = cur.getNext();
+        }
+        if(cur==HeadRoute) {
+            HeadRoute = cur.getNext();
+        }
+        else if(cur==TailRoute) {
+            prev.setNext(null);
+            TailRoute = prev;
+        }
+        else {
+            prev.setNext(cur.getNext());
+        }
+
+    }
     /* List 항목 보기 */
     public static void printList() {
         Route temp = HeadRoute;
 
         while(true) {
             if(temp == null) break;
-            Log.d("RouteTest", "print : "+temp.getLocation());
+            Log.d("DELETE", "print : "+temp.getLocation());
             temp = temp.getNext();
         }
 
@@ -79,7 +97,9 @@ public  class RouteList {
         while(true) {
             if(temp == null) break;
             String address = temp.getAddress();
+            Log.d("d", "d : "+address);
             LatLng currentLocation = findGeoPoint(address, context);
+            Log.d("d", "d : "+currentLocation.latitude+"/"+currentLocation.longitude);
             MarkerOptions markerOptions = new MarkerOptions();
             markerOptions.position(currentLocation);
             markerOptions.title(temp.getLocation());
@@ -121,5 +141,4 @@ public  class RouteList {
         }
         return location;
     }
-
 }

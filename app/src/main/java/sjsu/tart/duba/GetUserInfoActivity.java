@@ -58,7 +58,7 @@ public class GetUserInfoActivity extends Activity{
                     saveUserInfo("gender", selectedGenderText);
                     saveUserInfo("bloodType", selectedGenderText);
 
-                    Intent intent = new Intent(GetUserInfoActivity.this, MainActivity.class);
+                    Intent intent = new Intent(GetUserInfoActivity.this, GetUserTasteActivity.class);
                     startActivity(intent);
                     finish();
                 }

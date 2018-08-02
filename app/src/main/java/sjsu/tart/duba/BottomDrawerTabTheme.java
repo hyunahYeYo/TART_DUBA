@@ -119,6 +119,7 @@ public class BottomDrawerTabTheme extends Fragment {
                     }
                     RouteList.printList();
                     RouteList.reviseSelectedMarkerToMap(getContext());
+                    MainActivity.modifyRightlist();
                 }
             });
 
