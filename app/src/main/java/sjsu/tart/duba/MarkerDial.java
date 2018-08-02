@@ -59,7 +59,7 @@ public class MarkerDial extends DialogFragment {
             @Override
             public void onClick(View view) {
               //  Log.e("marker add click","click");
-               RouteList.addList(markerTitle, markerAddr, getContext());
+                RouteList.addList(markerTitle, markerAddr, getContext());
                 marker.remove();
              //   Toast.makeText(getContext(),markerTitle,Toast.LENGTH_LONG).show();
             }

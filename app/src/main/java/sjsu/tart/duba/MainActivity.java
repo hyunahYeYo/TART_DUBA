@@ -22,6 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SlidingDrawer;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.model.Marker;
 
@@ -46,7 +47,9 @@ public class MainActivity extends AppCompatActivity
     private LinearLayout rightNavigationView;
     private ListView rightSlideListView;
     private Button rightSlideEditBtn;
-    private RightBarListViewAdapter rightBarAdapter;
+    private static RightBarListViewAdapter rightBarAdapter;
+    private Button confirmBtn;
+    private Button searchBtn;
     private ImageButton upBtn;
     private ImageButton downBtn;
     private ImageButton delBtn;
@@ -72,6 +75,8 @@ public class MainActivity extends AppCompatActivity
         rightNavigationView=(LinearLayout)findViewById(R.id.rightDrawer);
         rightSlideListView = (ListView)findViewById(R.id.rightBarList);
         rightSlideEditBtn = (Button)findViewById(R.id.editBtn);
+        confirmBtn = (Button)findViewById(R.id.confirmBtn);
+        searchBtn = (Button)findViewById(R.id.searchBtn);
 
         rightBarAdapter = new RightBarListViewAdapter();
         rightSlideListView.setAdapter(rightBarAdapter);
@@ -96,6 +101,26 @@ public class MainActivity extends AppCompatActivity
                 userNameTextView.setText(userName);
                 pointAndStepTextView.setText(pointAndStepStr);
 
+                navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(MenuItem item) {
+                        int id = item.getItemId();
+
+                        if(id==R.id.account) {
+
+                        }
+                        else if(id==R.id.shop) {
+
+                        }
+                        else if(id==R.id.setting) {
+
+                        }
+                        else if(id==R.id.help) {
+
+                        }
+                        return true;
+                    }
+                });
             }
         });
 
@@ -158,6 +183,7 @@ public class MainActivity extends AppCompatActivity
             rightBarAdapter.addItem(mover.getLocation());
         }
 
+        rightBarAdapter.notifyDataSetChanged();
         /*******************************************************/
 
         rightSlideBtn.setOnClickListener(new View.OnClickListener(){
@@ -177,7 +203,21 @@ public class MainActivity extends AppCompatActivity
                 upBtn.setVisibility(View.VISIBLE);
                 downBtn.setVisibility(View.VISIBLE);
                 delBtn.setVisibility(View.VISIBLE);
+                confirmBtn.setVisibility(View.VISIBLE);
+                rightSlideEditBtn.setVisibility(View.GONE);
+                searchBtn.setVisibility(View.GONE);
 
+                confirmBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        upBtn.setVisibility(View.GONE);
+                        downBtn.setVisibility(View.GONE);
+                        delBtn.setVisibility(View.GONE);
+                        confirmBtn.setVisibility(View.GONE);
+                        rightSlideEditBtn.setVisibility(View.VISIBLE);
+                        searchBtn.setVisibility(View.VISIBLE);
+                    }
+                });
                 delBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -213,23 +253,80 @@ public class MainActivity extends AppCompatActivity
                         }
                     }
                 });
+                upBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Log.d("DELETE", "DELETE CLICKED");
+                        int count, checked ;
+                        count = rightBarAdapter.getCount() ;
+                        if (count > 0) {
+                            // 현재 선택된 아이템의 position 획득.
+                            checked = rightSlideListView.getCheckedItemPosition();
+                            Log.d("UP", "DELETE : " + count + "/" + checked);
+                            if (checked > -1 && checked < count) {
+                                RouteList.changeOrder(checked, 0);
+                                RouteList.printList();
+
+                                // 아이템 삭제
+                                //rightBarAdapter.deleteItem(checked);
+
+                                rightBarAdapter.clearAllItems();
+
+                                Route mover = RouteList.HeadRoute;
+                                while(mover!=RouteList.TailRoute) {
+                                    Log.d("UP","while : " + mover.getLocation());
+                                    rightBarAdapter.addItem(mover.getLocation());
+                                    mover = mover.getNext();
+                                }
+                                rightBarAdapter.addItem(mover.getLocation());
+                                // listview 선택 초기화.
+                                rightSlideListView.clearChoices();
+                                // listview 갱신.
+                                rightBarAdapter.notifyDataSetChanged();
+                            }
+                        }
+                    }
+                });
+                downBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Log.d("DOWN", "DELETE CLICKED");
+                        int count, checked ;
+                        count = rightBarAdapter.getCount() ;
+                        if (count > 0) {
+                            // 현재 선택된 아이템의 position 획득.
+                            checked = rightSlideListView.getCheckedItemPosition();
+                            Log.d("DOWN", "DELETE : " + count + "/" + checked);
+                            if (checked > -1 && checked < count) {
+                                RouteList.changeOrder(checked, 1);
+                                RouteList.printList();
+
+                                // 아이템 삭제
+                                //rightBarAdapter.deleteItem(checked);
+
+                                rightBarAdapter.clearAllItems();
+
+                                Route mover = RouteList.HeadRoute;
+                                while(mover!=RouteList.TailRoute) {
+                                    Log.d("DOWN","while : " + mover.getLocation());
+                                    rightBarAdapter.addItem(mover.getLocation());
+                                    mover = mover.getNext();
+                                }
+                                rightBarAdapter.addItem(mover.getLocation());
+                                // listview 선택 초기화.
+                                rightSlideListView.clearChoices();
+                                // listview 갱신.
+                                rightBarAdapter.notifyDataSetChanged();
+                            }
+                        }
+                    }
+                });
 
                 rightSlideListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                        upBtn.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
 
-                            }
-                        });
-                        downBtn.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-
-                            }
-                        });
                     }
                 });
 
@@ -242,6 +339,20 @@ public class MainActivity extends AppCompatActivity
         });
 
     }
+
+    public static void modifyRightlist() {
+        Route mover = RouteList.HeadRoute;
+
+        if(mover!=null) {
+            while(mover!=RouteList.TailRoute) {
+                rightBarAdapter.addItem(mover.getLocation());
+                mover = mover.getNext();
+            }
+            rightBarAdapter.addItem(mover.getLocation());
+        }
+        rightBarAdapter.notifyDataSetChanged();
+    }
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

@@ -44,10 +44,62 @@ public  class RouteList {
             TailRoute = newRoute;
             size++;
         }
-
-        reviseSelectedMarkerToMap(context);
     }
 
+    public static void changeOrder(int id, int dir) {
+        Route cur = HeadRoute;
+        Route prev = HeadRoute;
+        Route pprev = HeadRoute;
+
+        if(dir==0) { //Up
+            if(id==0) return;
+            for(int i=0;i<id;i++) {
+                pprev = prev;
+                prev = cur;
+                cur = cur.getNext();
+            }
+            if(prev==HeadRoute) { //첫번째와 두번째 아이템 변경
+                HeadRoute = cur;
+                prev.setNext(cur.getNext());
+                cur.setNext(prev);
+            }
+            else if(cur==TailRoute) {
+                TailRoute = prev;
+                pprev.setNext(cur);
+                cur.setNext(prev);
+                prev.setNext(null);
+            }
+            else {
+                pprev.setNext(cur);
+                prev.setNext(cur.getNext());
+                cur.setNext(prev);
+            }
+        }
+        else if(dir==1) { //Down
+            for(int i=0;i<id+1;i++) {
+                pprev = cur;
+                cur = prev;
+                prev = prev.getNext();
+            }
+            if(cur==HeadRoute) {
+                HeadRoute = prev;
+                cur.setNext(prev.getNext());
+                prev.setNext(cur);
+            }
+            else if(prev==TailRoute) {
+                TailRoute = cur;
+                pprev.setNext(prev);
+                prev.setNext(cur);
+                cur.setNext(null);
+            }
+            else {
+                pprev.setNext(prev);
+                cur.setNext(prev.getNext());
+                prev.setNext(cur);
+            }
+
+        }
+    }
     public static void deleteItem(int id) {
         Route cur = HeadRoute;
         Route prev = HeadRoute;
@@ -65,7 +117,6 @@ public  class RouteList {
         else {
             prev.setNext(cur.getNext());
         }
-
     }
     /* List 항목 보기 */
     public static void printList() {
@@ -96,7 +147,9 @@ public  class RouteList {
         while(true) {
             if(temp == null) break;
             String address = temp.getAddress();
+            Log.d("d", "d : "+address);
             LatLng currentLocation = findGeoPoint(address, context);
+            Log.d("d", "d : "+currentLocation.latitude+"/"+currentLocation.longitude);
             MarkerOptions markerOptions = new MarkerOptions();
             markerOptions.position(currentLocation);
             markerOptions.title(temp.getLocation());
@@ -119,6 +172,18 @@ public  class RouteList {
         }
     }
 
+    public static boolean checkList(String markerTitle){
+        boolean added;
+        Route temp = HeadRoute;
+        while(true) {
+            if(temp == null) break;
+            if(temp.getLocation().equals(markerTitle))
+                return true;
+            temp = temp.getNext();
+        }
+        return false;
+    }
+
     /* 주소를 LatLng로 변환하는 함수 */
     private static LatLng findGeoPoint(String address, Context context) {
         Geocoder geocoder = new Geocoder(context);
@@ -138,4 +203,5 @@ public  class RouteList {
         }
         return location;
     }
+
 }
