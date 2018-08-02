@@ -213,22 +213,7 @@ public class MainActivity extends AppCompatActivity
                                 RouteList.deleteItem(checked);
                                 RouteList.printList();
 
-                                // 아이템 삭제
-                                //rightBarAdapter.deleteItem(checked);
-
-                                rightBarAdapter.clearAllItems();
-
-                                Route mover = RouteList.HeadRoute;
-                                while(mover!=RouteList.TailRoute) {
-                                    Log.d("DELETE","while : " + mover.getLocation());
-                                    rightBarAdapter.addItem(mover.getLocation());
-                                    mover = mover.getNext();
-                                }
-                                rightBarAdapter.addItem(mover.getLocation());
-                                // listview 선택 초기화.
-                                rightSlideListView.clearChoices();
-                                // listview 갱신.
-                                rightBarAdapter.notifyDataSetChanged();
+                                modifyRightlist();
                             }
                         }
                     }
@@ -247,22 +232,7 @@ public class MainActivity extends AppCompatActivity
                                 RouteList.changeOrder(checked, 0);
                                 RouteList.printList();
 
-                                // 아이템 삭제
-                                //rightBarAdapter.deleteItem(checked);
-
-                                rightBarAdapter.clearAllItems();
-
-                                Route mover = RouteList.HeadRoute;
-                                while(mover!=RouteList.TailRoute) {
-                                    Log.d("UP","while : " + mover.getLocation());
-                                    rightBarAdapter.addItem(mover.getLocation());
-                                    mover = mover.getNext();
-                                }
-                                rightBarAdapter.addItem(mover.getLocation());
-                                // listview 선택 초기화.
-                                rightSlideListView.clearChoices();
-                                // listview 갱신.
-                                rightBarAdapter.notifyDataSetChanged();
+                                modifyRightlist();
                             }
                         }
                     }
@@ -281,39 +251,11 @@ public class MainActivity extends AppCompatActivity
                                 RouteList.changeOrder(checked, 1);
                                 RouteList.printList();
 
-                                // 아이템 삭제
-                                //rightBarAdapter.deleteItem(checked);
-
-                                rightBarAdapter.clearAllItems();
-
-                                Route mover = RouteList.HeadRoute;
-                                while(mover!=RouteList.TailRoute) {
-                                    Log.d("DOWN","while : " + mover.getLocation());
-                                    rightBarAdapter.addItem(mover.getLocation());
-                                    mover = mover.getNext();
-                                }
-                                rightBarAdapter.addItem(mover.getLocation());
-                                // listview 선택 초기화.
-                                rightSlideListView.clearChoices();
-                                // listview 갱신.
-                                rightBarAdapter.notifyDataSetChanged();
+                                modifyRightlist();
                             }
                         }
                     }
                 });
-
-                rightSlideListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-
-                    }
-                });
-
-                /*
-                rightBarAdapter.addItem("b");
-
-                rightBarAdapter.notifyDataSetChanged();*/
             }
         });
 
