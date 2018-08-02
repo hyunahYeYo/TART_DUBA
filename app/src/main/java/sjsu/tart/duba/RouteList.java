@@ -47,25 +47,7 @@ public  class RouteList {
 
         reviseSelectedMarkerToMap(context);
     }
-    public static void addList(String location, String address) {
-        Route newRoute = new Route(location, address);
 
-        if(size==0) { //List is empty
-            Log.e("d","d");
-            //This code can be used to input new Route into head.
-            newRoute.setNext(HeadRoute);
-            HeadRoute = newRoute;
-            size++;
-            if (HeadRoute.getNext() == null) {
-                TailRoute = HeadRoute;
-            }
-        }
-        else {
-            TailRoute.setNext(newRoute);
-            TailRoute = newRoute;
-            size++;
-        }
-    }
     public static void deleteItem(int id) {
         Route cur = HeadRoute;
         Route prev = HeadRoute;

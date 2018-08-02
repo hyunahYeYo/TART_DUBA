@@ -56,12 +56,6 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        RouteList.addList("a","a");
-        RouteList.addList("b", "b");
-        RouteList.addList("c", "c");
-        RouteList.addList("d", "d");
-        RouteList.addList("e", "e");
-
         //floatingButton으로 drawer 열기
         fabDrawer=(ImageButton)findViewById(R.id.fabHam);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -156,11 +150,14 @@ public class MainActivity extends AppCompatActivity
         /*******************************************************/
         Route mover = RouteList.HeadRoute;
 
-        while(mover!=RouteList.TailRoute) {
+        if(mover!=null) {
+            while(mover!=RouteList.TailRoute) {
+                rightBarAdapter.addItem(mover.getLocation());
+                mover = mover.getNext();
+            }
             rightBarAdapter.addItem(mover.getLocation());
-            mover = mover.getNext();
         }
-        rightBarAdapter.addItem(mover.getLocation());
+
         /*******************************************************/
 
         rightSlideBtn.setOnClickListener(new View.OnClickListener(){
