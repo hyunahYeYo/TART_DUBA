@@ -22,6 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SlidingDrawer;
 import android.widget.TextView;
+
 import com.google.android.gms.maps.model.Marker;
 
 public class MainActivity extends AppCompatActivity
