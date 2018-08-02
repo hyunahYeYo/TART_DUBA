@@ -65,6 +65,11 @@ public class BottomDrawerTabGenderAge extends Fragment {
                     for(int j = 0; j < buttonsNum; j++){
                         if(view.getId() == buttonsId[j]){
                             if(view.getAlpha() == MainActivity.TRANSPARENT){
+                                for(int k = 0; k < buttonsNum; k++){
+                                    buttons[j].setAlpha(MainActivity.TRANSPARENT);
+                                    buttons[j].setText("");
+                                    buttonsValues[j] = false;
+                                }
                                 buttons[j].setAlpha(MainActivity.NOT_TRANSPARENT);
                                 buttons[j].setText("V");
                                 buttonsValues[j] = true;
@@ -81,15 +86,18 @@ public class BottomDrawerTabGenderAge extends Fragment {
                     LoadingActivity.mDbOpenHelper.showDatabaseByLog("markerid");
                     String[] tags = getSelectedTotalOptions();
                     MarkerData[] markers = LoadingActivity.mDbOpenHelper.getMarkerData(tags);
-                    addMarkerstoMap(markers, BitmapDescriptorFactory.HUE_RED, 1);
                     LoadingActivity.mDbOpenHelper.close();
+                    if(!tags[0].equals(""))
+                        addMarkerstoMap(markers, BitmapDescriptorFactory.HUE_RED, 1);
+                    else {
+                        MainActivity.removeRecommendedMarker();
+                    }
                 }
             });
 
             suggest1.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View view) {
-                    MainActivity.recommendedStartMarkerIdx += MainActivity.RECOMMENDED_MARKER_NUM;
                     if(MainActivity.recommendedStartMarkerIdx > 25){
                         MainActivity.recommendedStartMarkerIdx = 0;
                     }
@@ -152,21 +160,28 @@ public class BottomDrawerTabGenderAge extends Fragment {
         if(type == 1)
             MainActivity.removeRecommendedMarker();
         Marker[] markers = new Marker[5];
-        for(int i = 0; i < 5; i++){
+
+        int i = 0;
+        while( i < 5 ){
             int index = i + MainActivity.recommendedStartMarkerIdx;
-            LatLng currentLocation = new LatLng( Double.parseDouble(markersData[index].lan), Double.parseDouble(markersData[index].lon));
-            MarkerOptions markerOptions = new MarkerOptions();
-            markerOptions.position(currentLocation);
-            markerOptions.title(markersData[index].title);
-            markerOptions.icon(BitmapDescriptorFactory.defaultMarker(color));
+            if(!RouteList.checkList(markersData[index].title)) {
+                LatLng currentLocation = new LatLng(Double.parseDouble(markersData[index].lan), Double.parseDouble(markersData[index].lon));
+                MarkerOptions markerOptions = new MarkerOptions();
+                markerOptions.position(currentLocation);
+                markerOptions.title(markersData[index].title);
+                markerOptions.icon(BitmapDescriptorFactory.defaultMarker(color));
 
-            markers[i] = googleMap.addMarker(markerOptions);
-            googleMap.getUiSettings().setMapToolbarEnabled(false);
-            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 12.0f));
-            if(type == 1)
-                MainActivity.recommendedMarker[i] =markers[i];
+                markers[i] = googleMap.addMarker(markerOptions);
+                googleMap.getUiSettings().setMapToolbarEnabled(false);
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 12.0f));
+                if(type == 1)
+                    MainActivity.recommendedMarker[i] =markers[i];
+                i += 1;
+            }
+            else{
+                MainActivity.recommendedStartMarkerIdx += 1;
+            }
         }
-
         return markers;
     }
 
