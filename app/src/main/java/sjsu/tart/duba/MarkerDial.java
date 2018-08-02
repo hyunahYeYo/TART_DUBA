@@ -29,6 +29,7 @@ public class MarkerDial extends DialogFragment {
 
     private Button addBtn;
     private Button closeBtn;
+    private Button deleteBtn;
     private String markerTitle, markerAddr;
     private Marker marker;
 
@@ -64,9 +65,12 @@ public class MarkerDial extends DialogFragment {
         image.setImageResource(lid);
         closeBtn=(Button)view.findViewById(R.id.closeBtn);
         addBtn=(Button)view.findViewById(R.id.addBtn);
+        deleteBtn=(Button)view.findViewById(R.id.deleteBtn);
 
         if(checkList(markerTitle))
             addBtn.setEnabled(false);
+        else
+            deleteBtn.setEnabled(false);
 
         closeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,6 +86,17 @@ public class MarkerDial extends DialogFragment {
 
                 marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
                 RouteList.addList(markerTitle, markerAddr, marker, getContext());
+                MainActivity.modifyRightlist();
+                MarkerDial.this.dismiss();
+                printList();
+            }
+        });
+
+        deleteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //  Log.e("marker add click","click");
+                RouteList.deleteItem(markerTitle);
                 MainActivity.modifyRightlist();
                 MarkerDial.this.dismiss();
                 printList();

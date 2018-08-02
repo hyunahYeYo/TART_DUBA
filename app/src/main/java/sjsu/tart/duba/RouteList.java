@@ -121,6 +121,30 @@ public  class RouteList {
         }
         size--;
     }
+
+    public static void deleteItem(String title) {
+        Route cur = HeadRoute;
+        Route prev = HeadRoute;
+        for(int i=0;!cur.getMarker().getTitle().equals(title);i++) {
+            prev = cur;
+            cur = cur.getNext();
+        }
+
+        cur.getMarker().remove();
+
+        if(cur==HeadRoute) {
+            HeadRoute = cur.getNext();
+        }
+        else if(cur==TailRoute) {
+            prev.setNext(null);
+            TailRoute = prev;
+        }
+        else {
+            prev.setNext(cur.getNext());
+        }
+        size--;
+    }
+
     public static void mixList() {
         Route cur = HeadRoute;
         Route temp;

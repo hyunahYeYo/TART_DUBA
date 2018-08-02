@@ -23,13 +23,14 @@
             android:layout_margin="0dp">
 
           </ImageView>
+
                 <Button
-                    android:background="@drawable/closebtncircle"
+                    android:id="@+id/closeBtn"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:layout_gravity="right|top"
                     android:layout_margin="5dp"
-                android:layout_height="20dp"
-                android:layout_width="20dp"
-                android:id="@+id/closeBtn">
+                    android:background="@drawable/closebtncircle">
 
                 </Button>
 <LinearLayout
@@ -154,6 +155,14 @@
                 android:layout_weight="1"
                 android:background="@drawable/button_01"
                 android:text="ADD" />
+
+            <Button
+                android:id="@+id/deleteBtn"
+                android:layout_width="30dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/button_01"
+                android:text="DELETE" />
 
 
         </LinearLayout>
