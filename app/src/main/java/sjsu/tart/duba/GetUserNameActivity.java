@@ -10,15 +10,17 @@ import android.widget.EditText;
 
 public class GetUserNameActivity extends Activity {
 
-    private EditText inputUserName;
+    private EditText inputUserName, inputUserDateOfBirth;
     private Button cancelButton, confirmButton;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_getname);
 
         inputUserName = (EditText)findViewById(R.id.inputUserName);
+        inputUserName = (EditText)findViewById(R.id.inputUserDateOfBirth);
+
         cancelButton = (Button)findViewById(R.id.cancelButton);
         confirmButton = (Button)findViewById(R.id.confirmButton);
 
@@ -27,21 +29,24 @@ public class GetUserNameActivity extends Activity {
                 finish();
             }
         });
-
         confirmButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
                 String userName = inputUserName.getText().toString();
+                String userDateOfBirth = inputUserDateOfBirth.getText().toString();
 
                 if(userName.equals("")){
                     Intent intent = new Intent(GetUserNameActivity.this, PopupActivity.class);
                     intent.putExtra("message", "Enter your name");
                     startActivity(intent);
                 }
+                if(userDateOfBirth.equals("")){
+                    Intent intent = new Intent(GetUserNameActivity.this, PopupActivity.class);
+                    intent.putExtra("message", "Enter your date of birth");
+                    startActivity(intent);
+                }
                 else{
-                    SharedPreferences userNamePref = getSharedPreferences("userName", MODE_PRIVATE);
-                    SharedPreferences.Editor userNameEditor = userNamePref.edit();
-                    userNameEditor.putString("userName", userName);
-                    userNameEditor.apply();
+                    saveUserInfo("userName", userName);
+                    saveUserInfo("userDateOfBirth", userDateOfBirth);
 
                     Intent intent = new Intent(GetUserNameActivity.this, GetUserInfoActivity.class);
                     startActivity(intent);
@@ -49,5 +54,12 @@ public class GetUserNameActivity extends Activity {
                 }
             }
         });
+    }
+
+    private void saveUserInfo(String key, String value){
+        SharedPreferences pref = getSharedPreferences(key, MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putString(key, value);
+        editor.apply();
     }
 }
