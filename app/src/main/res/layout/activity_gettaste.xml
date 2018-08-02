@@ -17,38 +17,13 @@
         android:padding="10dp">
 
         <TextView
+            android:id="@+id/textView6"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:fontFamily="sans-serif-condensed"
             android:includeFontPadding="false"
-            android:text="Input Your Name"
-            android:textAlignment="center"
-            android:textColor="#000000"
-            android:textSize="25sp"
-            android:textStyle="bold" />
-
-        <EditText
-            android:id="@+id/inputUserName"
-            android:layout_width="fill_parent"
-            android:layout_height="50dp"
-            android:layout_margin="10dp"
-            android:layout_marginBottom="20dp"
-            android:layout_marginTop="20dp"
-            android:background="@color/white"
-            android:hint="NAME"
-            android:textAlignment="center"
-            android:textSize="20sp" />
-
-        <TextView
-            android:id="@+id/textView5"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:layout_weight="1"
-            android:fontFamily="sans-serif-condensed"
-            android:includeFontPadding="false"
-            android:text="Input Your Date of Birth"
+            android:text="Do you like this place?"
             android:textAlignment="center"
             android:textColor="#000000"
             android:textSize="25sp"
@@ -56,63 +31,73 @@
 
         <LinearLayout
             android:id="@+id/inputUserAgeGroup"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="fill_parent"
+            android:layout_height="192dp"
             android:layout_margin="10dp"
             android:layout_marginBottom="20dp"
             android:layout_marginTop="20dp"
             android:background="@drawable/rounded_border"
             android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/inputUserDateOfBirth"
-                android:layout_width="fill_parent"
-                android:layout_height="50dp"
-                android:layout_margin="10dp"
-                android:layout_marginBottom="20dp"
-                android:layout_marginTop="20dp"
-                android:background="@color/white"
-                android:hint="MM-DD-YY"
-                android:textAlignment="center"
-                android:textSize="20sp" />
-
+            <ImageView
+                android:id="@+id/placeImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/pic1" />
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="fill_parent"
+        <TextView
+            android:id="@+id/placeText"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:fontFamily="sans-serif-condensed"
+            android:includeFontPadding="false"
+            android:text="@string/pic_text"
+            android:textAlignment="center"
+            android:textColor="#000000"
+            android:textSize="25sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
             android:orientation="horizontal"
             android:weightSum="1">
 
             <Button
-                android:id="@+id/cancelButton"
+                android:id="@+id/noButton"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:layout_margin="10dp"
                 android:layout_marginRight="20dp"
                 android:background="@color/blue"
-                android:text="CANCEL"
+                android:padding="10dp"
+                android:text="No, I don't"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="15sp"
                 android:textStyle="bold" />
 
             <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="40dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_margin="10dp"
                 android:layout_weight="1">
 
             </LinearLayout>
 
             <Button
-                android:id="@+id/confirmButton"
+                android:id="@+id/yesButton"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:layout_margin="10dp"
-                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_weight="0.44"
                 android:background="@color/blue"
-                android:text="NEXT"
+                android:padding="12dp"
+                android:text="Yes, I do!"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="15sp"

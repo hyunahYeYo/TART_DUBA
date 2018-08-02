@@ -14,10 +14,8 @@ import android.widget.Toast;
 
 public class GetUserInfoActivity extends Activity{
 
-    private EditText inputUserDateOfBirth;
     private Button cancelButton, confirmButton;
-    private RadioGroup userAgeGroup, userGenderGroup;
-    private RadioButton[] ageButton = new RadioButton[4];
+    private RadioGroup userAgeGroup, userGenderGroup, userBloodTypeGroup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,8 +24,9 @@ public class GetUserInfoActivity extends Activity{
 
         cancelButton = (Button)findViewById(R.id.cancelButton);
         confirmButton = (Button)findViewById(R.id.confirmButton);
-        inputUserDateOfBirth = (EditText)findViewById(R.id.inputUserDateOfBirth);
+
         userGenderGroup = (RadioGroup) findViewById(R.id.radioGenderGroup);
+        userBloodTypeGroup = (RadioGroup) findViewById(R.id.radioBloodTypeGroup);
 
         cancelButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
@@ -37,30 +36,29 @@ public class GetUserInfoActivity extends Activity{
 
         confirmButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
-                String userDateOfBirth = inputUserDateOfBirth.getText().toString();
-                int[] userDateOfBirthInt = new int[3];
+                int radioGenderButtonID = userGenderGroup.getCheckedRadioButtonId();
+                RadioButton radioGenderButton = (RadioButton) userGenderGroup.findViewById(radioGenderButtonID);
+                String selectedGenderText = (String) radioGenderButton.getText();
 
-                int radioButtonID = userGenderGroup.getCheckedRadioButtonId();
-                RadioButton radioButton = (RadioButton) userGenderGroup.findViewById(radioButtonID);
-                String selectedGenderText = (String) radioButton.getText();
+                int radioBloodTypeButtonID = userGenderGroup.getCheckedRadioButtonId();
+                RadioButton radioBloodTypeButton = (RadioButton) userGenderGroup.findViewById(radioBloodTypeButtonID);
+                String selectedBloodTypeText = (String) radioBloodTypeButton.getText();
 
-                if(userDateOfBirth.equals("")){
-                    Intent intent = new Intent(GetUserInfoActivity.this, PopupActivity.class);
-                    intent.putExtra("message", "Enter your date of birth");
-                    startActivity(intent);
-                }
-                else if(radioButtonID < 0){
+                if(radioGenderButtonID < 0){
                     Intent intent = new Intent(GetUserInfoActivity.this, PopupActivity.class);
                     intent.putExtra("message", "Enter your gender");
                     startActivity(intent);
                 }
+                else if(radioBloodTypeButtonID < 0){
+                    Intent intent = new Intent(GetUserInfoActivity.this, PopupActivity.class);
+                    intent.putExtra("message", "Enter your blood type");
+                    startActivity(intent);
+                }
                 else{
-                    userDateOfBirthInt = getUserDateInfo(userDateOfBirth);
-                    saveUserDateInfo(userDateOfBirthInt);
-                    saveUserInfo("GENDER", selectedGenderText);
-                    saveUserInfo("ISFIRSTRUN", false);
+                    saveUserInfo("gender", selectedGenderText);
+                    saveUserInfo("bloodType", selectedGenderText);
 
-                    Intent intent = new Intent(GetUserInfoActivity.this, MainActivity.class);
+                    Intent intent = new Intent(GetUserInfoActivity.this, GetUserTasteActivity.class);
                     startActivity(intent);
                     finish();
                 }
@@ -68,43 +66,10 @@ public class GetUserInfoActivity extends Activity{
         });
     }
 
-    private int[] getUserDateInfo(String selectedBirthText){
-        String[] userDateOfBirthStr = new String[3];
-        int[] userDateOfBirthInt = new int[3];
-        userDateOfBirthStr = selectedBirthText.split("-");
-
-        for(int i = 0; i < 3; i++){
-            userDateOfBirthInt[i] = Integer.parseInt(userDateOfBirthStr[i]);
-        }
-
-        return userDateOfBirthInt;
-    }
-
-    private void saveUserDateInfo(int[] userDateBirthInt){
-        saveUserInfo("MONTH", userDateBirthInt[0]);
-        saveUserInfo("DAY", userDateBirthInt[1]);
-        saveUserInfo("YEAR", userDateBirthInt[2]);
-    }
-
-    private void saveUserInfo(String key, int value){
-        SharedPreferences pref = getSharedPreferences(key, MODE_PRIVATE);
-        SharedPreferences.Editor editor = pref.edit();
-        editor.putInt(key, value);
-        editor.apply();
-    }
-
-
     private void saveUserInfo(String key, String value){
         SharedPreferences pref = getSharedPreferences(key, MODE_PRIVATE);
         SharedPreferences.Editor editor = pref.edit();
         editor.putString(key, value);
-        editor.apply();
-    }
-
-    private void saveUserInfo(String key, Boolean value){
-        SharedPreferences pref = getSharedPreferences(key, MODE_PRIVATE);
-        SharedPreferences.Editor editor = pref.edit();
-        editor.putBoolean(key, value);
         editor.apply();
     }
 

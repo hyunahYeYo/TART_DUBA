@@ -101,26 +101,6 @@ public class MainActivity extends AppCompatActivity
                 userNameTextView.setText(userName);
                 pointAndStepTextView.setText(pointAndStepStr);
 
-                navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(MenuItem item) {
-                        int id = item.getItemId();
-
-                        if(id==R.id.account) {
-
-                        }
-                        else if(id==R.id.shop) {
-
-                        }
-                        else if(id==R.id.setting) {
-
-                        }
-                        else if(id==R.id.help) {
-
-                        }
-                        return true;
-                    }
-                });
             }
         });
 
@@ -393,11 +373,13 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.account) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.shop) {
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.setting) {
+
+        } else if(id== R.id.help) {
 
         }
 

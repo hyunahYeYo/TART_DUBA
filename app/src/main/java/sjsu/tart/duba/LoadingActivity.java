@@ -49,8 +49,8 @@ public class LoadingActivity extends Activity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                SharedPreferences pref = getSharedPreferences("ISFIRSTRUN", Activity.MODE_PRIVATE);
-                boolean first = pref.getBoolean("ISFIRSTRUN", true);
+                SharedPreferences pref = getSharedPreferences("isFirstRun", Activity.MODE_PRIVATE);
+                boolean first = pref.getBoolean("isFirstRun", true);
                 if(first){
 
                     loadingText.setText("...Downloading files...");

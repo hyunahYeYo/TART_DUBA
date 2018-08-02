@@ -12,4 +12,14 @@
     <string name="i_agree">I agree</string>
     <string name="_2_personal_information">2. Personal information</string>
     <string name="next">NEXT</string>
+
+    <string name="pic_text">#Milano #Bolibia</string>
+    <string name="pic_text2">#Barcelona #Spain</string>
+    <string name="pic_text3">#Taipei #Taiwan</string>
+    <string name="pic_text4">#Vladivostok #Russia</string>
+    <string name="pic_text5">#Kyoto #Japan</string>
+    <string name="pic_text6">#Sapporo #Japan</string>
+    <string name="pic_text7">#Bali #Indonesia</string>
+    <string name="pic_text8">#Munich #Germany</string>
+
 </resources>
