@@ -11,6 +11,7 @@ import android.widget.Button;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -34,6 +35,7 @@ public class BottomDrawerTabGenderAge extends Fragment {
         View view = inflater.inflate(R.layout.fragment_tab_gender_age, container, false);
         findViewByButtons(view);
         setOnClickListeners();
+
         return view;
     }
 
@@ -79,42 +81,48 @@ public class BottomDrawerTabGenderAge extends Fragment {
                     LoadingActivity.mDbOpenHelper.showDatabaseByLog("markerid");
                     String[] tags = getSelectedTotalOptions();
                     MarkerData[] markers = LoadingActivity.mDbOpenHelper.getMarkerData(tags);
-                    addMarkerstoMap(markers);
+                    addMarkerstoMap(markers, BitmapDescriptorFactory.HUE_RED, 1);
                     LoadingActivity.mDbOpenHelper.close();
                 }
             });
-        }
-        suggest1.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                MainActivity.recommendedStartMarkerIdx += MainActivity.RECOMMENDED_MARKER_NUM;
-                if(MainActivity.recommendedStartMarkerIdx > 25){
+
+            suggest1.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View view) {
+                    MainActivity.recommendedStartMarkerIdx += MainActivity.RECOMMENDED_MARKER_NUM;
+                    if(MainActivity.recommendedStartMarkerIdx > 25){
+                        MainActivity.recommendedStartMarkerIdx = 0;
+                    }
+                    LoadingActivity.mDbOpenHelper.open();
+                    LoadingActivity.mDbOpenHelper.showDatabaseByLog("markerid");
+                    String[] tags = getSelectedTotalOptions();
+                    MarkerData[] markers = LoadingActivity.mDbOpenHelper.getMarkerData(tags);
+                    addMarkerstoMap(markers, BitmapDescriptorFactory.HUE_RED, 1);
+                    LoadingActivity.mDbOpenHelper.close();
+                }
+            });
+
+            suggest2.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View view) {
                     MainActivity.recommendedStartMarkerIdx = 0;
+                    LoadingActivity.mDbOpenHelper.open();
+                    LoadingActivity.mDbOpenHelper.showDatabaseByLog("markerid");
+                    String[] tags = getSelectedTotalOptions();
+                    MarkerData[] markersData = LoadingActivity.mDbOpenHelper.getMarkerData(tags);
+                    Marker[] markers = addMarkerstoMap(markersData, BitmapDescriptorFactory.HUE_BLUE, 2);
+                    LoadingActivity.mDbOpenHelper.close();
+
+                    for(int i = 0; i < 5; i++){
+                        RouteList.addList(markersData[i].title, markersData[i].color, markers[i], getContext());
+                    }
+
+                    RouteList.printList();
+                    MainActivity.modifyRightlist();
                 }
-                LoadingActivity.mDbOpenHelper.open();
-                LoadingActivity.mDbOpenHelper.showDatabaseByLog("markerid");
-                String[] tags = getSelectedTotalOptions();
-                MarkerData[] markers = LoadingActivity.mDbOpenHelper.getMarkerData(tags);
-                addMarkerstoMap(markers);
-                LoadingActivity.mDbOpenHelper.close();
-            }
-        });
+            });
 
-        suggest2.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                String[] titles = RecommendDataReader.getRecommendPathTitle();
-                String[] address = RecommendDataReader.getRecommendPathAddress();
-
-                RouteList.setSizeZero();
-                for(int i = 0; i < titles.length; i++){
-                    RouteList.addList(titles[i], address[i], getContext());
-                }
-                RouteList.printList();
-                RouteList.reviseSelectedMarkerToMap(getContext());
-            }
-        });
-
+        }
     }
 
     public static String getSelectedOptions(){
@@ -127,6 +135,7 @@ public class BottomDrawerTabGenderAge extends Fragment {
         return ret;
     }
 
+
     public String[] getSelectedTotalOptions(){
         String options = "";
         options += BottomDrawerTabTheme.getSelectedOptions();
@@ -138,22 +147,27 @@ public class BottomDrawerTabGenderAge extends Fragment {
         return ret;
     }
 
-
-    public void addMarkerstoMap(MarkerData[] markers){
+    public Marker[] addMarkerstoMap(MarkerData[] markersData, float color, int type){
         GoogleMap googleMap = FragmentMap.getGoogleMap();
-        MainActivity.removeRecommendedMarker();
-
+        if(type == 1)
+            MainActivity.removeRecommendedMarker();
+        Marker[] markers = new Marker[5];
         for(int i = 0; i < 5; i++){
             int index = i + MainActivity.recommendedStartMarkerIdx;
-            LatLng currentLocation = new LatLng( Double.parseDouble(markers[index].lan), Double.parseDouble(markers[index].lon));
+            LatLng currentLocation = new LatLng( Double.parseDouble(markersData[index].lan), Double.parseDouble(markersData[index].lon));
             MarkerOptions markerOptions = new MarkerOptions();
             markerOptions.position(currentLocation);
-            markerOptions.title(markers[index].title);
+            markerOptions.title(markersData[index].title);
+            markerOptions.icon(BitmapDescriptorFactory.defaultMarker(color));
 
-            Marker currentMarker = googleMap.addMarker(markerOptions);
+            markers[i] = googleMap.addMarker(markerOptions);
             googleMap.getUiSettings().setMapToolbarEnabled(false);
             googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 12.0f));
-            MainActivity.recommendedMarker[i] = currentMarker;
+            if(type == 1)
+                MainActivity.recommendedMarker[i] =markers[i];
         }
+
+        return markers;
     }
+
 }
