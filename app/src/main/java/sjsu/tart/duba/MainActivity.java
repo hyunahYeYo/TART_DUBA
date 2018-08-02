@@ -22,7 +22,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SlidingDrawer;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.model.Marker;
 
@@ -34,6 +33,8 @@ public class MainActivity extends AppCompatActivity
     public static final float NOT_TRANSPARENT = 1.0F;
     public static final int RECOMMENDED_MARKER_NUM = 5;
 
+    static final String[] DIALOG_LIST_MENU={ "YeonJae- So So","Hyuna - No Fun", "Sang il - Neclear No Fun",
+    "JangHak- Good place","Soo yeon- Beautilful Place!","Kong - Nothing is worse than this place"};
     public static Marker[] recommendedMarker = new Marker[RECOMMENDED_MARKER_NUM];
     public static int recommendedStartMarkerIdx = 0;
 

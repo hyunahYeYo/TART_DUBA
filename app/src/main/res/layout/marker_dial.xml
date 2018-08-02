@@ -23,13 +23,14 @@
             android:layout_margin="0dp">
 
           </ImageView>
+
                 <Button
-                    android:background="@drawable/closebtncircle"
+                    android:id="@+id/closeBtn"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
                     android:layout_gravity="right|top"
                     android:layout_margin="5dp"
-                android:layout_height="20dp"
-                android:layout_width="20dp"
-                android:id="@+id/closeBtn">
+                    android:background="@drawable/closebtncircle">
 
                 </Button>
 <LinearLayout
@@ -63,7 +64,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="200dp"
             android:orientation="vertical">
             <LinearLayout
 
@@ -136,10 +137,16 @@
                         android:gravity="center"/></LinearLayout>
 
             </LinearLayout>
-            <TextView
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="150dp">
+            <ListView
+                android:id="@+id/dial_listview"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:text="@string/ex"/>
+                android:layout_height="match_parent"
+                android:text="@string/ex"
+                android:divider="#ededed"
+                android:dividerHeight="0.3dp"></ListView> </LinearLayout>
            </LinearLayout>
 
         <LinearLayout
@@ -154,6 +161,14 @@
                 android:layout_weight="1"
                 android:background="@drawable/button_01"
                 android:text="ADD" />
+
+            <Button
+                android:id="@+id/deleteBtn"
+                android:layout_width="30dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/button_01"
+                android:text="DELETE" />
 
 
         </LinearLayout>

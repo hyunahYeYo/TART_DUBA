@@ -6,19 +6,18 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Marker;
 
-import org.w3c.dom.Text;
-
-import static sjsu.tart.duba.RouteList.addList;
-import static sjsu.tart.duba.RouteList.checkList;
 import static sjsu.tart.duba.LoadingActivity.mDbOpenHelper;
+import static sjsu.tart.duba.MainActivity.DIALOG_LIST_MENU;
+import static sjsu.tart.duba.RouteList.checkList;
 import static sjsu.tart.duba.RouteList.printList;
 
 /**
@@ -29,9 +28,10 @@ public class MarkerDial extends DialogFragment {
 
     private Button addBtn;
     private Button closeBtn;
+    private Button deleteBtn;
     private String markerTitle, markerAddr;
     private Marker marker;
-
+    private ListView listView;
     public MarkerDial(Marker marker){
         this.marker = marker;
     }
@@ -46,10 +46,13 @@ public class MarkerDial extends DialogFragment {
 
 
         View view=inflater.inflate(R.layout.marker_dial,null);
+        listView=(ListView)view.findViewById(R.id.dial_listview);
         image=(ImageView)view.findViewById(R.id.imageView);
         locationTitle=(TextView)view.findViewById(R.id.locationTitleview);
         locationTheme=(TextView)view.findViewById(R.id.locationThemeview);
         Bundle mArgs=getArguments();
+        ArrayAdapter adapter=new ArrayAdapter(getContext(),R.layout.mylist,DIALOG_LIST_MENU);
+        listView.setAdapter(adapter);
         markerTitle=mArgs.getString("title");
         markerAddr=mArgs.getString("addr");
         theme=checkTheme(markerTitle);
@@ -64,9 +67,12 @@ public class MarkerDial extends DialogFragment {
         image.setImageResource(lid);
         closeBtn=(Button)view.findViewById(R.id.closeBtn);
         addBtn=(Button)view.findViewById(R.id.addBtn);
+        deleteBtn=(Button)view.findViewById(R.id.deleteBtn);
 
         if(checkList(markerTitle))
             addBtn.setEnabled(false);
+        else
+            deleteBtn.setEnabled(false);
 
         closeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,6 +88,17 @@ public class MarkerDial extends DialogFragment {
 
                 marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
                 RouteList.addList(markerTitle, markerAddr, marker, getContext());
+                MainActivity.modifyRightlist();
+                MarkerDial.this.dismiss();
+                printList();
+            }
+        });
+
+        deleteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //  Log.e("marker add click","click");
+                RouteList.deleteItem(markerTitle);
                 MainActivity.modifyRightlist();
                 MarkerDial.this.dismiss();
                 printList();

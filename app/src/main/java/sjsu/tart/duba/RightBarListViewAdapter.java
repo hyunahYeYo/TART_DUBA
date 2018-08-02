@@ -34,17 +34,23 @@ public class RightBarListViewAdapter extends BaseAdapter {
         final int pos = position;
         final Context context = parent.getContext();
 
+        // Data Set(RIghtBarListViewItemList)에서 position에 위치한 데이터 참조 획득
+        RightBarListViewItem listViewItem = listViewItemList.get(position);
+
         // "listview_item" Layout을 inflate하여 convertView 참조 획득.
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.right_sidebar_item, parent, false);
+
+            if (listViewItem.getLocation().length() < 19) {
+                convertView = inflater.inflate(R.layout.right_sidebar_item, parent, false);
+            } else {
+                convertView = inflater.inflate(R.layout.right_sidebar_item2, parent, false);
+            }
+
         }
 
         // 화면에 표시될 View(Layout이 inflate된)으로부터 위젯에 대한 참조 획득
-        TextView location = (TextView) convertView.findViewById(R.id.location) ;
-
-        // Data Set(RIghtBarListViewItemList)에서 position에 위치한 데이터 참조 획득
-        RightBarListViewItem listViewItem = listViewItemList.get(position);
+        TextView location = (TextView) convertView.findViewById(R.id.location);
 
         // 아이템 내 각 위젯에 데이터 반영
         location.setText(listViewItem.getLocation());

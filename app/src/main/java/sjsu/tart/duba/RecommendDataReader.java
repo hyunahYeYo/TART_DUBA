@@ -18,7 +18,9 @@ public class RecommendDataReader {
     private LoadingActivity loadingActivity;
 
     private static String[][] pathTitleField = new String[5][];
-    private static String[][] pathAddressField = new String[5][];
+    private static String[][] pathLanField = new String[5][];
+    private static String[][] pathLonField = new String[5][];
+    private static String[][] pathAddrField = new String[5][];
     private static int pathNum = 0;
     private static int currentPath = 0;
 
@@ -42,7 +44,9 @@ public class RecommendDataReader {
                 Log.d("dataReader", Integer.toString(pathNum) + ":"+line);
                 String[] field = line.split(cvsSplitBy);
                 pathTitleField[pathNum] = field;
-                pathAddressField[pathNum++] = br.readLine().split(cvsSplitBy);
+                pathLanField[pathNum] = br.readLine().split(cvsSplitBy);
+                pathLonField[pathNum] = br.readLine().split(cvsSplitBy);
+                pathAddrField[pathNum++] = br.readLine().split(cvsSplitBy);
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -72,7 +76,27 @@ public class RecommendDataReader {
         return pathTitleField[currentPath];
     }
 
-    public static String[] getRecommendPathAddress(){
-        return pathAddressField[currentPath];
+    public static String[] getPathLanField() {
+        return pathLanField[currentPath];
+    }
+
+    public static void setPathLanField(String[][] pathLanField) {
+        RecommendDataReader.pathLanField = pathLanField;
+    }
+
+    public static String[] getPathLonField() {
+        return pathLonField[currentPath];
+    }
+
+    public static void setPathLonField(String[][] pathLonField) {
+        RecommendDataReader.pathLonField = pathLonField;
+    }
+
+    public static String[] getPathAddrField() {
+        return pathAddrField[currentPath];
+    }
+
+    public static void setPathAddrField(String[][] pathAddrField) {
+        RecommendDataReader.pathAddrField = pathAddrField;
     }
 }
