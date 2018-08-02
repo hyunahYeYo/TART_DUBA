@@ -174,7 +174,6 @@ public class MainActivity extends AppCompatActivity
                 drawerLayout.openDrawer(rightNavigationView);
             }
         });
-
         rightSlideEditBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -309,7 +308,6 @@ public class MainActivity extends AppCompatActivity
 
                     }
                 });
-
 
                 /*
                 rightBarAdapter.addItem("b");

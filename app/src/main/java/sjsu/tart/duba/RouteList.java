@@ -126,14 +126,23 @@ public  class RouteList {
         Route temp;
 
         for(int i=0;i<size;i++) {
-            for(int j=0;j<size-i;j++) {
+            for(int j=0;j<size-i-1;j++) {
                 temp = cur.getNext();
                 if(cur.getLocation().compareTo(temp.getLocation())>0) {
-
+                    if(cur==HeadRoute) {
+                        Log.d("DELETE", "HeadRoute");
+                        HeadRoute = temp;
+                    }
+                    else if(temp==TailRoute) {
+                        Log.d("DELETE", "TailRoute");
+                        TailRoute = cur;
+                    }
+                    cur.setNext(temp.getNext());
+                    temp.setNext(cur);
+                    printList();
+                    Log.d("DELETE", "------------------------");
                 }
-                else if(cur.getLocation().compareTo(temp.getLocation())<0) {
-
-                }
+                cur = temp;
             }
         }
 
