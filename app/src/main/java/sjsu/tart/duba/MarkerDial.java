@@ -14,8 +14,11 @@ import android.widget.Toast;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Marker;
 
+import org.w3c.dom.Text;
+
 import static sjsu.tart.duba.RouteList.addList;
 import static sjsu.tart.duba.RouteList.checkList;
+import static sjsu.tart.duba.LoadingActivity.mDbOpenHelper;
 import static sjsu.tart.duba.RouteList.printList;
 
 /**
@@ -34,29 +37,30 @@ public class MarkerDial extends DialogFragment {
     }
     private ImageView image;
 
-    private TextView titleText;
+    private TextView locationTitle,locationTheme;
+    private String theme;
     private String b,s;
     public MarkerDial(){}
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
 
 
-
         View view=inflater.inflate(R.layout.marker_dial,null);
         image=(ImageView)view.findViewById(R.id.imageView);
-        titleText=(TextView)view.findViewById(R.id.titleText);
-
+        locationTitle=(TextView)view.findViewById(R.id.locationTitleview);
+        locationTheme=(TextView)view.findViewById(R.id.locationThemeview);
         Bundle mArgs=getArguments();
         markerTitle=mArgs.getString("title");
         markerAddr=mArgs.getString("addr");
-
+        theme=checkTheme(markerTitle);
         b=markerTitle.replaceAll(" ","");
         b=b.replaceAll("&","");
         b=b.replaceAll("'","");
         s=b.toLowerCase();
         Log.e("markertitle",s);
         int lid=this.getResources().getIdentifier(s,"drawable",getActivity().getPackageName());
-        titleText.setText(markerTitle);
+        locationTheme.setText(theme);
+        locationTitle.setText(markerTitle);
         image.setImageResource(lid);
         closeBtn=(Button)view.findViewById(R.id.closeBtn);
         addBtn=(Button)view.findViewById(R.id.addBtn);
@@ -75,14 +79,33 @@ public class MarkerDial extends DialogFragment {
             @Override
             public void onClick(View view) {
               //  Log.e("marker add click","click");
+
                 marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
                 RouteList.addList(markerTitle, markerAddr, marker, getContext());
-                addBtn.setEnabled(false);
                 MainActivity.modifyRightlist();
+                MarkerDial.this.dismiss();
+                printList();
             }
         });
 
         Log.e("","");
         return view;
+}
+
+public String checkTheme(String markerTitle){
+
+    Log.e("ret","0");
+    mDbOpenHelper.open();
+    Log.e("ret","1");
+    String[] ret = LoadingActivity.mDbOpenHelper.selectColumn("title",markerTitle);
+    Log.e("ret","2");
+    System.out.println("123456");
+    System.out.println(markerTitle);
+    System.out.println(ret[0]);
+    String[] slices = ret[0].split("\t");
+    LoadingActivity.mDbOpenHelper.close();
+    String tag = slices[2];
+
+    return tag;
 }
 }
