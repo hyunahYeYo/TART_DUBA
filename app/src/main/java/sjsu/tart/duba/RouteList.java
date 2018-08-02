@@ -119,8 +119,25 @@ public  class RouteList {
         else {
             prev.setNext(cur.getNext());
         }
+        size--;
     }
+    public static void mixList() {
+        Route cur = HeadRoute;
+        Route temp;
 
+        for(int i=0;i<size;i++) {
+            for(int j=0;j<size-i;j++) {
+                temp = cur.getNext();
+                if(cur.getLocation().compareTo(temp.getLocation())>0) {
+
+                }
+                else if(cur.getLocation().compareTo(temp.getLocation())<0) {
+
+                }
+            }
+        }
+
+    }
     /* List 항목 보기 */
     public static void printList() {
         Route temp = HeadRoute;

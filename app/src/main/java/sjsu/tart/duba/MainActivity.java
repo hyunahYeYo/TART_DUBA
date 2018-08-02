@@ -321,6 +321,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     public static void modifyRightlist() {
+        rightBarAdapter.clearAllItems();
         Route mover = RouteList.HeadRoute;
 
         if(mover!=null) {
@@ -330,6 +331,8 @@ public class MainActivity extends AppCompatActivity
             }
             rightBarAdapter.addItem(mover.getLocation());
         }
+
+        // listview 갱신.
         rightBarAdapter.notifyDataSetChanged();
     }
 
