@@ -2,6 +2,7 @@ package sjsu.tart.duba;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -23,10 +24,22 @@ import android.widget.ListView;
 import android.widget.SlidingDrawer;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
+
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
+
+import Modules.*;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener{
+        implements NavigationView.OnNavigationItemSelectedListener, DirectionFinderListener{
 
     public static final String TAG = "DUBA_Project";
     public static final float TRANSPARENT = 0.3F;
@@ -34,7 +47,7 @@ public class MainActivity extends AppCompatActivity
     public static final int RECOMMENDED_MARKER_NUM = 5;
 
     static final String[] DIALOG_LIST_MENU={ "YeonJae- So So","Hyuna - No Fun", "Sang il - Neclear No Fun",
-    "JangHak- Good place","Soo yeon- Beautilful Place!","Kong - Nothing is worse than this place"};
+            "JangHak- Good place","Soo yeon- Beautilful Place!","Kong - Nothing is worse than this place"};
     public static Marker[] recommendedMarker = new Marker[RECOMMENDED_MARKER_NUM];
     public static int recommendedStartMarkerIdx = 0;
 
@@ -54,6 +67,12 @@ public class MainActivity extends AppCompatActivity
     private ImageButton upBtn;
     private ImageButton downBtn;
     private ImageButton delBtn;
+
+    private List<Marker> originMarkers = new ArrayList<>();
+    private List<Marker> destinationMarkers = new ArrayList<>();
+    private List<Polyline> polylinePaths = new ArrayList<>();
+    private int index = 0;
+    private GoogleMap googleMap = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -259,6 +278,154 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        searchBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                search_Path(RouteList.getList());
+            }
+        });
+    }
+
+    public void search_Path(Route routeList_Header) {
+        for (Route r = routeList_Header; r.getNext() != null; r = r.getNext()) {
+            try {
+                String origin = r.getAddress();
+                String destination = r.getNext().getAddress();
+                //new Direction(this, "San Jose State University", "San Jose Diridon Station").execute();
+                //onDirectionFinderStart();
+                new DirectionFinder(this, origin, destination).execute();
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void sendRequest_Food() {
+        /*String origin = etOrigin.getText().toString();
+        String destination = etDestination.getText().toString();*/
+
+        try {
+            //new Direction(this, "San Jose State University", "San Jose Diridon Station").execute();
+            onDirectionFinderStart();
+            new DirectionFinder(this, "San Jose State University", "404 S 6th St, San Jose, CA 95112").execute();
+            new DirectionFinder(this, "404 S 6th St, San Jose, CA 95112", "374 S 3rd St, San Jose, CA 95112").execute();
+            new DirectionFinder(this, "374 S 3rd St, San Jose, CA 95112", "Robert F. Peckham Federal Building, 280 S 1st St, San Jose, CA 95113").execute();
+            new DirectionFinder(this, "Robert F. Peckham Federal Building, 280 S 1st St, San Jose, CA 95113", "201 S Market St, San Jose, CA 95113").execute();
+            new DirectionFinder(this, "201 S Market St, San Jose, CA 95113", "San Jose Diridon Station").execute();
+
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    /*public void sendRequest() {
+        String origin = etOrigin.getText().toString();
+        String destination = etDestination.getText().toString();
+        index = 1;
+        if (origin.isEmpty()) {
+            return;
+        }
+        if (destination.isEmpty()) {
+            return;
+        }
+
+        try {
+            new Direction(this, origin, destination).execute();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+    } //단순히 길을 찾는 기능*/
+
+    public void sendRequest_Shopping() {
+        try {
+            //new Direction(this, "San Jose State University", "San Jose Diridon Station").execute();
+            onDirectionFinderStart();
+            new DirectionFinder(this, "770 North Point St, San Francisco, CA 94109", "San Francisco, CA 94111").execute();
+            new DirectionFinder(this, "San Francisco, CA 94111", "865 Market St, San Francisco, CA 94103").execute();
+            new DirectionFinder(this, "865 Market St, San Francisco, CA 94103", "900 North Point St, San Francisco, CA 94109").execute();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void sendRequest_Activity() {
+        try {
+            //new Direction(this, "San Jose State University", "San Jose Diridon Station").execute();
+            onDirectionFinderStart();
+            new DirectionFinder(this, "San Jose State University", "404 S 6th St, San Jose, CA 95112").execute();
+            new DirectionFinder(this, "404 S 6th St, San Jose, CA 95112", "374 S 3rd St, San Jose, CA 95112").execute();
+            new DirectionFinder(this, "374 S 3rd St, San Jose, CA 95112", "Robert F. Peckham Federal Building, 280 S 1st St, San Jose, CA 95113").execute();
+            new DirectionFinder(this, "Robert F. Peckham Federal Building, 280 S 1st St, San Jose, CA 95113", "201 S Market St, San Jose, CA 95113").execute();
+            new DirectionFinder(this, "201 S Market St, San Jose, CA 95113", "San Jose Diridon Station").execute();
+
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void onDirectionFinderStart() {
+        if (originMarkers != null) {
+            for (Marker marker : originMarkers) {
+                marker.remove();
+            }
+        }
+
+        if (destinationMarkers != null) {
+            for (Marker marker : destinationMarkers) {
+                marker.remove();
+            }
+        }
+
+        if (polylinePaths != null) {
+            for (Polyline polyline:polylinePaths ) {
+                polyline.remove();
+            }
+        }
+    }
+
+    public void onDirectionFinderSuccess(List<Line> routes) {
+        /*polylinePaths = new ArrayList<>();
+        originMarkers = new ArrayList<>();
+        destinationMarkers = new ArrayList<>();*/
+        googleMap = FragmentMap.getGoogleMap();
+        for (Line route : routes) {
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(route.startLocation, 14));
+            if(index == 0)
+            {
+
+                originMarkers.add(googleMap.addMarker(new MarkerOptions()
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
+                        .title(route.startAddress)
+                        .position(route.startLocation)));
+                destinationMarkers.add(googleMap.addMarker(new MarkerOptions()
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
+                        .title(route.endAddress)
+                        .position(route.endLocation)));
+            }
+            else    //단순한 길 찾기
+            {
+                originMarkers.add(googleMap.addMarker(new MarkerOptions()
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.start_blue))
+                        .title(route.startAddress)
+                        .position(route.startLocation)));
+                destinationMarkers.add(googleMap.addMarker(new MarkerOptions()
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.end_green))
+                        .title(route.endAddress)
+                        .position(route.endLocation)));
+            }
+            PolylineOptions polylineOptions = new PolylineOptions().
+                    geodesic(true).
+                    color(Color.GREEN).
+                    width(10);
+            for (int i = 0; i < route.points.size(); i++)
+                polylineOptions.add(route.points.get(i));
+
+            polylinePaths.add(googleMap.addPolyline(polylineOptions));
+        }
     }
 
     public static void modifyRightlist() {

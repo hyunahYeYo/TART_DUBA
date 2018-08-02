@@ -116,6 +116,7 @@ public class BottomDrawerTabTheme extends Fragment {
                     MarkerData[] markers = LoadingActivity.mDbOpenHelper.getMarkerData(tags);
                     addMarkerstoMap(markers, BitmapDescriptorFactory.HUE_RED, 1);
                     LoadingActivity.mDbOpenHelper.close();
+
                 }
             });
 

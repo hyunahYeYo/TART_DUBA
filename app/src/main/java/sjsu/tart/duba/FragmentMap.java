@@ -94,7 +94,7 @@ public class FragmentMap extends Fragment
         LocationListener,
         GoogleMap.OnMarkerClickListener
 {
-    private static final LatLng DEFAULT_LOCATION = new LatLng(37.56, 126.97);
+    private static final LatLng DEFAULT_LOCATION = new LatLng(37.779497, -122.419308);
     private static final String TAG = "googlemap_example";
     private static final int GPS_ENABLE_REQUEST_CODE = 2001;
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 2002;
@@ -151,7 +151,7 @@ public class FragmentMap extends Fragment
         markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
         */Toast.makeText(getContext(),markerTitle,Toast.LENGTH_LONG).show();
         this.googleMap.setOnMarkerClickListener(this);
-       googleMap.getUiSettings().setMapToolbarEnabled(false);
+        googleMap.getUiSettings().setMapToolbarEnabled(false);
         currentMarker = this.googleMap.addMarker(markerOptions);
 
         this.googleMap.moveCamera(CameraUpdateFactory.newLatLng(DEFAULT_LOCATION));
@@ -467,7 +467,7 @@ public class FragmentMap extends Fragment
     //마커 클릭 리스너
     public boolean onMarkerClick(Marker marker){
         Bundle args=new Bundle();
-      //  Toast.makeText(getContext(),marker.getTitle(),Toast.LENGTH_LONG).show();
+        //  Toast.makeText(getContext(),marker.getTitle(),Toast.LENGTH_LONG).show();
         String markerTitle = marker.getTitle();
         args.putString("title",markerTitle);
 
@@ -500,5 +500,3 @@ public class FragmentMap extends Fragment
         return addr;
     }
 }
-
-
