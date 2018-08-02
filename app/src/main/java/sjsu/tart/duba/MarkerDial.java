@@ -80,6 +80,7 @@ public class MarkerDial extends DialogFragment {
             }
         });
 
+        Log.e("","");
         return view;
 }
 }
