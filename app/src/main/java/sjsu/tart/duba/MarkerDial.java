@@ -75,6 +75,7 @@ public class MarkerDial extends DialogFragment {
             public void onClick(View view) {
               //  Log.e("marker add click","click");
                 RouteList.addList(markerTitle, markerAddr, getContext());
+                RouteList.reviseSelectedMarkerToMap(getContext());
                 marker.remove();
                 addBtn.setEnabled(false);
             }

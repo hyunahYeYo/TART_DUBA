@@ -44,9 +44,8 @@ public  class RouteList {
             TailRoute = newRoute;
             size++;
         }
-
-        reviseSelectedMarkerToMap(context);
     }
+
     public static void changeOrder(int id, int dir) {
         Route cur = HeadRoute;
         Route prev = HeadRoute;
