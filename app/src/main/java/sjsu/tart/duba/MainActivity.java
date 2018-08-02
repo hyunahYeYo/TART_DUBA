@@ -30,9 +30,10 @@ public class MainActivity extends AppCompatActivity
     public static final String TAG = "DUBA_Project";
     public static final float TRANSPARENT = 0.3F;
     public static final float NOT_TRANSPARENT = 1.0F;
-    private static final int RECOMMENDED_MARKER_NUM = 5;
+    public static final int RECOMMENDED_MARKER_NUM = 5;
 
-    public static Marker[] recommendedMarker = new Marker[5];
+    public static Marker[] recommendedMarker = new Marker[RECOMMENDED_MARKER_NUM];
+    public static int recommendedStartMarkerIdx = 0;
 
     private ImageButton fabDrawer;
     private NavigationView navigationView;
@@ -54,11 +55,11 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        RouteList.addList("a");
-        RouteList.addList("b");
-        RouteList.addList("c");
-        RouteList.addList("d");
-        RouteList.addList("e");
+        RouteList.addList("a","a");
+        RouteList.addList("b", "b");
+        RouteList.addList("c", "c");
+        RouteList.addList("d", "d");
+        RouteList.addList("e", "e");
 
         //floatingButton으로 drawer 열기
         fabDrawer=(ImageButton)findViewById(R.id.fabHam);
@@ -192,25 +193,22 @@ public class MainActivity extends AppCompatActivity
                             Log.d("DELETE", "DELETE : " + count + "/" + checked);
                             if (checked > -1 && checked < count) {
                                 RouteList.deleteItem(checked);
-                                Log.d("DELETE","");
+                                RouteList.printList();
 
                                 // 아이템 삭제
-                                rightBarAdapter.deleteItem(checked);
+                                //rightBarAdapter.deleteItem(checked);
 
                                 rightBarAdapter.clearAllItems();
 
                                 Route mover = RouteList.HeadRoute;
-
                                 while(mover!=RouteList.TailRoute) {
+                                    Log.d("DELETE","while : " + mover.getLocation());
                                     rightBarAdapter.addItem(mover.getLocation());
                                     mover = mover.getNext();
                                 }
-
                                 rightBarAdapter.addItem(mover.getLocation());
-
                                 // listview 선택 초기화.
                                 rightSlideListView.clearChoices();
-
                                 // listview 갱신.
                                 rightBarAdapter.notifyDataSetChanged();
                             }
@@ -221,8 +219,6 @@ public class MainActivity extends AppCompatActivity
                 rightSlideListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        Log.d("ListVIew", "ITEM # " + id);
-
 
                         upBtn.setOnClickListener(new View.OnClickListener() {
                             @Override

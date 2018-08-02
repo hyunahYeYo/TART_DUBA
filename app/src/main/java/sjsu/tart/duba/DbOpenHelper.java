@@ -111,7 +111,7 @@ public class DbOpenHelper {
 
                 for(int i = 0; i < colsNum; i++){
                     item[i] = iCursor.getString(iCursor.getColumnIndex(cols[i]));
-                    ret[numOfResult] += ( item[i] + ",");
+                    ret[numOfResult] += ( item[i] + "\t");
                 }
                 numOfResult++;
 

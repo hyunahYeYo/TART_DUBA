@@ -9,11 +9,11 @@ public class Route {
     private String address;
     private String longitude;
     private String latitude;
-
     private Route pNext;
 
-    Route(String location) {
+    Route(String location, String address) {
         this.location = location;
+        this.address = address;
     }
     public void setLocation(String location) {
         this.location = location;
