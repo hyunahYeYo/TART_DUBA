@@ -29,6 +29,7 @@ public  class RouteList {
     public static void addList(String location, String address, Context context) {
         Route newRoute = new Route(location, address);
 
+     //   Log.e("size",""+size);
         if(size==0) { //List is empty
             Log.e("d","d");
             //This code can be used to input new Route into head.
@@ -140,5 +141,17 @@ public  class RouteList {
             e.printStackTrace();
         }
         return location;
+    }
+
+    public static boolean checkList(String markerTitle){
+        boolean added;
+        Route temp = HeadRoute;
+        while(true) {
+            if(temp == null) break;
+           if(temp.getLocation().equals(markerTitle))
+               return true;
+            temp = temp.getNext();
+        }
+        return false;
     }
 }

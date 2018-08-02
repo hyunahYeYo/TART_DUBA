@@ -12,12 +12,28 @@
             android:orientation="vertical"
             android:layout_margin="0dp">
 
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="200dp">
         <ImageView
+            android:layout_gravity="top"
             android:id="@+id/imageView"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_margin="0dp"
-          ></ImageView>
+            android:layout_height="match_parent"
+            android:layout_margin="0dp">
+
+          </ImageView>
+                <Button
+                    android:background="@drawable/closebtncircle"
+                    android:layout_gravity="right|top"
+                    android:layout_margin="5dp"
+                android:layout_height="20dp"
+                android:layout_width="20dp"
+                android:id="@+id/closeBtn">
+
+                </Button>
+
+            </FrameLayout>
 
         <TextView
             android:id="@+id/titleText"
@@ -41,4 +57,5 @@
 
         </LinearLayout>
     </LinearLayout>
+
 </LinearLayout>
