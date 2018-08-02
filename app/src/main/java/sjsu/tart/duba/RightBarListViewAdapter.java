@@ -1,6 +1,7 @@
 package sjsu.tart.duba;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,16 +39,14 @@ public class RightBarListViewAdapter extends BaseAdapter {
         RightBarListViewItem listViewItem = listViewItemList.get(position);
 
         // "listview_item" Layout을 inflate하여 convertView 참조 획득.
-        if (convertView == null) {
-            LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-            if (listViewItem.getLocation().length() < 19) {
-                convertView = inflater.inflate(R.layout.right_sidebar_item, parent, false);
-            } else {
-                convertView = inflater.inflate(R.layout.right_sidebar_item2, parent, false);
-            }
-
+        if (listViewItem.getLocation().length() < 20) {
+            convertView = inflater.inflate(R.layout.right_sidebar_item, parent, false);
+        } else {
+            convertView = inflater.inflate(R.layout.right_sidebar_item2, parent, false);
         }
+
 
         // 화면에 표시될 View(Layout이 inflate된)으로부터 위젯에 대한 참조 획득
         TextView location = (TextView) convertView.findViewById(R.id.location);

@@ -7,17 +7,17 @@
             android:icon="@drawable/ic_account"
             android:title="Account" />
         <item
-            android:id="@+id/shop"
-            android:icon="@drawable/ic_shop"
-            android:title="Shop" />
+            android:id="@+id/wishlist"
+            android:icon="@drawable/heart"
+            android:title="Wish List" />
         <item
             android:id="@+id/setting"
             android:icon="@drawable/ic_setting"
             android:title="Settings" />
         <item
-            android:id="@+id/help"
-            android:icon="@drawable/ic_help"
-            android:title="Help" />
+            android:id="@+id/emergency"
+            android:icon="@drawable/alarm"
+            android:title="EMERGENCY" />
     </group>
 
 

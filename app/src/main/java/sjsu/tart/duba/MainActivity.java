@@ -262,9 +262,10 @@ public class MainActivity extends AppCompatActivity
     }
 
     public static void modifyRightlist() {
+        Log.d("LENGTH", "check1");
         rightBarAdapter.clearAllItems();
         Route mover = RouteList.HeadRoute;
-
+        Log.d("LENGTH", "check2");
         if(mover!=null) {
             while(mover!=RouteList.TailRoute) {
                 rightBarAdapter.addItem(mover.getLocation());
@@ -272,9 +273,10 @@ public class MainActivity extends AppCompatActivity
             }
             rightBarAdapter.addItem(mover.getLocation());
         }
-
+        Log.d("LENGTH", "check3");
         // listview 갱신.
         rightBarAdapter.notifyDataSetChanged();
+        Log.d("LENGTH", "check4");
     }
 
     @Override
@@ -318,12 +320,12 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.account) {
-            // Handle the camera action
-        } else if (id == R.id.shop) {
+
+        } else if (id == R.id.wishlist) {
 
         } else if (id == R.id.setting) {
 
-        } else if(id== R.id.help) {
+        } else if(id== R.id.emergency) {
 
         }
 
