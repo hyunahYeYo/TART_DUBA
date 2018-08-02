@@ -157,7 +157,7 @@
                 android:layout_margin="10dp"
                 android:layout_marginLeft="20dp"
                 android:background="@color/blue"
-                android:text="CONFIRM"
+                android:text="NEXT"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="15sp"

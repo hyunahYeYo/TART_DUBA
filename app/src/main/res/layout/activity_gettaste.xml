@@ -40,21 +40,21 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:id="@+id/place"
+                android:id="@+id/placeImage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                app:srcCompat="@drawable/bolibia" />
+                app:srcCompat="@drawable/pic1" />
         </LinearLayout>
 
         <TextView
-            android:id="@+id/textView4"
+            android:id="@+id/placeText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:fontFamily="sans-serif-condensed"
             android:includeFontPadding="false"
-            android:text="#bolibia #beach"
+            android:text="@string/pic_text"
             android:textAlignment="center"
             android:textColor="#000000"
             android:textSize="25sp" />
@@ -67,7 +67,7 @@
             android:weightSum="1">
 
             <Button
-                android:id="@+id/cancelButton"
+                android:id="@+id/noButton"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:layout_margin="10dp"
@@ -89,7 +89,7 @@
             </LinearLayout>
 
             <Button
-                android:id="@+id/button4"
+                android:id="@+id/yesButton"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:layout_margin="10dp"

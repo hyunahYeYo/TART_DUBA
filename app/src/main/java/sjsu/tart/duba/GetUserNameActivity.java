@@ -19,7 +19,7 @@ public class GetUserNameActivity extends Activity {
         setContentView(R.layout.activity_getname);
 
         inputUserName = (EditText)findViewById(R.id.inputUserName);
-        inputUserName = (EditText)findViewById(R.id.inputUserDateOfBirth);
+        inputUserDateOfBirth = (EditText)findViewById(R.id.inputUserDateOfBirth);
 
         cancelButton = (Button)findViewById(R.id.cancelButton);
         confirmButton = (Button)findViewById(R.id.confirmButton);

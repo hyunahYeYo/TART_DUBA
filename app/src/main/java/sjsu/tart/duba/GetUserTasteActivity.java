@@ -3,101 +3,48 @@ package sjsu.tart.duba;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
-public class GetUserTasteActivity extends Activity{
+public class GetUserTasteActivity extends Activity implements View.OnClickListener{
 
-    private EditText inputUserDateOfBirth;
-    private Button cancelButton, confirmButton;
-    private RadioGroup userAgeGroup, userGenderGroup;
-    private RadioButton[] ageButton = new RadioButton[4];
+    private ImageView mImageView;
+    private TextView mTextView;
+    private Button mButton1, mButton2;
+    private int[] imageId = {
+            R.drawable.pic1, R.drawable.pic2, R.drawable.pic3, R.drawable.pic4,
+            R.drawable.pic5, R.drawable.pic6, R.drawable.pic7, R.drawable.pic8
+    };
+    private int[] textId = {
+            R.string.pic_text, R.string.pic_text2, R.string.pic_text3, R.string.pic_text3,
+            R.string.pic_text5, R.string.pic_text6, R.string.pic_text7, R.string.pic_text8
+    };
+    private int numPic = 8;
+    private int idx = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_getinfo);
+        setContentView(R.layout.activity_gettaste);
 
-        cancelButton = (Button)findViewById(R.id.cancelButton);
-        confirmButton = (Button)findViewById(R.id.confirmButton);
-        inputUserDateOfBirth = (EditText)findViewById(R.id.inputUserDateOfBirth);
-        userGenderGroup = (RadioGroup) findViewById(R.id.radioGenderGroup);
+        mButton1 = (Button)findViewById(R.id.noButton);
+        mButton2 = (Button)findViewById(R.id.yesButton);
+        mTextView = (TextView) findViewById(R.id.placeText);
+        mImageView = (ImageView) findViewById(R.id.placeImage);
+        mImageView.setImageResource(R.drawable.pic1);
 
-        cancelButton.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View view){
-                finish();
-            }
-        });
-
-        confirmButton.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View view){
-                String userDateOfBirth = inputUserDateOfBirth.getText().toString();
-                int[] userDateOfBirthInt = new int[3];
-
-                int radioButtonID = userGenderGroup.getCheckedRadioButtonId();
-                RadioButton radioButton = (RadioButton) userGenderGroup.findViewById(radioButtonID);
-                String selectedGenderText = (String) radioButton.getText();
-
-                if(userDateOfBirth.equals("")){
-                    Intent intent = new Intent(GetUserTasteActivity.this, PopupActivity.class);
-                    intent.putExtra("message", "Enter your date of birth");
-                    startActivity(intent);
-                }
-                else if(radioButtonID < 0){
-                    Intent intent = new Intent(GetUserTasteActivity.this, PopupActivity.class);
-                    intent.putExtra("message", "Enter your gender");
-                    startActivity(intent);
-                }
-                else{
-                    userDateOfBirthInt = getUserDateInfo(userDateOfBirth);
-                    saveUserDateInfo(userDateOfBirthInt);
-                    saveUserInfo("GENDER", selectedGenderText);
-                    saveUserInfo("ISFIRSTRUN", false);
-
-                    Intent intent = new Intent(GetUserTasteActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    finish();
-                }
-            }
-        });
+        mButton1.setOnClickListener(this);
+        mButton2.setOnClickListener(this);
     }
 
-    private int[] getUserDateInfo(String selectedBirthText){
-        String[] userDateOfBirthStr = new String[3];
-        int[] userDateOfBirthInt = new int[3];
-        userDateOfBirthStr = selectedBirthText.split("-");
-
-        for(int i = 0; i < 3; i++){
-            userDateOfBirthInt[i] = Integer.parseInt(userDateOfBirthStr[i]);
-        }
-
-        return userDateOfBirthInt;
-    }
-
-    private void saveUserDateInfo(int[] userDateBirthInt){
-        saveUserInfo("MONTH", userDateBirthInt[0]);
-        saveUserInfo("DAY", userDateBirthInt[1]);
-        saveUserInfo("YEAR", userDateBirthInt[2]);
-    }
-
-    private void saveUserInfo(String key, int value){
-        SharedPreferences pref = getSharedPreferences(key, MODE_PRIVATE);
-        SharedPreferences.Editor editor = pref.edit();
-        editor.putInt(key, value);
-        editor.apply();
-    }
-
-
-    private void saveUserInfo(String key, String value){
-        SharedPreferences pref = getSharedPreferences(key, MODE_PRIVATE);
-        SharedPreferences.Editor editor = pref.edit();
-        editor.putString(key, value);
-        editor.apply();
-    }
 
     private void saveUserInfo(String key, Boolean value){
         SharedPreferences pref = getSharedPreferences(key, MODE_PRIVATE);
@@ -106,4 +53,25 @@ public class GetUserTasteActivity extends Activity{
         editor.apply();
     }
 
+    @Override
+    public void onClick(View v) {
+        if(idx == numPic - 1){
+            mImageView.setImageResource(imageId[idx]);
+            mTextView.setText(textId[idx]);
+            idx += 1;
+        }
+        else if(idx == numPic){
+            saveUserInfo("isFirstRun", false);
+
+            Intent intent = new Intent(GetUserTasteActivity.this, MainActivity.class);
+            startActivity(intent);
+            Toast.makeText(this, "Welcome :-)", Toast.LENGTH_LONG).show();
+            finish();
+        }
+        else{
+            mImageView.setImageResource(imageId[idx]);
+            mTextView.setText(textId[idx]);
+            idx += 1;
+        }
+    }
 }
