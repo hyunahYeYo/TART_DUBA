@@ -79,6 +79,8 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Log.d("MemoryError","MainAcitivity");
+
         //floatingButton으로 drawer 열기
         fabDrawer=(ImageButton)findViewById(R.id.fabHam);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -172,19 +174,6 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        /*******************************************************/
-        Route mover = RouteList.HeadRoute;
-
-        if(mover!=null) {
-            while(mover!=RouteList.TailRoute) {
-                rightBarAdapter.addItem(mover.getLocation());
-                mover = mover.getNext();
-            }
-            rightBarAdapter.addItem(mover.getLocation());
-        }
-
-        rightBarAdapter.notifyDataSetChanged();
-        /*******************************************************/
 
         rightSlideBtn.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -291,8 +280,6 @@ public class MainActivity extends AppCompatActivity
             try {
                 String origin = r.getAddress();
                 String destination = r.getNext().getAddress();
-                //new Direction(this, "San Jose State University", "San Jose Diridon Station").execute();
-                //onDirectionFinderStart();
                 new DirectionFinder(this, origin, destination).execute();
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
@@ -337,7 +324,7 @@ public class MainActivity extends AppCompatActivity
         }
 
     } //단순히 길을 찾는 기능*/
-
+/*
     public void sendRequest_Shopping() {
         try {
             //new Direction(this, "San Jose State University", "San Jose Diridon Station").execute();
@@ -366,7 +353,7 @@ public class MainActivity extends AppCompatActivity
         }
 
     }
-
+*/
     public void onDirectionFinderStart() {
         if (originMarkers != null) {
             for (Marker marker : originMarkers) {
@@ -396,7 +383,7 @@ public class MainActivity extends AppCompatActivity
             googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(route.startLocation, 14));
             if(index == 0)
             {
-
+/*
                 originMarkers.add(googleMap.addMarker(new MarkerOptions()
                         .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
                         .title(route.startAddress)
@@ -405,6 +392,7 @@ public class MainActivity extends AppCompatActivity
                         .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED))
                         .title(route.endAddress)
                         .position(route.endLocation)));
+*/
             }
             else    //단순한 길 찾기
             {

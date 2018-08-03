@@ -84,8 +84,6 @@ public class MarkerDial extends DialogFragment {
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-              //  Log.e("marker add click","click");
-
                 marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
                 RouteList.addList(markerTitle, markerAddr, marker, getContext());
                 MainActivity.modifyRightlist();
@@ -110,18 +108,24 @@ public class MarkerDial extends DialogFragment {
 }
 
 public String checkTheme(String markerTitle){
+    String[] slices;
+    String tag="";
 
     Log.e("ret","0");
     mDbOpenHelper.open();
-    Log.e("ret","1");
+    Log.e("ret",markerTitle);
     String[] ret = LoadingActivity.mDbOpenHelper.selectColumn("title",markerTitle);
-    Log.e("ret","2");
-    System.out.println("123456");
-    System.out.println(markerTitle);
-    System.out.println(ret[0]);
-    String[] slices = ret[0].split("\t");
+
+    if(ret[0]==null) {
+        ret = LoadingActivity.mDbOpenHelper.selectColumn("color",markerTitle);
+    }
+
+    if(ret[0]!=null){
+        slices = ret[0].split("\t");
+        tag = slices[2];
+    }
+
     LoadingActivity.mDbOpenHelper.close();
-    String tag = slices[2];
 
     return tag;
 }

@@ -119,7 +119,6 @@ public class DbOpenHelper {
         }
        // ret[0] = Integer.toString(numOfResult);
 
-        Log.e("ret0",ret[0]);
         System.out.println(ret[1]);
         return ret;
     }

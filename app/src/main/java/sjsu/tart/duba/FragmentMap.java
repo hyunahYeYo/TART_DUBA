@@ -48,6 +48,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -94,7 +95,7 @@ public class FragmentMap extends Fragment
         LocationListener,
         GoogleMap.OnMarkerClickListener
 {
-    private static final LatLng DEFAULT_LOCATION = new LatLng(37.779497, -122.419308);
+    private static final LatLng DEFAULT_LOCATION = new LatLng(37.773941, -122.423845);
     private static final String TAG = "googlemap_example";
     private static final int GPS_ENABLE_REQUEST_CODE = 2001;
     private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 2002;
@@ -128,10 +129,10 @@ public class FragmentMap extends Fragment
             MarkerOptions markerOptions = new MarkerOptions();
             markerOptions.position(currentLocation);
             markerOptions.title(markerTitle);
+            markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW));
             /*
             markerOptions.snippet(markerSnippet);
             markerOptions.draggable(true);
-            markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
             */
             currentMarker = this.googleMap.addMarker(markerOptions);
             googleMap.getUiSettings().setMapToolbarEnabled(false);
@@ -152,9 +153,8 @@ public class FragmentMap extends Fragment
         */Toast.makeText(getContext(),markerTitle,Toast.LENGTH_LONG).show();
         this.googleMap.setOnMarkerClickListener(this);
         googleMap.getUiSettings().setMapToolbarEnabled(false);
-        currentMarker = this.googleMap.addMarker(markerOptions);
-
-        this.googleMap.moveCamera(CameraUpdateFactory.newLatLng(DEFAULT_LOCATION));
+//        currentMarker = this.googleMap.addMarker(markerOptions);
+//        this.googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(DEFAULT_LOCATION, 12.0f));
     }
 
     @Override
@@ -181,7 +181,6 @@ public class FragmentMap extends Fragment
                 Location location = new Location("");
                 location.setLatitude(place.getLatLng().latitude);
                 location.setLongitude(place.getLatLng().longitude);
-
                 setCurrentLocation(location, place.getName().toString(), place.getAddress().toString());
             }
             @Override

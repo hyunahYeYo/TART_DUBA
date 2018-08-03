@@ -199,6 +199,7 @@ public class BottomDrawerTabNationality extends Fragment {
                 MainActivity.recommendedStartMarkerIdx += 1;
             }
         }
+        MainActivity.recommendedStartMarkerIdx += 5;
         return markers;
     }
 

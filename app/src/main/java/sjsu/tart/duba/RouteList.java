@@ -161,6 +161,18 @@ public  class RouteList {
         TailRoute = null;
     }
 
+
+    public static void deleteAllMarkers(){
+        Route temp = HeadRoute;
+
+        while(true) {
+            if(temp == null) break;
+            Log.d("DELETE", "print : "+temp.getLocation());
+            temp.getMarker().remove();
+            temp = temp.getNext();
+        }
+    }
+
     public static void mixList() {
         Route cur = HeadRoute;
         Route temp;

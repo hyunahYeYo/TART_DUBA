@@ -107,12 +107,14 @@ public class BottomDrawerTabTheme extends Fragment {
             suggest1.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View view) {
+                    Log.d("mainActivityStartidx", Integer.toString(MainActivity.recommendedStartMarkerIdx));
                     if(MainActivity.recommendedStartMarkerIdx > 25){
                         MainActivity.recommendedStartMarkerIdx = 0;
                     }
                     LoadingActivity.mDbOpenHelper.open();
                     LoadingActivity.mDbOpenHelper.showDatabaseByLog("markerid");
                     String[] tags = getSelectedTotalOptions();
+                    Log.d("mainActivityStartidx", Integer.toString(MainActivity.recommendedStartMarkerIdx));
                     MarkerData[] markers = LoadingActivity.mDbOpenHelper.getMarkerData(tags);
                     addMarkerstoMap(markers, BitmapDescriptorFactory.HUE_RED, 1);
                     LoadingActivity.mDbOpenHelper.close();
@@ -205,6 +207,7 @@ public class BottomDrawerTabTheme extends Fragment {
                 MainActivity.recommendedStartMarkerIdx += 1;
             }
         }
+        MainActivity.recommendedStartMarkerIdx += 5;
         return markers;
     }
 
