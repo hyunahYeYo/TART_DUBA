@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity
 
     private List<Marker> originMarkers = new ArrayList<>();
     private List<Marker> destinationMarkers = new ArrayList<>();
-    private List<Polyline> polylinePaths = new ArrayList<>();
+    private static List<Polyline> polylinePaths = new ArrayList<>();
     private int index = 0;
     private GoogleMap googleMap = null;
 
@@ -195,6 +195,7 @@ public class MainActivity extends AppCompatActivity
                 rightSlideEditBtn.setVisibility(View.GONE);
                 searchBtn.setVisibility(View.GONE);
 
+                MainActivity.removePath();
                 confirmBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -287,73 +288,7 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    public void sendRequest_Food() {
-        /*String origin = etOrigin.getText().toString();
-        String destination = etDestination.getText().toString();*/
 
-        try {
-            //new Direction(this, "San Jose State University", "San Jose Diridon Station").execute();
-            onDirectionFinderStart();
-            new DirectionFinder(this, "San Jose State University", "404 S 6th St, San Jose, CA 95112").execute();
-            new DirectionFinder(this, "404 S 6th St, San Jose, CA 95112", "374 S 3rd St, San Jose, CA 95112").execute();
-            new DirectionFinder(this, "374 S 3rd St, San Jose, CA 95112", "Robert F. Peckham Federal Building, 280 S 1st St, San Jose, CA 95113").execute();
-            new DirectionFinder(this, "Robert F. Peckham Federal Building, 280 S 1st St, San Jose, CA 95113", "201 S Market St, San Jose, CA 95113").execute();
-            new DirectionFinder(this, "201 S Market St, San Jose, CA 95113", "San Jose Diridon Station").execute();
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    /*public void sendRequest() {
-        String origin = etOrigin.getText().toString();
-        String destination = etDestination.getText().toString();
-        index = 1;
-        if (origin.isEmpty()) {
-            return;
-        }
-        if (destination.isEmpty()) {
-            return;
-        }
-
-        try {
-            new Direction(this, origin, destination).execute();
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-
-    } //단순히 길을 찾는 기능*/
-/*
-    public void sendRequest_Shopping() {
-        try {
-            //new Direction(this, "San Jose State University", "San Jose Diridon Station").execute();
-            onDirectionFinderStart();
-            new DirectionFinder(this, "770 North Point St, San Francisco, CA 94109", "San Francisco, CA 94111").execute();
-            new DirectionFinder(this, "San Francisco, CA 94111", "865 Market St, San Francisco, CA 94103").execute();
-            new DirectionFinder(this, "865 Market St, San Francisco, CA 94103", "900 North Point St, San Francisco, CA 94109").execute();
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    public void sendRequest_Activity() {
-        try {
-            //new Direction(this, "San Jose State University", "San Jose Diridon Station").execute();
-            onDirectionFinderStart();
-            new DirectionFinder(this, "San Jose State University", "404 S 6th St, San Jose, CA 95112").execute();
-            new DirectionFinder(this, "404 S 6th St, San Jose, CA 95112", "374 S 3rd St, San Jose, CA 95112").execute();
-            new DirectionFinder(this, "374 S 3rd St, San Jose, CA 95112", "Robert F. Peckham Federal Building, 280 S 1st St, San Jose, CA 95113").execute();
-            new DirectionFinder(this, "Robert F. Peckham Federal Building, 280 S 1st St, San Jose, CA 95113", "201 S Market St, San Jose, CA 95113").execute();
-            new DirectionFinder(this, "201 S Market St, San Jose, CA 95113", "San Jose Diridon Station").execute();
-
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-
-    }
-*/
     public void onDirectionFinderStart() {
         if (originMarkers != null) {
             for (Marker marker : originMarkers) {
@@ -493,6 +428,14 @@ public class MainActivity extends AppCompatActivity
         for(int i = 0; i < RECOMMENDED_MARKER_NUM; i++){
             if(recommendedMarker[i] != null){
                 recommendedMarker[i].remove();
+            }
+        }
+    }
+
+    public static void removePath(){
+        if (polylinePaths != null) {
+            for (Polyline polyline:polylinePaths ) {
+                polyline.remove();
             }
         }
     }

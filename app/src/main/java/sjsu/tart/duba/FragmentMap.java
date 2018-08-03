@@ -150,7 +150,8 @@ public class FragmentMap extends Fragment
         markerOptions.snippet(markerSnippet);
         markerOptions.draggable(true);
         markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
-        */Toast.makeText(getContext(),markerTitle,Toast.LENGTH_LONG).show();
+        */
+       Toast.makeText(getContext(),markerTitle,Toast.LENGTH_LONG).show();
         this.googleMap.setOnMarkerClickListener(this);
         googleMap.getUiSettings().setMapToolbarEnabled(false);
 //        currentMarker = this.googleMap.addMarker(markerOptions);
@@ -188,8 +189,6 @@ public class FragmentMap extends Fragment
                 Log.i(TAG, "An error occurred: " + status);
             }
         });
-
-
         return layout;
     }
 

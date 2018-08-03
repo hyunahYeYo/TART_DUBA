@@ -89,6 +89,7 @@ public class MarkerDial extends DialogFragment {
                 MainActivity.modifyRightlist();
                 MarkerDial.this.dismiss();
                 printList();
+                MainActivity.removePath();
             }
         });
 
@@ -100,6 +101,7 @@ public class MarkerDial extends DialogFragment {
                 MainActivity.modifyRightlist();
                 MarkerDial.this.dismiss();
                 printList();
+                MainActivity.removePath();
             }
         });
 
